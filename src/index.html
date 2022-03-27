@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WASD StreamControl</title>
+
+    <link rel="stylesheet" href="css/photon.min.css">
+    <link rel="stylesheet" href="css/index.css" />
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script defer src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script defer src="js/render.js"></script>
+    <script>if (window.module) module = window.module;</script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="nav-group">
+        <a class="nav-group-item active first-item">
+         <span class="icon icon-trophy"></span>
+         Match Info
+         </a>
+         <a class="nav-group-item">
+           <span class="icon icon-megaphone"></span>
+           Messages
+         </a>
+         <a class="nav-group-item">
+           <span class="icon icon-mic"></span>
+           Commentators & Info
+         </a>
+         <a class="nav-group-item">
+           <span class="icon icon-thumbs-up"></span>
+           Winners Bracket
+         </a>
+         <a class="nav-group-item">
+           <span class="icon icon-thumbs-down"></span>
+           Losers Bracket
+         </a>
+      </nav>
+      <div class="tab-info">
+        <div class="btn-group">
+          <button type="button" class="btn btn-large btn-default">
+            <span class="icon icon-floppy" id="saveBtn"></span>
+          </button>
+          <button type="button" class="btn btn-large btn-default">
+            <span class="icon icon-cog" id="adjustBtn"></span>
+          </button>
+          <button type="button" class="btn btn-large btn-default">
+            <span class="icon icon-info-circled" id="adjustBtn"></span>
+          </button>
+        </div>
+        <div class="page" id="match-info">
+          <form>
+            <div class="row form-group">
+              <label>Player 1</label>
+              <input class="form-control" id="p1Name" type="search" name="Player 1">
+              <input class="form-control" id="p1Tag" type="search" name="Player 1 Tag">
+              <input class="form-control" id="p1Score" type="number" value="0">
+              <input class="form-control" id="p1Win" type="checkbox">[W]
+              <input class="form-control" id="p1Loss" type="checkbox">[L]
+            </div>
+            <div class="row form-group">
+              <label>Player 2</label>
+              <input class="form-control" id="p2Name" type="search" name="Player 2">
+              <input class="form-control" id="p2Tag" type="search" name="Player 2 Tag">
+              <input class="form-control" id="p2Score" type="number" value="0">
+              <input class="form-control" id="p2Win" type="checkbox">[W]
+              <input class="form-control" id="p2Loss" type="checkbox">[L]
+            </div>
+            <div class="row form-group">
+              <label>Round</label>
+              <input class="form-control" id="round" type="search" name="Round">
+              <button type="button" class="btn btn-default" id="swapBtn">Swap</button>
+              <button type="button" class="btn btn-default" id="resetBtn">Reset</button>
+              <button type="button" class="btn btn-default" id="clearBtn">Clear</button>
+            </div>
+            <div class="row form-group">
+              <label>Game</label>
+              <select class="form-control" name="game" id="game">
+                <option value="BBCF">BBCF</option>
+                <option value="BBTAG">BBTAG</option>
+                <option value="DBFZ">DBFZ</option>
+                <option value="GBVS">GBVS</option>
+                <option value="GGXRD">GGXRD</option>
+                <option value="GGST">GGST</option>
+                <option value="KOFXV">KOFXV</option>
+                <option value="MBTL">MBTL</option>
+                <option value="MVCI">MVCI</option>
+                <option value="SFVCE">SFVCE</option>
+                <option value="TEKKEN7">TEKKEN7</option>
+                <option value="UMVC3">UMVC3</option>
+                <option value="UNICLR">UNICLR</option>
+                <option value="USF4">USF4</option>
+              </select>
+              <input id="runback" type="checkbox">Runback?
+            </div>
+            <div class="row form-group">
+              <label>Prize Pool</label>
+              <input class="form-control" id="matcherino" type="search" name="Matcherino">
+            </div>
+            <div class="row">
+              <input class="form-control" id="no-matcherino" type="checkbox">No Matcherino
+            </div>
+            <div class="row center">
+              <fieldset>
+                <legend align="center"><span>Clip Stream</span></legend>
+                <button type="button" class="btn btn-default" id="fiveClipBtn">5s</button>
+                <button type="button" class="btn btn-default" id="tenClipBtn">10s</button>
+                <button type="button" class="btn btn-default" id="fifteenClipBtn">15s</button>
+                <button type="button" class="btn btn-default" id="twentyClipBtn">20s</button>
+                <button type="button" class="btn btn-default" id="thirtyClipBtn">30s</button>
+                <button type="button" class="btn btn-default" id="fortyfiveClipBtn">45s</button>
+                <button type="button" class="btn btn-default" id="sixtyClipBtn">60s</button>
+              </fieldset>
+          </form>
+        </div>
+      </div>
+      <div class="page hide" id="messages">
+        <form>
+          <div class="row form-group">
+            <label>Msg 1</label>
+            <input class="form-control" id="msg1" type="search" name="Message 1">
+          </div>
+          <div class="row form-group">
+            <label>Msg 2</label>
+            <input class="form-control" id="msg2" type="search" name="Message 2">
+          </div>
+          <div class="row form-group">
+            <label>Msg 3</label>
+            <input class="form-control" id="msg3" type="search" name="Message 3">
+          </div>
+        </form>
+      </div>
+      <div class="page hide" id="commentator-info">
+        <form>
+          <p>Left Commentator</p>
+          <div class="row form-group">
+            <label>Name</label>
+            <input class="form-control" id="com1Name" type="search" name="Com 1 Name">
+          </div>
+          <div class="row form-group">
+            <label>Twitter Handle</label>
+            <input class="form-control" id="com1Twitter" type="search" name="Come 1 Twitter">
+          </div>
+          <p>Right Commentator</p>
+          <div class="row form-group">
+            <label>Name</label>
+            <input class="form-control" id="com2Name" type="search" name="Com 2 Name">
+          </div>
+          <div class="row form-group">
+            <label>Twitter Handle</label>
+            <input class="form-control" id="com2Twitter" type="search" name="Com 2 Twitter">
+          </div>
+          <p>Matcherinos</p>
+          <div class="row form-group">
+            <label>Game 1</label>
+            <input class="form-control" id="matcherino1" type="search" name="Matcherino 1">
+          </div>
+          <div class="row form-group">
+            <label>Game 2</label>
+            <input class="form-control" id="matcherino2" type="search" name="Matcherino 2">
+          </div>
+          <div class="row form-group">
+            <label>Game 3</label>
+            <input class="form-control" id="matcherino3" type="search" name="Matcherino 3">
+          </div>
+          <div class="row form-group">
+            <label>Game 4</label>
+            <input class="form-control" id="matcherino4" type="search" name="Matcherino 4">
+          </div>
+          <div class="row form-group">
+            <label>Game 5</label>
+            <input class="form-control" id="matcherino5" type="search" name="Matcherino 5">
+          </div>
+          <div class="row form-group">
+            <label>Game 6</label>
+            <input class="form-control" id="matcherino6" type="search" name="Matcherino 6">
+          </div>
+        </form>
+      </div>
+      <div class="page" id="winners">
+      </div>
+      <div class="page" id="losers">
+      </div>
+    </div>
+  </body>
+</html>

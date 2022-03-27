@@ -1,0 +1,110 @@
+body {
+  color: white;
+  background-color: #23272A; }
+  body .icon {
+    color: white !important; }
+  body .container {
+    width: 100%; }
+    body .container nav {
+      width: 20%;
+      max-width: 250px;
+      float: left;
+      border-right: #2C2F33 1px solid;
+      height: 800px; }
+      body .container nav .first-item {
+        margin-top: 10px; }
+      body .container nav .nav-group-item {
+        color: white; }
+      body .container nav .active {
+        background-color: #2C2F33; }
+    body .container .tab-info {
+      margin-left: 40px;
+      width: 78%;
+      float: left;
+      height: 800px;
+      width: 800px; }
+      body .container .tab-info .btn-group {
+        margin-top: 10px;
+        margin-bottom: 20px; }
+        body .container .tab-info .btn-group button {
+          background-color: #517bff;
+          color: white;
+          border-color: #2C2F33;
+          background-image: none; }
+        body .container .tab-info .btn-group button:hover {
+          background-color: white;
+          color: #517bff; }
+          body .container .tab-info .btn-group button:hover .icon {
+            color: #517bff !important; }
+      body .container .tab-info form .center {
+        justify-content: center; }
+      body .container .tab-info form .row {
+        height: 45px;
+        display: flex;
+        align-items: center;
+        width: 100%; }
+        body .container .tab-info form .row label {
+          margin: 0 10px 0 0;
+          min-width: 100px; }
+        body .container .tab-info form .row input {
+          margin: 0 10px 0 0;
+          background-color: #2C2F33;
+          border-color: #2C2F33; }
+        body .container .tab-info form .row input[type=checkbox] {
+          margin: 0 10px;
+          width: 20px;
+          background-color: #2C2F33;
+          border-color: #2C2F33; }
+        body .container .tab-info form .row input[type=checkbox]:before {
+          background-color: #2C2F33; }
+        body .container .tab-info form .row input[type=checkbox]:focus {
+          border-color: transparent;
+          outline-color: transparent;
+          box-shadow: none; }
+        body .container .tab-info form .row input[type=number]::-webkit-inner-spin-button,
+        body .container .tab-info form .row input[type=number]::-webkit-outer-spin-button {
+          opacity: 1; }
+        body .container .tab-info form .row input[type=search]::-webkit-search-cancel-button {
+          -webkit-appearance: searchfield-cancel-button; }
+        body .container .tab-info form .row input:focus {
+          border-color: #4184e4;
+          outline-color: #4184e4; }
+        body .container .tab-info form .row .form-control:focus {
+          box-shadow: 2px 2px 0 #4184e4, -2px -2px 0 #4184e4, -2px 2px 0 #4184e4, 2px -2px 0 #4184e4; }
+        body .container .tab-info form .row select {
+          background-color: #2C2F33;
+          border-color: #2C2F33; }
+        body .container .tab-info form .row #p1Name, body .container .tab-info form .row #p2Name, body .container .tab-info form .row #matcherino {
+          width: 600px; }
+        body .container .tab-info form .row #round {
+          width: 200px; }
+        body .container .tab-info form .row #p1Tag, body .container .tab-info form .row #p2Tag {
+          width: 100px; }
+        body .container .tab-info form .row #p1Score, body .container .tab-info form .row #p2Score {
+          width: 80px; }
+        body .container .tab-info form .row #game {
+          width: 120px; }
+        body .container .tab-info form .row #no-matcherino {
+          margin-left: 110px;
+          width: 15px; }
+        body .container .tab-info form .row button {
+          margin-left: 10px;
+          height: 40px;
+          width: 70px;
+          background-color: #517bff;
+          color: white;
+          background-image: none;
+          border-color: #2C2F33; }
+        body .container .tab-info form .row button:hover {
+          background-color: white;
+          color: #517bff; }
+        body .container .tab-info form .row fieldset {
+          margin-top: 60px;
+          border-color: #2C2F33; }
+          body .container .tab-info form .row fieldset legend span {
+            margin: 0 10px; }
+
+.hide {
+  display: none; }
+
+/*# sourceMappingURL=index.css.map */
