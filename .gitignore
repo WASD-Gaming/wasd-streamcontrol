@@ -36,6 +36,12 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Build files
+dist/win-unpacked
+dist/builder-debug.yml
+dist/builder-effective-config.yaml
+dist/latest.yml
+
 # TypeScript v1 declaration files
 typings/
 

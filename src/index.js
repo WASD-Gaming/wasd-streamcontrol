@@ -24,8 +24,8 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // Open the DevTools. Uncomment this out when not building RC.
+  // mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
 
   // Hacky way to reload the last state of the app.
