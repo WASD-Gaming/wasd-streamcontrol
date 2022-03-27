@@ -12,7 +12,8 @@ let webContents;
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1130,
+    // width: 1130,
+    width: 1630,
     height: 850,
     resizable: false,
     webPreferences: {
@@ -25,7 +26,7 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools. Uncomment this out when not building RC.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
 
   // Hacky way to reload the last state of the app.
@@ -64,6 +65,10 @@ function registerHotkeys(data) {
 
   globalShortcut.register('F23', () => {
     webContents.send('p2-score-down', data);
+  });
+
+  globalShortcut.register('F19', () => {
+    webContents.send('swap-action', data);
   });
 }
 

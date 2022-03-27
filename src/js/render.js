@@ -129,7 +129,6 @@ $('nav a').click(function() {
 });
 
 function saveContent() {
-  console.log('Saved!');
   let json = {
     p1Name: p1Name.value,
     p1Tag: p1Tag.value,
@@ -159,10 +158,17 @@ function saveContent() {
     matcherino5: matcherino5.value,
     matcherino6: matcherino6.value
   };
-  let stringedJSON = JSON.stringify(json);
+  let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
-  try { fs.writeFileSync('streamcontrol.json', stringedJSON)}
+  try {
+    fs.writeFileSync('streamcontrol.json', stringedJSON)
+    console.log('Saved!');
+  }
   catch(e) { alert('Failed to save the file !'); }
+
+  let notification = document.getElementById('notification');
+  notification.classList.remove("fade");
+  notification.classList.add("fade");
 }
 
 function swapPlayers() {
@@ -193,8 +199,6 @@ function swapPlayers() {
   p2Score.value = player1.score;
   p2Win.ckecked = player1.win;
   p2Loss.checked = player1.loss;
-
-  console.log(player1.loss);
 }
 
 function resetScores() {
