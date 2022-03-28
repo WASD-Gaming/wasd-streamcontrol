@@ -29,16 +29,16 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
 
-  // Hacky way to reload the last state of the app.
+  /* Hacky way to reload the last state of the app. Waits until the front end is loaded then sends
+  a notification. */
   webContents.once('dom-ready', () => {
-    let data = {'_': '_'};
-    webContents.send('load-state', data);
+    sendNotification('load-state');
   });
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+/* This method will be called when Electron has finished
+ initialization and is ready to create browser windows.
+Some APIs can only be used after this event occurs.*/
 app.on('ready', () => {
   createWindow();
 
@@ -72,9 +72,9 @@ function registerHotkeys(data) {
   });
 }
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+/* Quit when all windows are closed, except on macOS. There, it's common
+for applications and their menu bar to stay active until the user quits
+explicitly with Cmd + Q.*/
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -82,25 +82,32 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+  /* On OS X it's common to re-create a window in the app when the
+  dock icon is clicked and there are no other windows open.*/
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 
-  let data = {'_': '_'};
-  webContents.send('load-state', data);
+  // Loading the previous app state.
+  sendNotification('load-state');
 });
 
 app.on('will-quit', () => {
 
-  // Hacky way to save the state of the app.
-  let data = {'_': '_'};
-  webContents.send('save-action', data);
+  // On app close we quickly save the currently entered info for reloading at next launch.
+  sendNotification('save-action');
 
-  // Unregister all shortcuts.
+  // Unregister all global shortcuts on app close.
   globalShortcut.unregisterAll();
 });
+
+/* HELPER METHODS
+General helper and QoL functions to make the code more ledgible.
+*/
+function sendNotification(notification) {
+  let data = {'_': '_'}; // MUST send a data object for the function to work but I don't care about the info so I'm sending this.
+  webContents.send(notification, data);
+}
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
