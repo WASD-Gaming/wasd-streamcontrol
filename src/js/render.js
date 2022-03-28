@@ -135,7 +135,7 @@ $('nav a').click(function() {
     $('#losers').removeClass('hide');
     break;
   case 'TweetGenerator':
-    $('#commentator-info').removeClass('hide');
+    $('#twitter').removeClass('hide');
     break;
   default:
     generateNotification('Something went wrong and we cannot show your tab.');
