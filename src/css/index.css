@@ -55,13 +55,14 @@ body {
         body .container .tab-info form fieldset legend span {
           margin: 0 10px; }
       body .container .tab-info form .row {
-        height: 45px;
+        min-height: 45px;
         display: flex;
         align-items: center;
         width: 100%; }
         body .container .tab-info form .row label {
           margin: 0 10px 0 0;
           min-width: 100px; }
+        body .container .tab-info form .row textarea,
         body .container .tab-info form .row input {
           margin: 0 10px 0 0;
           background-color: #2C2F33;
@@ -90,6 +91,14 @@ body {
         body .container .tab-info form .row select {
           background-color: #2C2F33;
           border-color: #2C2F33; }
+        body .container .tab-info form .row textarea {
+          height: 300px;
+          width: 700px;
+          margin-left: 110px;
+          border-radius: 4px; }
+        body .container .tab-info form .row #twitter-count {
+          position: absolute;
+          margin-left: 750px; }
         body .container .tab-info form .row #p1Name, body .container .tab-info form .row #p2Name, body .container .tab-info form .row #matcherino {
           width: 600px; }
         body .container .tab-info form .row #round {
@@ -103,10 +112,12 @@ body {
         body .container .tab-info form .row #no-matcherino {
           margin-left: 110px;
           width: 15px; }
+        body .container .tab-info form .row #com1Name, body .container .tab-info form .row #com2Name {
+          width: 255px; }
         body .container .tab-info form .row button {
           margin-left: 10px;
           height: 40px;
-          width: 70px;
+          min-width: 70px;
           background-color: #517bff;
           color: white;
           background-image: none;
@@ -118,8 +129,12 @@ body {
 .extra-margin {
   margin-top: 20px; }
 
-.extra-extra-margin {
-  margin-top: 90px !important; }
+.no-margin {
+  margin-top: 0 !important; }
+
+.center {
+  justify-content: center;
+  margin-left: 50px; }
 
 .hide {
   display: none; }

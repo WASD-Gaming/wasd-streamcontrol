@@ -1,5 +1,6 @@
 const fs = require('fs');
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, clipboard } = require('electron');
+const twitter = require('./js/tweet-gen.js');
 
 // MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
@@ -39,6 +40,9 @@ const matcherino3 = document.getElementById('matcherino3');
 const matcherino4 = document.getElementById('matcherino4');
 const matcherino5 = document.getElementById('matcherino5');
 const matcherino6 = document.getElementById('matcherino6');
+
+const bracket = document.getElementById('bracket');
+const tweetMessage = document.getElementById('tweet-message');
 
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
@@ -94,6 +98,82 @@ document.querySelector('#fortyfiveClipBtn').addEventListener('click', () => {
 
 document.querySelector('#sixtyClipBtn').addEventListener('click', () => {
   keypress('F13');
+});
+
+document.querySelector('#starting-soon').addEventListener('click', () => {
+  let p = twitter.generateTweet('starting-soon', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    console.log(value);
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#kickoff').addEventListener('click', () => {
+  let p = twitter.generateTweet('kickoff', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#top-16').addEventListener('click', () => {
+  let p = twitter.generateTweet('top-16', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#top-8').addEventListener('click', () => {
+  let p = twitter.generateTweet('top-8', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#top-4').addEventListener('click', () => {
+  let p = twitter.generateTweet('top-4', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#losers-semis').addEventListener('click', () => {
+  let p = twitter.generateTweet('losers-semis', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#losers-finals').addEventListener('click', () => {
+  let p = twitter.generateTweet('losers-finals', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#grand-finals').addEventListener('click', () => {
+  let p = twitter.generateTweet('grand-finals', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#reset').addEventListener('click', () => {
+  let p = twitter.generateTweet('reset', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#results').addEventListener('click', () => {
+  let p = twitter.generateTweet('results', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  p.then(value => {
+    tweetMessage.value = value;
+  });
+});
+
+document.querySelector('#copy').addEventListener('click', () => {
+  clipboard.writeText(tweetMessage.value, 'selection');
+  generateNotification('Tweet coppied to clipboard!');
 });
 
 /* NAVIGATION HANDING
@@ -289,7 +369,8 @@ function saveContent() {
     matcherino3: matcherino3.value,
     matcherino4: matcherino4.value,
     matcherino5: matcherino5.value,
-    matcherino6: matcherino6.value
+    matcherino6: matcherino6.value,
+    bracket: bracket.value
   };
   let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
@@ -345,6 +426,8 @@ ipcRenderer.on('load-state', (event, arg) => {
   matcherino4.value = data.matcherino4;
   matcherino5.value = data.matcherino5;
   matcherino6.value = data.matcherino6;
+
+  bracket.value = data.bracket;
 });
 
 /* GENERAL HELPER METHODS

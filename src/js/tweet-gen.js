@@ -1,8 +1,7 @@
-module.exports = function generateTweet(button, matcherino, bracket, com1, com2) {
+module.exports.generateTweet = async function (button, matcherino, bracket, com1, com2) {
 
 		if (matcherino === '' || bracket === '') {
-			alert("Please make sure you've entered both the Matcherino and Bracket URLs.");
-			return;
+			alert("😔 Something went wrong. Please make sure you've entered both the Matcherino and Bracket URLs.");
 		}
 
 		var pathArray = bracket.split( '/' );
@@ -19,12 +18,12 @@ module.exports = function generateTweet(button, matcherino, bracket, com1, com2)
 			'button': button,
 			'matcherino': matcherino,
 			'bracket': bracket,
-			'com1': document.getElementById('commentator1').value,
-			'com2': document.getElementById('commentator2').value,
+			'com1': com1,
+			'com2': com2,
 		};
-		console.log(bodyDictionary);
-		// const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-		const response  = await fetch('http://localhost:5001/tweet-gen', {
+		// console.log(bodyDictionary);
+		const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
+		// const response  = await fetch('http://localhost:5001/tweet-gen', {
 			method: 'post',
 			headers: {
         'Content-Type': 'application/json'
@@ -37,7 +36,6 @@ module.exports = function generateTweet(button, matcherino, bracket, com1, com2)
 			alert(data[0]['error']);
 			return data[0]['error'];
 		} else {
-			document.getElementById('tweet-message').value = data[0]['message'];
 			console.log(data);
 			return data[0]['message'];
 		}

@@ -136,9 +136,9 @@
         </form>
       </div>
       <div class="page hide" id="commentator-info">
-        <form class="extra-margin">
+        <form>
           <div class="row center">
-            <fieldset>
+            <fieldset class="no-margin">
               <legend align="left"><span>Left Commentator</span></legend>
               <div class="row form-group">
                 <label>Name</label>
@@ -149,7 +149,7 @@
                 <input class="form-control" id="com1Twitter" type="search" name="Come 1 Twitter">
               </div>
             </fieldset>
-            <fieldset>
+            <fieldset class="no-margin">
             <legend align="left"><span>Right Commentator</span></legend>
             <div class="row form-group">
               <label>Name</label>
@@ -161,10 +161,10 @@
             </div>
           </fieldset>
         </div>
-        <div class="row form-group extra-extra-margin" style="justify-content: center;">
+        <div class="row form-group extra-margin" style="justify-content: center;">
           <button type="button" class="btn btn-default" id="swapComBtn">Swap</button>
         </div>
-        <fieldset class="extra-margin">
+        <fieldset>
         <legend align="center"><span>Matcherinos</span></legend>
           <div class="row form-group">
             <label>Game 1</label>
@@ -193,11 +193,45 @@
         </fieldset>
         </form>
       </div>
-      <div class="page" id="winners">
+      <div class="page hide" id="winners">
       </div>
-      <div class="page" id="losers">
+      <div class="page hide" id="losers">
       </div>
-      <div class="page" id="twitter">
+      <div class="page hide" id="twitter">
+        <form>
+          <div class="row form-group">
+            <label>Bracket</label>
+            <input class="form-control" id="bracket" type="search" name="bracket">
+          </div>
+          <div class="row form-group center">
+            <button type="button" value="Starting Soon" class="btn btn-default" id="starting-soon">Starting Soon</button>
+            <button type="button" value="Kickoff" class="btn btn-default" id="kickoff">Kickoff</button>
+            <button type="button" value="Top 16" class="btn btn-default" id="top-16">Top 16</button>
+            <button type="button" value="Top 8" class="btn btn-default" id="top-8">Top 8</button>
+            <button type="button" value="Top 4" class="btn btn-default" id="top-4">Top 4</button>
+          </div>
+          <div class="row form-group center">
+            <button type="button" value="Losers Semis" class="btn btn-default" id="losers-semis">Losers Semis</button>
+            <button type="button" value="Losers Finals" class="btn btn-default" id="losers-finals">Losers Finals</button>
+            <button type="button" value="Grand Finals" class="btn btn-default" id="grand-finals">Grand Finals</button>
+            <button type="button" value="Grand Finals Reset" class="btn btn-default" id="reset">Grand Finals Reset</button>
+          </div>
+          <div class="row form-group center">
+            <button type="button" value="Results" class="btn btn-default" id="results">Results</button>
+          </div>
+          <div class="row form-group">
+            <textarea id="tweet-message" name="tweet-message" readonly="readonly"></textarea>
+          </div>
+          <div class="row form-group">
+            <div id="twitter-count">
+              <span id="current">0</span>
+              <span id="maximum">/ 250</span>
+            </div>
+          </div>
+          <div class="row form-group center">
+            <button type="button" class="btn btn-default" id="copy">Copy Tweet</button>
+          </div>
+        </form>
       </div>
     </div>
   </body>
