@@ -3,13 +3,13 @@ const { ipcRenderer } = require('electron');
 
 // Match Info Items
 const p1Name = document.getElementById('p1Name');
-const p1Tag = document.getElementById('p1Tag');
+const p1Team = document.getElementById('p1Team');
 const p1Score = document.getElementById('p1Score');
 const p1Win = document.getElementById('p1Win');
 const p1Loss = document.getElementById('p1Loss');
 
 const p2Name = document.getElementById('p2Name');
-const p2Tag = document.getElementById('p2Tag');
+const p2Team = document.getElementById('p2Team');
 const p2Score = document.getElementById('p2Score');
 const p2Win = document.getElementById('p2Win');
 const p2Loss = document.getElementById('p2Loss');
@@ -131,12 +131,12 @@ $('nav a').click(function() {
 function saveContent() {
   let json = {
     p1Name: p1Name.value,
-    p1Tag: p1Tag.value,
+    p1Team: p1Team.value,
     p1Score: p1Score.value,
     p1Win: p1Win.checked,
     p1Loss: p1Loss.checked,
     p2Name: p2Name.value,
-    p2Tag: p2Tag.value,
+    p2Team: p2Team.value,
     p2Score: p2Score.value,
     p2Win: p2Win.checked,
     p2Loss: p2Loss.checked,
@@ -174,7 +174,7 @@ function saveContent() {
 function swapPlayers() {
   let player1 = {
     name: p1Name.value,
-    tag: p1Tag.value,
+    team: p1Team.value,
     score: p1Score.value,
     win: p1Win.checked,
     loss: p1Loss.checked
@@ -182,20 +182,20 @@ function swapPlayers() {
 
   let player2 = {
     name: p2Name.value,
-    tag: p2Tag.value,
+    team: p2Team.value,
     score: p2Score.value,
     win: p2Win.checked,
     loss: p2Loss.checked
   }
 
   p1Name.value = player2.name;
-  p1Tag.value = player2.tag;
+  p1Team.value = player2.team;
   p1Score.value = player2.score;
   p1Win.checked = player2.win;
   p1Loss.checked = player2.loss;
 
   p2Name.value = player1.name;
-  p2Tag.value = player1.tag;
+  p2Team.value = player1.team;
   p2Score.value = player1.score;
   p2Win.ckecked = player1.win;
   p2Loss.checked = player1.loss;
@@ -208,13 +208,13 @@ function resetScores() {
 
 function clearFields() {
   p1Name.value = '';
-  p1Tag.value = '';
+  p1Team.value = '';
   p1Score.value = 0;
   p1Win.checked = false;
   p1Loss.checked = false;
 
   p2Name.value = '';
-  p2Tag.value = '';
+  p2Team.value = '';
   p2Score.value = 0;
   p2Win.ckecked = false;
   p2Loss.checked = false;
@@ -262,13 +262,13 @@ ipcRenderer.on('load-state', (event, arg) => {
   let data = JSON.parse(rawdata);
 
   p1Name.value = data.p1Name;
-  p1Tag.value = data.p1Tag;
+  p1Team.value = data.p1Team;
   p1Score.value = data.p1Score;
   p1Win.checked = data.p1Win;
   p1Loss.checked = data.p1Loss;
 
   p2Name.value = data.p2Name;
-  p2Tag.value = data.p2Tag;
+  p2Team.value = data.p2Team;
   p2Score.value = data.p2Score;
   p2Win.checked = data.p2Win;
   p2Loss.checked = data.p2Loss;
