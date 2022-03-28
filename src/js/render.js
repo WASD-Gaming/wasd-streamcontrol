@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { ipcRenderer } = require('electron');
 
-// Match Info Items
+// MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
 const p1Team = document.getElementById('p1Team');
 const p1Score = document.getElementById('p1Score');
@@ -22,12 +22,12 @@ const runback = document.getElementById('runback');
 const matcherino = document.getElementById('matcherino');
 const noMatcherino = document.getElementById('no-matcherino');
 
-// Message Items
+// MESSAGE UI ITEMS
 const msg1 = document.getElementById('msg1');
 const msg2 = document.getElementById('msg2');
 const msg3 = document.getElementById('msg3');
 
-// Commentator Items
+// COMMENTATOR UI ITEMS
 const com1Name = document.getElementById('com1Name');
 const com1Twitter = document.getElementById('com1Twitter');
 const com2Name = document.getElementById('com2Name');
@@ -40,7 +40,11 @@ const matcherino4 = document.getElementById('matcherino4');
 const matcherino5 = document.getElementById('matcherino5');
 const matcherino6 = document.getElementById('matcherino6');
 
-// Button click handlers
+/* BUTTON CLICK HANDING
+This section of code handles the physical button clicks in the app. Assigning buttons
+actions via onclick causes weird behavior and so we need to add event listeners
+to look for the 'click' action.
+*/
 document.querySelector('#saveBtn').addEventListener('click', () => {
   saveContent();
 });
@@ -92,21 +96,20 @@ document.querySelector('#sixtyClipBtn').addEventListener('click', () => {
   keypress('F13');
 });
 
-function keypress(key) {
-  console.log("I don't work for some reason!");
-  let e = $.Event('keypress');
-  e.key = key;
-  $(document).trigger(e);
-}
+/* NAVIGATION HANDING
+This section of code handles the nav menu on the left. The nav works *very* simply--
+basically, there are a group fo divs with different IDs on index.html. Each of these
+divs contains the UI for a given tab.
 
-// Navigation click handlers
+When a tab is clicked, ALL the UI divs are hidden and then the correct one is unhidden.
+*/
 $('nav a').click(function() {
   // Removing the active marking from all menu items.
   $('nav a').each(function() {
     $(this).removeClass('active');
   });
 
-  // Adding the active marking to the clicked item.
+  // Adding the active marking to the clicked menu item.
   $(this).addClass('active');
 
   // Hiding all the tab info
@@ -114,67 +117,36 @@ $('nav a').click(function() {
     $(this).addClass('hide');
   });
 
-  var strippedText = $(this).text().replace(/[^a-z0-9]/gi, '');
-  if (strippedText === 'MatchInfo') {
+  var strippedText = stripText($(this).text());
+  switch (strippedText) {
+  case 'MatchInfo':
     $('#match-info').removeClass('hide');
-  }
-  if (strippedText ==='Messages') {
+    break;
+  case 'Messages':
     $('#messages').removeClass('hide');
-  }
-  if (strippedText ==='CommentatorsInfo') {
+    break;
+  case 'CommentatorsInfo':
     $('#commentator-info').removeClass('hide');
-  }
-  if (strippedText ==='WinnersBracket') {
+    break;
+  case 'WinnersBracket':
     $('#winners').removeClass('hide');
-  }
-  if (strippedText ==='LosersBracket') {
+    break;
+  case 'LosersBracket':
     $('#losers').removeClass('hide');
+    break;
+  case 'TweetGenerator':
+    $('#commentator-info').removeClass('hide');
+    break;
+  default:
+    generateNotification('Something went wrong and we cannot show your tab.');
   }
 });
 
-function saveContent() {
-  let json = {
-    p1Name: p1Name.value,
-    p1Team: p1Team.value,
-    p1Score: p1Score.value,
-    p1Win: p1Win.checked,
-    p1Loss: p1Loss.checked,
-    p2Name: p2Name.value,
-    p2Team: p2Team.value,
-    p2Score: p2Score.value,
-    p2Win: p2Win.checked,
-    p2Loss: p2Loss.checked,
-    round: round.value,
-    game: game.value,
-    runback: runback.checked,
-    matcherino: matcherino.value,
-    msg1: msg1.value,
-    msg2: msg2.value,
-    msg3: msg3.value,
-    com1Name: com1Name.value,
-    com1Twitter: com1Twitter.value,
-    com2Name: com2Name.value,
-    com2Twitter: com2Twitter.value,
-    matcherino1: matcherino1.value,
-    matcherino2: matcherino2.value,
-    matcherino3: matcherino3.value,
-    matcherino4: matcherino4.value,
-    matcherino5: matcherino5.value,
-    matcherino6: matcherino6.value
-  };
-  let stringedJSON = JSON.stringify(json, null, 4);
-  console.log(stringedJSON);
-  try {
-    fs.writeFileSync('streamcontrol.json', stringedJSON)
-    console.log('Saved!');
-  }
-  catch(e) { alert('Failed to save the file !'); }
-
-  let notification = document.getElementById('notification');
-  notification.classList.remove("fade");
-  notification.classList.add("fade");
-}
-
+/* UI CHANGE HANDING
+These functions all modify the front end in some way. In general, they move
+the text around on screen for easy swapping of commentators or players but
+there are also other helpers that increment and decrement the score etc.
+*/
 function swapPlayers() {
   let player1 = {
     name: p1Name.value,
@@ -242,7 +214,12 @@ function clearFields() {
   p2Loss.checked = false;
 }
 
-// Hotkey handling
+/* HOTKEY HANDING
+All hotkeys MUST be registered in index.js to make them availible globally
+(ie. when the app is in the background). These methods below are just the
+handlers. They listen for a specific notification and then call a method that
+triggers a UI change or saves to streamcontrol.json.
+*/
 ipcRenderer.on('save-action', (event, arg) => {
   saveContent();
 });
@@ -279,10 +256,64 @@ ipcRenderer.on('p2-score-down', (event, arg) => {
   p2Score.stepDown();
 });
 
+/* APP SAVE STATE HANDING
+This method saves the last set of info into the streamcontrol.json file. I'm sure
+there are 'better' and cleaner ways to handle this, but the app is so simple it
+doesn't really warrant anything more complex.
+*/
+function saveContent() {
+  let json = {
+    p1Name: p1Name.value,
+    p1Team: p1Team.value,
+    p1Score: p1Score.value,
+    p1Win: p1Win.checked,
+    p1Loss: p1Loss.checked,
+    p2Name: p2Name.value,
+    p2Team: p2Team.value,
+    p2Score: p2Score.value,
+    p2Win: p2Win.checked,
+    p2Loss: p2Loss.checked,
+    round: round.value,
+    game: game.value,
+    runback: runback.checked,
+    matcherino: matcherino.value,
+    msg1: msg1.value,
+    msg2: msg2.value,
+    msg3: msg3.value,
+    com1Name: com1Name.value,
+    com1Twitter: com1Twitter.value,
+    com2Name: com2Name.value,
+    com2Twitter: com2Twitter.value,
+    matcherino1: matcherino1.value,
+    matcherino2: matcherino2.value,
+    matcherino3: matcherino3.value,
+    matcherino4: matcherino4.value,
+    matcherino5: matcherino5.value,
+    matcherino6: matcherino6.value
+  };
+  let stringedJSON = JSON.stringify(json, null, 4);
+  console.log(stringedJSON);
+  try {
+    fs.writeFileSync('streamcontrol.json', stringedJSON)
+    console.log('Saved!');
+  }
+  catch(e) { alert('Failed to save the file !'); }
+
+  generateNotification('Info saved!');
+}
+
+/* APP LOAD STATE HANDING
+This method pulls the last set of info saved in the streamcontrol.json file
+and loads it into the fields of the app. I'm sure there are 'better' and
+cleaner ways to handle this, but the app is so simple it doesn't really warrant
+anything more complex.
+*/
 ipcRenderer.on('load-state', (event, arg) => {
+  // Pulling the file from the harddrive and converting it to a readable format.
   let rawdata = fs.readFileSync('streamcontrol.json');
   let data = JSON.parse(rawdata);
 
+  // Inserting the data from the file into the UI.
   p1Name.value = data.p1Name;
   p1Team.value = data.p1Team;
   p1Score.value = data.p1Score;
@@ -315,3 +346,25 @@ ipcRenderer.on('load-state', (event, arg) => {
   matcherino5.value = data.matcherino5;
   matcherino6.value = data.matcherino6;
 });
+
+/* GENERAL HELPER METHODS
+These functions are extra helpers that just make life easier and/or the code cleaner
+and easier to read.
+*/
+function generateNotification(text) {
+  let notification = document.getElementById('notification');
+  notification.innerHTML = text;
+  notification.classList.remove("fade");
+  notification.classList.add("fade");
+}
+
+function stripText(text) {
+  return text.replace(/[^a-z0-9]/gi, '');
+}
+
+function keypress(key) {
+  console.log("I don't work for some reason!");
+  let e = $.Event('keypress');
+  e.key = key;
+  $(document).trigger(e);
+}
