@@ -132,26 +132,36 @@
         </form>
       </div>
       <div class="page hide" id="commentator-info">
-        <form>
-          <p>Left Commentator</p>
-          <div class="row form-group">
-            <label>Name</label>
-            <input class="form-control" id="com1Name" type="search" name="Com 1 Name">
-          </div>
-          <div class="row form-group">
-            <label>Twitter Handle</label>
-            <input class="form-control" id="com1Twitter" type="search" name="Come 1 Twitter">
-          </div>
-          <p>Right Commentator</p>
-          <div class="row form-group">
-            <label>Name</label>
-            <input class="form-control" id="com2Name" type="search" name="Com 2 Name">
-          </div>
-          <div class="row form-group">
-            <label>Twitter Handle</label>
-            <input class="form-control" id="com2Twitter" type="search" name="Com 2 Twitter">
-          </div>
-          <p>Matcherinos</p>
+        <form class="extra-margin">
+          <div class="row center">
+            <fieldset>
+              <legend align="left"><span>Left Commentator</span></legend>
+              <div class="row form-group">
+                <label>Name</label>
+                <input class="form-control" id="com1Name" type="search" name="Com 1 Name">
+              </div>
+              <div class="row form-group">
+                <label>Twitter Handle</label>
+                <input class="form-control" id="com1Twitter" type="search" name="Come 1 Twitter">
+              </div>
+            </fieldset>
+            <fieldset>
+            <legend align="left"><span>Right Commentator</span></legend>
+            <div class="row form-group">
+              <label>Name</label>
+              <input class="form-control" id="com2Name" type="search" name="Com 2 Name">
+            </div>
+            <div class="row form-group">
+              <label>Twitter Handle</label>
+              <input class="form-control" id="com2Twitter" type="search" name="Com 2 Twitter">
+            </div>
+          </fieldset>
+        </div>
+        <div class="row form-group extra-extra-margin" style="justify-content: center;">
+          <button type="button" class="btn btn-default" id="swapComBtn">Swap</button>
+        </div>
+        <fieldset class="extra-margin">
+        <legend align="center"><span>Matcherinos</span></legend>
           <div class="row form-group">
             <label>Game 1</label>
             <input class="form-control" id="matcherino1" type="search" name="Matcherino 1">
@@ -176,6 +186,7 @@
             <label>Game 6</label>
             <input class="form-control" id="matcherino6" type="search" name="Matcherino 6">
           </div>
+        </fieldset>
         </form>
       </div>
       <div class="page" id="winners">

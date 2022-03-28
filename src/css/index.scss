@@ -86,6 +86,17 @@ body {
           justify-content: center;
         }
 
+        fieldset {
+          margin-top: 60px;
+          border-color: $input-background;
+
+          legend {
+            span {
+              margin: 0 10px;
+            }
+          }
+        }
+
         .row {
           height: $row-height;
           display: flex;
@@ -182,21 +193,18 @@ body {
             background-color: $foreground-color;
             color: $accent-color;
           }
-
-          fieldset {
-            margin-top: 60px;
-            border-color: $input-background;
-
-            legend {
-              span {
-                margin: 0 10px;
-              }
-            }
-          }
         }
       }
     }
   }
+}
+
+.extra-margin {
+  margin-top: 20px;
+}
+
+.extra-extra-margin {
+  margin-top: 90px !important;
 }
 
 .hide {

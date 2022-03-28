@@ -52,6 +52,10 @@ document.querySelector('#swapBtn').addEventListener('click', () => {
   swapPlayers();
 });
 
+document.querySelector('#swapComBtn').addEventListener('click', () => {
+  swapComs();
+});
+
 document.querySelector('#resetBtn').addEventListener('click', () => {
   resetScores();
 });
@@ -199,6 +203,24 @@ function swapPlayers() {
   p2Score.value = player1.score;
   p2Win.ckecked = player1.win;
   p2Loss.checked = player1.loss;
+}
+
+function swapComs() {
+  let com1 = {
+    name: com1Name.value,
+    twitter: com1Twitter.value
+  }
+
+  let com2 = {
+    name: com2Name.value,
+    twitter: com2Twitter.value
+  }
+
+  com1Name.value = com2.name;
+  com1Twitter.value = com2.twitter;
+
+  com2Name.value = com1.name;
+  com2Twitter.value = com1.twitter;
 }
 
 function resetScores() {
