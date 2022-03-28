@@ -1,4 +1,5 @@
-const { app, BrowserWindow, globalShortcut } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
+const robot = require('robotjs');
 const path = require('path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -71,6 +72,11 @@ function registerHotkeys(data) {
     webContents.send('swap-action', data);
   });
 }
+
+ipcMain.on('keypress', (event, arg) => {
+  // console.log(arg)  // prints the button pressed
+  robot.keyTap(arg.toLowerCase());
+})
 
 /* Quit when all windows are closed, except on macOS. There, it's common
 for applications and their menu bar to stay active until the user quits

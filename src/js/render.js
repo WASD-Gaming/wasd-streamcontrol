@@ -363,8 +363,8 @@ function stripText(text) {
 }
 
 function keypress(key) {
-  console.log("I don't work for some reason!");
-  let e = $.Event('keypress');
-  e.key = key;
-  $(document).trigger(e);
+  /* robotjs will not run corrrectly outside of the index.js file. In order to trigger
+  systemwide button presses via  button click, we must use ipc to send a notification
+  from render.js to index.js where we then run robotjs to trigger the button press. */
+  ipcRenderer.send('keypress', key);
 }
