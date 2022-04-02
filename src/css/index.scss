@@ -86,6 +86,12 @@ body {
           justify-content: center;
         }
 
+        #tweet-buttons {
+          width: 680px;
+          margin-left: 110px;
+          margin-bottom: 30px;
+        }
+
         fieldset {
           margin-top: 60px;
           border-color: $input-background;
@@ -94,6 +100,14 @@ body {
             span {
               margin: 0 10px;
             }
+          }
+        }
+
+        .bracket-group {
+          width: 200px !important;
+
+          input {
+            float: left;
           }
         }
 
@@ -167,7 +181,7 @@ body {
             margin-left: 750px;
           }
 
-          #p1Name, #p2Name, #matcherino {
+          #p1Name, #p2Name, #matcherino, #bracket {
             width: 600px;
           }
 
@@ -226,6 +240,9 @@ body {
 
 .center {
   justify-content: center;
+}
+
+#copy {
   margin-left: 50px;
 }
 

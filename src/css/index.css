@@ -49,11 +49,19 @@ body {
             color: #517bff !important; }
       body .container .tab-info form .center {
         justify-content: center; }
+      body .container .tab-info form #tweet-buttons {
+        width: 680px;
+        margin-left: 110px;
+        margin-bottom: 30px; }
       body .container .tab-info form fieldset {
         margin-top: 60px;
         border-color: #2C2F33; }
         body .container .tab-info form fieldset legend span {
           margin: 0 10px; }
+      body .container .tab-info form .bracket-group {
+        width: 200px !important; }
+        body .container .tab-info form .bracket-group input {
+          float: left; }
       body .container .tab-info form .row {
         min-height: 45px;
         display: flex;
@@ -99,7 +107,7 @@ body {
         body .container .tab-info form .row #twitter-count {
           position: absolute;
           margin-left: 750px; }
-        body .container .tab-info form .row #p1Name, body .container .tab-info form .row #p2Name, body .container .tab-info form .row #matcherino {
+        body .container .tab-info form .row #p1Name, body .container .tab-info form .row #p2Name, body .container .tab-info form .row #matcherino, body .container .tab-info form .row #bracket {
           width: 600px; }
         body .container .tab-info form .row #round {
           width: 200px; }
@@ -133,7 +141,9 @@ body {
   margin-top: 0 !important; }
 
 .center {
-  justify-content: center;
+  justify-content: center; }
+
+#copy {
   margin-left: 50px; }
 
 .hide {

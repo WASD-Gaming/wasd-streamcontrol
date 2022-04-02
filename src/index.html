@@ -99,6 +99,10 @@
               <input id="runback" type="checkbox">Runback?
             </div>
             <div class="row form-group">
+              <label>Bracket</label>
+              <input class="form-control" id="bracket" type="search" name="bracket">
+            </div>
+            <div class="row form-group">
               <label>Prize Pool</label>
               <input class="form-control" id="matcherino" type="search" name="Matcherino">
             </div>
@@ -199,10 +203,8 @@
       </div>
       <div class="page hide" id="twitter">
         <form>
-          <div class="row form-group">
-            <label>Bracket</label>
-            <input class="form-control" id="bracket" type="search" name="bracket">
-          </div>
+          <fieldset id="tweet-buttons" class="no-margin">
+            <legend align="center">Generate Tweets</legend>
           <div class="row form-group center">
             <button type="button" value="Starting Soon" class="btn btn-default" id="starting-soon">Starting Soon</button>
             <button type="button" value="Kickoff" class="btn btn-default" id="kickoff">Kickoff</button>
@@ -219,6 +221,7 @@
           <div class="row form-group center">
             <button type="button" value="Results" class="btn btn-default" id="results">Results</button>
           </div>
+        </fieldset>
           <div class="row form-group">
             <textarea id="tweet-message" name="tweet-message" readonly="readonly"></textarea>
           </div>
