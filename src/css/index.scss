@@ -43,7 +43,7 @@ body {
       width: 78%;
       float: left;
       height: 800px;
-      width: 800px;
+      width: 1000px;
 
       #notification {
         color: $message-color;
@@ -227,6 +227,54 @@ body {
         }
       }
     }
+  }
+}
+
+// Match Pairs
+.match-column {
+  width: 280px;
+  float: left;
+  height: 1000px;
+  margin-left: 5px;
+
+  input {
+    margin: 0 5px 5px 0;
+    background-color: $input-background;
+    border-color: $input-background;
+  }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+  }
+
+  input:focus {
+    border-color: $border-color;
+    outline-color: $border-color;
+  }
+
+  .form-control:focus {
+    box-shadow: 2px 2px 0 $border-color, -2px -2px 0 $border-color, -2px 2px 0 $border-color, 2px -2px 0 $border-color;
+  }
+}
+
+.match-pair {
+  width: 280px;
+
+  p {
+    text-align: center;
+  }
+
+  .match-name {
+    width: 200px;
+  }
+
+  .match-score {
+    width: 60px;
   }
 }
 

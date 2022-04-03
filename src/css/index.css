@@ -22,7 +22,7 @@ body {
       width: 78%;
       float: left;
       height: 800px;
-      width: 800px; }
+      width: 1000px; }
       body .container .tab-info #notification {
         color: #ffb643;
         opacity: 0;
@@ -133,6 +133,35 @@ body {
         body .container .tab-info form .row button:hover {
           background-color: white;
           color: #517bff; }
+
+.match-column {
+  width: 280px;
+  float: left;
+  height: 1000px;
+  margin-left: 5px; }
+  .match-column input {
+    margin: 0 5px 5px 0;
+    background-color: #2C2F33;
+    border-color: #2C2F33; }
+  .match-column input[type=number]::-webkit-inner-spin-button,
+  .match-column input[type=number]::-webkit-outer-spin-button {
+    opacity: 1; }
+  .match-column input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button; }
+  .match-column input:focus {
+    border-color: #4184e4;
+    outline-color: #4184e4; }
+  .match-column .form-control:focus {
+    box-shadow: 2px 2px 0 #4184e4, -2px -2px 0 #4184e4, -2px 2px 0 #4184e4, 2px -2px 0 #4184e4; }
+
+.match-pair {
+  width: 280px; }
+  .match-pair p {
+    text-align: center; }
+  .match-pair .match-name {
+    width: 200px; }
+  .match-pair .match-score {
+    width: 60px; }
 
 .extra-margin {
   margin-top: 20px; }
