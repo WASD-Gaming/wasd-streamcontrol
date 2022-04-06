@@ -189,8 +189,13 @@ body {
             width: 200px;
           }
 
-          #p1Team, #p2Team {
+          #p1Team, #p2Team, #p1Char, #p2Char {
             width: 100px;
+          }
+
+          #p1Char, #p2Char {
+            margin-right: 10px;
+            height: 32px;
           }
 
           #p1Score, #p2Score {

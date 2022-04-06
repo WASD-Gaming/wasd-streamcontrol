@@ -8,12 +8,14 @@ const p1Team = document.getElementById('p1Team');
 const p1Score = document.getElementById('p1Score');
 const p1Win = document.getElementById('p1Win');
 const p1Loss = document.getElementById('p1Loss');
+const p1Char = document.getElementById('p1Char');
 
 const p2Name = document.getElementById('p2Name');
 const p2Team = document.getElementById('p2Team');
 const p2Score = document.getElementById('p2Score');
 const p2Win = document.getElementById('p2Win');
 const p2Loss = document.getElementById('p2Loss');
+const p2Char = document.getElementById('p2Char');
 
 const round = document.getElementById('round');
 
@@ -236,6 +238,68 @@ document.querySelector('#copy').addEventListener('click', () => {
   clipboard.writeText(tweetMessage.value, 'selection');
   generateNotification('Tweet coppied to clipboard!');
 });
+
+/* GAME SELECT HANDING
+This section of code handles the game select dropdown. Basically, changing the game
+will also change the list of characters next to a given player's name. We'll then store
+this in the JSON for easy tweeting and records.
+*/
+document.addEventListener('input', function (event) {
+
+	// Only run on our select menu
+	if (event.target.id !== 'game') return;
+
+  // Clearing out old game characters
+  removeOptions(p1Char);
+  removeOptions(p2Char);
+
+  var chars;
+
+	switch (event.target.value) {
+    case 'BBCF':
+      chars = [
+        'Ragna the Bloodedge', 'Jin Kisaragi', 'Noel Vermillion', 'Rachel Alucard', 'Taokaka', 'Iron Tager', 'Litchi Faye Ling', 'Arakune',
+        'Bang Shishigami', 'Carl Clover', 'Hakumen', 'Nu-13', 'Tsubaki Yayoi', 'Hazama', 'Mu-12', 'Makoto Nanaya', 'Valkenhayn R. Hellsing',
+        'Platinum the Trinity', 'Relius Clover', 'Izayoi', 'Amane Nishiki', 'Bullet', 'Azrael', 'Kagura Mutsuki', 'Kokonoe', 'Yūki Terumi',
+        'Celica A. Mercury', 'Lambda-11', 'Hibiki Kohaku', 'Konoe A. Mercury', 'Naoto Kurogane', 'Hades Izanami', "Susano'o", 'Es',
+        'Mai Natsume', 'Jūbei'
+      ];
+      break;
+    default:
+    // Defaulting to BBCF
+    chars = [
+      'Ragna the Bloodedge', 'Jin Kisaragi', 'Noel Vermillion', 'Rachel Alucard', 'Taokaka', 'Iron Tager', 'Litchi Faye Ling', 'Arakune',
+      'Bang Shishigami', 'Carl Clover', 'Hakumen', 'Nu-13', 'Tsubaki Yayoi', 'Hazama', 'Mu-12', 'Makoto Nanaya', 'Valkenhayn R. Hellsing',
+      'Platinum the Trinity', 'Relius Clover', 'Izayoi', 'Amane Nishiki', 'Bullet', 'Azrael', 'Kagura Mutsuki', 'Kokonoe', 'Yūki Terumi',
+      'Celica A. Mercury', 'Lambda-11', 'Hibiki Kohaku', 'Konoe A. Mercury', 'Naoto Kurogane', 'Hades Izanami', "Susano'o", 'Es',
+      'Mai Natsume', 'Jūbei'
+    ];
+  }
+
+  // Adding the charaters to the UI
+  var sortedChars = chars.sort();
+  for (var i = 0; i < sortedChars.length; i++){
+    var character = sortedChars[i];
+    var element = document.createElement("option");
+    element.innerText = character;
+    p1Char.append(element);
+  }
+
+  for (var i = 0; i < sortedChars.length; i++){
+    var character = sortedChars[i];
+    var element = document.createElement("option");
+    element.innerText = character;
+    p2Char.append(element);
+  }
+
+}, false);
+
+function removeOptions(selectElement) {
+   var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
 
 /* NAVIGATION HANDING
 This section of code handles the nav menu on the left. The nav works *very* simply--

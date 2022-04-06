@@ -111,8 +111,11 @@ body {
           width: 600px; }
         body .container .tab-info form .row #round {
           width: 200px; }
-        body .container .tab-info form .row #p1Team, body .container .tab-info form .row #p2Team {
+        body .container .tab-info form .row #p1Team, body .container .tab-info form .row #p2Team, body .container .tab-info form .row #p1Char, body .container .tab-info form .row #p2Char {
           width: 100px; }
+        body .container .tab-info form .row #p1Char, body .container .tab-info form .row #p2Char {
+          margin-right: 10px;
+          height: 32px; }
         body .container .tab-info form .row #p1Score, body .container .tab-info form .row #p2Score {
           width: 80px; }
         body .container .tab-info form .row #game {
