@@ -45,6 +45,57 @@ const bracket = document.getElementById('bracket');
 const tweetMessage = document.getElementById('tweet-message');
 const currentCount = document.getElementById('current');
 
+// TOP 8 UI ITEMS
+const wsTop1 = document.getElementById('wsTop1');
+const wsTop1Score = document.getElementById('wsTop1Score');
+const wsTop2 = document.getElementById('wsTop2');
+const wsTop2Score = document.getElementById('wsTop2Score');
+
+const wsBottom1 = document.getElementById('wsBottom1');
+const wsBottom1Score = document.getElementById('wsBottom1Score');
+const wsBottom2 = document.getElementById('wsBottom2');
+const wsBottom2Score = document.getElementById('wsBottom2Score');
+
+const wFinals1 = document.getElementById('wFinals1');
+const wFinals1Score = document.getElementById('wFinals1Score');
+const wFinals2 = document.getElementById('wFinals2');
+const wFinals2Score = document.getElementById('wFinals2Score');
+
+const gFinals1 = document.getElementById('gFinals1');
+const gFinals1Score = document.getElementById('gFinals1Score');
+const gFinals2 = document.getElementById('gFinals2');
+const gFinals2Score = document.getElementById('gFinals2Score');
+
+const leTop1 = document.getElementById('leTop1');
+const leTop1Score = document.getElementById('leTop1Score');
+const leTop2 = document.getElementById('leTop2');
+const leTop2Score = document.getElementById('leTop2Score');
+
+const leBottom1 = document.getElementById('leBottom1');
+const leBottom1Score = document.getElementById('leBottom1Score');
+const leBottom2 = document.getElementById('leBottom2');
+const leBottom2Score = document.getElementById('leBottom2Score');
+
+const lqTop1 = document.getElementById('lqTop1');
+const lqTop1Score = document.getElementById('lqTop1Score');
+const lqTop2 = document.getElementById('lqTop2');
+const lqTop2Score = document.getElementById('lqTop2Score');
+
+const lqBottom1 = document.getElementById('lqBottom1');
+const lqBottom1Score = document.getElementById('lqBottom1Score');
+const lqBottom2 = document.getElementById('lqBottom2');
+const lqBottom2Score = document.getElementById('lqBottom2Score');
+
+const lSemis1 = document.getElementById('lSemis1');
+const lSemis1Score = document.getElementById('lSemis1Score');
+const lSemis2 = document.getElementById('lSemis2');
+const lSemis2Score = document.getElementById('lSemis2Score');
+
+const lFinals1 = document.getElementById('lFinals1');
+const lFinals1Score = document.getElementById('lFinals1Score');
+const lFinals2 = document.getElementById('lFinals2');
+const lFinals2Score = document.getElementById('lFinals2Score');
+
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
 actions via onclick causes weird behavior and so we need to add event listeners
@@ -380,7 +431,47 @@ function saveContent() {
     matcherino4: matcherino4.value,
     matcherino5: matcherino5.value,
     matcherino6: matcherino6.value,
-    bracket: bracket.value
+    bracket: bracket.value,
+    wsTop1: wsTop1.value,
+    wsTop1Score: wsTop1Score.value,
+    wsTop2: wsTop2.value,
+    wsTop2Score: wsTop2Score.value,
+    wsBottom1: wsBottom1.value,
+    wsBottom1Score: wsBottom1Score.value,
+    wsBottom2: wsBottom2.value,
+    wsBottom2Score: wsBottom2Score.value,
+    wFinals1: wFinals1.value,
+    wFinals1Score: wFinals1Score.value,
+    wFinals2: wFinals2.value,
+    wFinals2Score: wFinals2Score.value,
+    gFinals1: gFinals1.value,
+    gFinals1Score: gFinals1Score.value,
+    gFinals2: gFinals2.value,
+    gFinals2Score: gFinals2Score.value,
+    leTop1: leTop1.value,
+    leTop1Score: leTop1Score.value,
+    leTop2: leTop2.value,
+    leTop2Score: leTop2Score.value,
+    leBottom1: leBottom1.value,
+    leBottom1Score: leBottom1Score.value,
+    leBottom2: leBottom2.value,
+    leBottom2Score: leBottom2Score.value,
+    lqTop1: lqTop1.value,
+    lqTop1Score: lqTop1Score.value,
+    lqTop2: lqTop2.value,
+    lqTop2Score: lqTop2Score.value,
+    lqBottom1: lqBottom1.value,
+    lqBottom1Score: lqBottom1Score.value,
+    lqBottom2: lqBottom2.value,
+    lqBottom2Score: lqBottom2Score.value,
+    lSemis1: lSemis1.value,
+    lSemis1Score: lSemis1Score.value,
+    lSemis2: lSemis2.value,
+    lSemis2Score: lSemis2Score.value,
+    lFinals1: lFinals1.value,
+    lFinals1Score: lFinals1Score.value,
+    lFinals2: lFinals2.value,
+    lFinals2Score: lFinals2Score.value,
   };
   let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
@@ -438,6 +529,56 @@ ipcRenderer.on('load-state', (event, arg) => {
   matcherino6.value = data.matcherino6;
 
   bracket.value = data.bracket;
+
+  wsTop1.value = data.wsTop1;
+  wsTop1Score.value = data.wsTop1Score;
+  wsTop2.value = data.wsTop2;
+  wsTop2Score.value = data.wsTop2Score;
+
+  wsBottom1.value = data.wsBottom1;
+  wsBottom1Score.value = data.wsBottom1Score;
+  wsBottom2.value = data.wsBottom2;
+  wsBottom2Score.value = data.wsBottom2Score;
+
+  wFinals1.value = data.wFinals1;
+  wFinals1Score.value = data.wFinals1Score;
+  wFinals2.value = data.wFinals2;
+  wFinals2Score.value = data.wFinals2Score;
+
+  gFinals1.value = data.gFinals1;
+  gFinals1Score.value = data.gFinals1Score;
+  gFinals2.value = data.gFinals2;
+  gFinals2Score.value = data.gFinals2Score;
+
+  leTop1.value = data.leTop1;
+  leTop1Score.value = data.leTop1Score;
+  leTop2.value = data.leTop2;
+  leTop2Score.value = data.leTop2Score;
+
+  leBottom1.value = data.leBottom1;
+  leBottom1Score.value = data.leBottom1Score;
+  leBottom2.value = data.leBottom2;
+  leBottom2Score.value = data.leBottom2Score;
+
+  lqTop1.value = data.lqTop1;
+  lqTop1Score.value = data.lqTop1Score;
+  lqTop2.value = data.lqTop2;
+  lqTop2Score.value = data.lqTop2Score;
+
+  lqBottom1.value = data.lqBottom1;
+  lqBottom1Score.value = data.lqBottom1Score;
+  lqBottom2.value = data.lqBottom2;
+  lqBottom2Score.value = data.lqBottom2Score;
+
+  lSemis1.value = data.lSemis1;
+  lSemis1Score.value = data.lSemis1Score;
+  lSemis2.value = data.lSemis2;
+  lSemis2Score.value = data.lSemis2Score;
+
+  lFinals1.value = data.lFinals1;
+  lFinals1Score.value = data.lFinals1Score;
+  lFinals2.value = data.lFinals2;
+  lFinals2Score.value = data.lFinals2Score;
 });
 
 /* GENERAL HELPER METHODS
