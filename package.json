@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "autocompleter": "^6.1.2",
     "electron-squirrel-startup": "^1.0.0",
     "robotjs": "^0.6.0"
   },

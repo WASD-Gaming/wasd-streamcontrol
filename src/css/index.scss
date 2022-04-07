@@ -1,6 +1,6 @@
 $row-height: 45px;
 $border-color: #4184e4;
-$secondary-boder-color: #444c56;
+$secondary-border-color: #444c56;
 $input-background: #2C2F33;
 $background-color: #23272A;
 $foreground-color: white;
@@ -301,6 +301,19 @@ body {
 
 .hide {
   display: none;
+}
+
+.autocomplete {
+  background: $input-background;
+  border: 1px solid $secondary-border-color;
+
+  div {
+    padding-left: 5px;
+  }
+
+  div:hover {
+    background: black;
+  }
 }
 
 @keyframes fade-in {

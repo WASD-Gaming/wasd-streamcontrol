@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { ipcRenderer, clipboard } = require('electron');
 const twitter = require('./js/tweet-gen.js');
+const autocomplete = require('autocompleter');
 
 // MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
@@ -97,6 +98,11 @@ const lFinals1 = document.getElementById('lFinals1');
 const lFinals1Score = document.getElementById('lFinals1Score');
 const lFinals2 = document.getElementById('lFinals2');
 const lFinals2Score = document.getElementById('lFinals2Score');
+
+// Autocomplete Variables
+var gPlayers = [];
+var gTeams = [];
+var gRounds = [];
 
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
@@ -265,6 +271,58 @@ document.addEventListener('input', function (event) {
         'Mai Natsume', 'Jūbei'
       ];
       break;
+    case 'BBTAG':
+    case 'DBFZ':
+    case 'KOFXV':
+      chars = ['Teams Not Supported'];
+      break;
+    case 'GBVS':
+      chars = [
+        'Gran', 'Katalina', 'Charlotta', 'Lancelot', 'Ferry', 'Lowain', 'Ladiva', 'Percival', 'Metera', 'Zeta', 'Vaseraga', 'Beelzebub',
+        'Narmaya', 'Soriz', 'Djeeta', 'Zooey', 'Belial', 'Cagliostro', 'Yuel', 'Anre', 'Eustace', 'Seox', 'Vira', 'Avatar Belial'
+      ];
+      break;
+    case 'GGXRD':
+      chars = [
+        'Answer', 'Axl Low', 'Baiken', 'Bedman', 'Chipp Zanuff', 'Dizzy', 'Elphelt Valentine', 'Faust', 'I-No', "Jack-O'", 'Jam Kuradoberi',
+        'Johnny', 'Kum Haehyun', 'Ky Kiske', 'Leo Whitefang', 'May', 'Millia Rage', 'Potemkin', 'Ramlethal Valentine', 'Raven', 'Sin Kiske',
+        'Slayer', 'Sol Badguy', 'Venom'
+      ];
+      break;
+    case 'GGST':
+      chars = [
+        'Anji Mito', 'Axl Low', 'Baiken', 'Chipp Zanuff', 'Faust', 'Giovanna', 'Goldlewis Dickinson', 'Happy Chaos', 'I-No', "Jack-O'",
+        'Ky Kiske', 'Leo Whitefang', 'May', 'Millia Rage', 'Nagoriyuki', 'Potemkin', 'Ramlethal Valentine', 'Sol Badguy', 'Testament',
+        'Zato-1'
+      ];
+      break;
+    case 'MBTL':
+      chars = [
+        'Shiki Tohno', 'Arcueid Brunestud', 'Akiha Tohno', 'Ciel', 'Hisui', 'Kohaku', 'Maids', 'Miyako Arima', 'Kouma Kishima', 'Noel',
+        'Michael Roa Valdamjong', 'Vlov Arkhangel', 'Red Arcueid', 'Saber', 'Dead Apostle Noel', 'Aoko Aozaki'
+      ];
+      break;
+    case 'MVCI':
+      chars = [];
+      break;
+    case 'SSFVCE':
+      chars = [];
+      break;
+    case 'TEKKEN7':
+      chars = [];
+      break;
+    case 'UMVC3':
+      chars = [];
+      break;
+    case 'UNICLR':
+      chars = [
+        'Hyde', 'Linne', 'Waldstein', 'Carmine', 'Orie', 'Gordeau', 'Merkava', 'Vatista', 'Seth', 'Yuzuriha', 'Hilda', 'Chaos', 'Nanase',
+        'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki'
+      ];
+      break;
+    case 'USF4':
+      chars = [];
+      break;
     default:
     // Defaulting to BBCF
     chars = [
@@ -300,6 +358,75 @@ function removeOptions(selectElement) {
       selectElement.remove(i);
    }
 }
+
+/* AUTOCOMPLETE HANDLING
+STUFF
+*/
+
+autocomplete({
+  minLength: 1,
+  input: p1Name,
+  fetch: function(text, update) {
+        text = text.toLowerCase();
+        var suggestions = gPlayers.filter(n => n.label.toLowerCase().startsWith(text))
+        update(suggestions);
+    },
+    onSelect: function(item) {
+        p1Name.value = item.value;
+    }
+});
+
+autocomplete({
+  minLength: 1,
+  input: p2Name,
+  fetch: function(text, update) {
+        text = text.toLowerCase();
+        var suggestions = gPlayers.filter(n => n.label.toLowerCase().startsWith(text))
+        update(suggestions);
+    },
+    onSelect: function(item) {
+        p2Name.value = item.value;
+    }
+});
+
+autocomplete({
+  minLength: 1,
+  input: p1Team,
+  fetch: function(text, update) {
+        text = text.toLowerCase();
+        var suggestions = gTeams.filter(n => n.label.toLowerCase().startsWith(text))
+        update(suggestions);
+    },
+    onSelect: function(item) {
+        p1Team.value = item.value;
+    }
+});
+
+autocomplete({
+  minLength: 1,
+  input: p2Team,
+  fetch: function(text, update) {
+        text = text.toLowerCase();
+        var suggestions = gTeams.filter(n => n.label.toLowerCase().startsWith(text))
+        update(suggestions);
+    },
+    onSelect: function(item) {
+        p2Team.value = item.value;
+    }
+});
+
+autocomplete({
+  minLength: 1,
+  input: round,
+  fetch: function(text, update) {
+        text = text.toLowerCase();
+        var suggestions = gRounds.filter(n => n.label.toLowerCase().startsWith(text))
+        update(suggestions);
+    },
+    onSelect: function(item) {
+        round.value = item.value;
+    }
+});
 
 /* NAVIGATION HANDING
 This section of code handles the nav menu on the left. The nav works *very* simply--
@@ -546,6 +673,66 @@ function saveContent() {
   catch(e) { alert('Failed to save the file !'); }
 
   generateNotification('Info saved!');
+  saveForAutocomplete();
+}
+
+function saveForAutocomplete() {
+  let rawdata = fs.readFileSync('autocomplete.json');
+  let data = JSON.parse(rawdata);
+
+  let players = data.players;
+  let teams = data.teams;
+  let rounds = data.rounds;
+
+  if (!players.includes(p1Name.value) && p1Name.value !== '') players.push(p1Name.value);
+  if (!players.includes(p2Name.value) && p2Name.value !== '') players.push(p2Name.value);
+  if (!teams.includes(p1Team.value) && p1Team.value !== '') teams.push(p1Team.value);
+  if (!teams.includes(p2Team.value) && p2Team.value !== '') teams.push(p2Team.value);
+  if (!rounds.includes(round.value) && round.value !== '') rounds.push(round.value);
+
+  let json = {
+    "players": players,
+    "teams": teams,
+    "rounds": rounds
+  }
+
+  formatPlayersArray(players);
+  formatTeamsArray(teams);
+  formatRoundsArray(rounds);
+
+  let stringedJSON = JSON.stringify(json, null, 4);
+  try {
+    fs.writeFileSync('autocomplete.json', stringedJSON)
+    console.log('Saved autocomplete!');
+  }
+  catch(e) {
+    alert('Failed to save the file !');
+    console.log(e);
+  }
+}
+
+function formatPlayersArray(players) {
+  gPlayers = [];
+  for (var i = 0; i < players.length; i++) {
+    var dict = {label: players[i], value: players[i]}
+    gPlayers.push(dict);
+  }
+}
+
+function formatTeamsArray(teams) {
+  gTeams = [];
+  for (var i = 0; i < teams.length; i++) {
+    var dict = {label: teams[i], value: teams[i]}
+    gTeams.push(dict);
+  }
+}
+
+function formatRoundsArray(rounds) {
+  gRounds = [];
+  for (var i = 0; i < rounds.length; i++) {
+    var dict = {label: rounds[i], value: rounds[i]}
+    gRounds.push(dict);
+  }
 }
 
 /* APP LOAD STATE HANDING
@@ -643,6 +830,18 @@ ipcRenderer.on('load-state', (event, arg) => {
   lFinals1Score.value = data.lFinals1Score;
   lFinals2.value = data.lFinals2;
   lFinals2Score.value = data.lFinals2Score;
+
+  let acrawdata = fs.readFileSync('autocomplete.json');
+  let acdata = JSON.parse(acrawdata);
+
+  let players = acdata.players;
+  let teams = acdata.teams;
+  let rounds = acdata.rounds;
+
+  formatPlayersArray(players);
+  formatTeamsArray(teams);
+  formatRoundsArray(rounds);
+
 });
 
 /* GENERAL HELPER METHODS
