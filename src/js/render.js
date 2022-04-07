@@ -360,7 +360,9 @@ function removeOptions(selectElement) {
 }
 
 /* AUTOCOMPLETE HANDLING
-STUFF
+
+The functions below set up autocomplete for the varios app fields. Each of them pull from
+"global" arrays that get populat from the autocomplete.json file.
 */
 
 autocomplete({
