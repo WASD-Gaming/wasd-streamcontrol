@@ -38,6 +38,11 @@ body {
       }
     }
 
+    .new-set {
+      margin-top: -40px;
+      margin-bottom: 20px;
+    }
+
     .tab-info {
       margin-left: 40px;
       width: 78%;
@@ -90,6 +95,10 @@ body {
           width: 680px;
           margin-left: 110px;
           margin-bottom: 30px;
+        }
+
+        #clip-set {
+          margin-top: 30px !important;
         }
 
         fieldset {
@@ -223,6 +232,32 @@ body {
             color: $foreground-color;
             background-image:none;
             border-color: $input-background;
+          }
+
+          #new-set {
+            width: 100px;
+          }
+
+          .player-info {
+            float: left;
+
+            .header {
+              font-size: 16px;
+            }
+          }
+
+          #vs {
+            float: left;
+            min-height: 100px;
+            font-weight: 700;
+            text-align: center;
+            margin-left: 20px;
+            margin-right: 20px;
+            line-height: 100px;;
+          }
+
+          #runback-result {
+            color: $message-color;
           }
 
           button:hover {

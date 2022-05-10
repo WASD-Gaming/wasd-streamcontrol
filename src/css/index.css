@@ -17,6 +17,9 @@ body {
         color: white; }
       body .container nav .active {
         background-color: #2C2F33; }
+    body .container .new-set {
+      margin-top: -40px;
+      margin-bottom: 20px; }
     body .container .tab-info {
       margin-left: 40px;
       width: 78%;
@@ -53,6 +56,8 @@ body {
         width: 680px;
         margin-left: 110px;
         margin-bottom: 30px; }
+      body .container .tab-info form #clip-set {
+        margin-top: 30px !important; }
       body .container .tab-info form fieldset {
         margin-top: 60px;
         border-color: #2C2F33; }
@@ -133,6 +138,22 @@ body {
           color: white;
           background-image: none;
           border-color: #2C2F33; }
+        body .container .tab-info form .row #new-set {
+          width: 100px; }
+        body .container .tab-info form .row .player-info {
+          float: left; }
+          body .container .tab-info form .row .player-info .header {
+            font-size: 16px; }
+        body .container .tab-info form .row #vs {
+          float: left;
+          min-height: 100px;
+          font-weight: 700;
+          text-align: center;
+          margin-left: 20px;
+          margin-right: 20px;
+          line-height: 100px; }
+        body .container .tab-info form .row #runback-result {
+          color: #ffb643; }
         body .container .tab-info form .row button:hover {
           background-color: white;
           color: #517bff; }

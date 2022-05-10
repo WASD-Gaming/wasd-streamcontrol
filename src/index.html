@@ -55,6 +55,9 @@
         </div>
         <div class="page" id="match-info">
           <form>
+            <div class="row form-group center new-set">
+              <button type="button" value="New Set" class="btn btn-default" id="new-set">New Set</button>
+            </div>
             <div class="row form-group">
               <label>Player 1</label>
               <input class="form-control" id="p1Team" type="search" name="Player 1 Team">
@@ -112,7 +115,7 @@
               <input class="form-control" id="no-matcherino" type="checkbox">No Matcherino
             </div>
             <div class="row center">
-              <fieldset>
+              <fieldset id="clip-set">
                 <legend align="center"><span>Clip Stream</span></legend>
                 <button type="button" class="btn btn-default" id="fiveClipBtn">5s</button>
                 <button type="button" class="btn btn-default" id="tenClipBtn">10s</button>
@@ -122,9 +125,31 @@
                 <button type="button" class="btn btn-default" id="fortyfiveClipBtn">45s</button>
                 <button type="button" class="btn btn-default" id="sixtyClipBtn">60s</button>
               </fieldset>
+            </div>
+            <div class="row center">
+              <fieldset style="text-align: center; margin-top: 20px;">
+                <legend align="center"><span>Player History</span></legend>
+                <div class="player-info">
+                  <p class="header"><b>ImpurestClub</b></p>
+                  <p>Today's Chars:
+                  <br>Baiken, Ramlethal Valentine</p>
+                </div>
+                <div id="vs">
+                  VS
+                </div>
+                <div class="player-info">
+                  <p class="header"><b>ImpurestClub</b></p>
+                  <p>Today's Chars:
+                  <br>Baiken, Ramlethal Valentine</p>
+                </div>
+                <div>
+                  Runback? <span id="runback-result">YES</span><br>
+                  <span id="first-meet">ImpurestClub 2 - 1 ImpurestClub</span>
+                </div>
+              </fieldset>
+            </div>
           </form>
         </div>
-      </div>
       <div class="page hide" id="messages">
         <form>
           <div class="row form-group">
