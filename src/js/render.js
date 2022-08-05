@@ -19,6 +19,7 @@ const p2Loss = document.getElementById('p2Loss');
 const p2Char = document.getElementById('p2Char');
 
 const round = document.getElementById('round');
+const offline = document.getElementById('offline');
 
 const game = document.getElementById('game');
 const runback = document.getElementById('runback');
@@ -610,6 +611,7 @@ function saveContent() {
     round: round.value,
     game: game.value,
     runback: runback.checked,
+    offline: offline.checked,
     matcherino: matcherino.value,
     msg1: msg1.value,
     msg2: msg2.value,
