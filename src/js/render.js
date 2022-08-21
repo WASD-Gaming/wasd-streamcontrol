@@ -246,6 +246,29 @@ document.querySelector('#copy').addEventListener('click', () => {
   generateNotification('Tweet coppied to clipboard!');
 });
 
+document.querySelector('#populate-top-8-winners').addEventListener('click', () => {
+  let p = twitter.populateTop8('populate-top-8', bracket.value);
+  p.then(value => {
+    let winners = value[0]['winners'];
+    wsTop1.value = winners[0]['player1'];
+    wsTop2.value = winners[0]['player2'];
+    wsBottom1.value = winners[1]['player1'];
+    wsBottom2.value = winners[1]['player1'];
+    let losers = value[1]['losers'];
+    leTop1.value = losers[0]['player1'];
+    leTop2.value = losers[0]['player2'];
+    leBottom1.value = losers[1]['player1'];
+    leBottom2.value = losers[1]['player2'];
+  });
+});
+
+document.querySelector('#populate-top-8-losers').addEventListener('click', () => {
+  let p = twitter.populateTop8('populate-top-8', bracket.value);
+  p.then(value => {
+    console.log(value);
+  });
+});
+
 /* GAME SELECT HANDING
 This section of code handles the game select dropdown. Basically, changing the game
 will also change the list of characters next to a given player's name. We'll then store

@@ -161,7 +161,6 @@ body {
 .match-column {
   width: 280px;
   float: left;
-  height: 1000px;
   margin-left: 5px; }
   .match-column input {
     margin: 0 5px 5px 0;
