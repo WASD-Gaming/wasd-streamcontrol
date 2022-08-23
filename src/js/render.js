@@ -306,7 +306,57 @@ document.querySelector('#populate-top-8-winners').addEventListener('click', () =
 document.querySelector('#populate-top-8-losers').addEventListener('click', () => {
   let p = twitter.populateTop8('populate-top-8', bracket.value);
   p.then(value => {
-    console.log(value);
+    let winners = value[0]['winners'];
+    wsTop1.value = winners[0]['player1'];
+    wsTop1Score.value = winners[0]['player1score'];
+    wsTop2.value = winners[0]['player2'];
+    wsTop2Score.value = winners[0]['player2score'];
+
+    wsBottom1.value = winners[1]['player1'];
+    wsBottom1Score.value = winners[1]['player1score'];
+    wsBottom2.value = winners[1]['player2'];
+    wsBottom2Score.value = winners[1]['player2score'];
+
+    wFinals1.value = winners[2]['player1'];
+    wFinals1Score.value = winners[2]['player1score'];
+    wFinals2.value = winners[2]['player2'];
+    wFinals2Score.value = winners[2]['player2score'];
+
+    gFinals1.value = winners[3]['player1'];
+    gFinals1Score.value = winners[3]['player1score'];
+    gFinals2.value = winners[3]['player2'];
+    gFinals2Score.value = winners[3]['player2score'];
+
+    let losers = value[1]['losers'];
+    leTop1.value = losers[0]['player1'];
+    leTop1Score.value = losers[0]['player1score'];
+    leTop2.value = losers[0]['player2'];
+    leTop2Score.value = losers[0]['player2score'];
+
+    leBottom1.value = losers[1]['player1'];
+    leBottom1Score.value = losers[1]['player1score'];
+    leBottom2.value = losers[1]['player2'];
+    leBottom2Score.value = losers[1]['player2score'];
+
+    lqTop1.value = losers[2]['player1'];
+    lqTop1Score.value = losers[2]['player1score'];
+    lqTop2.value = losers[2]['player2'];
+    lqTop2Score.value = losers[2]['player2score'];
+
+    lqBottom1.value = losers[3]['player1'];
+    lqBottom1Score.value = losers[3]['player1score'];
+    lqBottom2.value = losers[3]['player2'];
+    lqBottom2Score.value = losers[3]['player2score'];
+
+    lSemis1.value = losers[4]['player1'];
+    lSemis1Score.value = losers[4]['player1score'];
+    lSemis2.value = losers[4]['player2'];
+    lSemis2Score.value = losers[4]['player2score'];
+
+    lFinals1.value = losers[5]['player1'];
+    lFinals1Score.value = losers[5]['player1score'];
+    lFinals2.value = losers[5]['player2'];
+    lFinals2Score.value = losers[5]['player2score'];
   });
 });
 
