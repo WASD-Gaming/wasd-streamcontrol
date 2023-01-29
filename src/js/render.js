@@ -869,6 +869,112 @@ function populateMatchHistory() {
   });
 }
 
+function updateCurrentMatchHistory() {
+  let player1Name = document.getElementById('player1');
+  let player1Chars = document.getElementById('player1-chars');
+  let player2Name = document.getElementById('player2');
+  let player2Chars = document.getElementById('player2-chars');
+  let runbackResult = document.getElementById('runback-result');
+  let firstMeet = document.getElementById('first-meet');
+
+  player1Name.innerHTML = p1Name.value;
+  player1Chars.innerHTML = getCharactersForPlayer(p1Name.value).join(', ');
+  player2Name.innerHTML = p2Name.value;
+  player2Chars.innerHTML = getCharactersForPlayer(p2Name.value).join(', ');
+
+  if (isRunback(p1Name.value, p2Name.value)) runbackResult.innerHTML = 'YES';
+  else runbackResult.innerHTML = 'NO';
+
+  let previousMatches = getFormerMatchResults(p1Name.value, p2Name.value);
+  if (previousMatches.length == 0) firstMeet.innerHTML = 'N/A'; 
+  else if (previousMatches.length > 0) {
+    let previousMatchString = '';
+    previousMatches.forEach(function(match){
+      previousMatchString = previousMatchString + match.p1Name + ' ' + match.p1Score + ' - ' + match.p2Name + ' ' + match.p2Score + '<br>';
+    });
+    firstMeet.innerHTML = previousMatchString;
+  }
+}
+
+function getCharactersForPlayer(player) {
+  var bracketParts = bracket.value.split('/');
+  let fileName = bracketParts.pop() || bracketParts.pop();
+
+  let rawdata = fs.readFileSync(fileName + '.json');
+  let data = JSON.parse(rawdata);
+  let characters = [];
+
+  // Looping through all of the saved sets to see what characters a given player has played.
+  Object.keys(data).forEach(function(key){
+    let round = key;
+
+    data[round].forEach(function(match){
+      if(match.p1Name.toUpperCase() === player.toUpperCase()) {
+        // Sorting out duplicate entries of the same character
+        if(!characters.includes(match.p1Char) && match.p1Char != '') characters.push(match.p1Char);
+      }
+      if(match.p2Name.toUpperCase() === player.toUpperCase()) {
+        // Sorting out duplicate entries of the same character
+        if(!characters.includes(match.p2Char) && match.p2Char != '') characters.push(match.p2Char);
+      }
+    });
+  });
+
+  return characters;
+}
+
+function isRunback(player1, player2){
+  var bracketParts = bracket.value.split('/');
+  let fileName = bracketParts.pop() || bracketParts.pop();
+
+  let rawdata = fs.readFileSync(fileName + '.json');
+  let data = JSON.parse(rawdata);
+
+  let result = false;
+  
+  // Looping through all of the saved sets to see if the players have played before.
+  Object.keys(data).forEach(function(key){
+    let round = key;
+
+    data[round].forEach(function(match){
+      if(match.p1Name.toUpperCase() === player1.toUpperCase() && match.p2Name.toUpperCase() === player2.toUpperCase()) {
+        result = true;
+      }
+      if(match.p1Name.toUpperCase() === player2.toUpperCase() && match.p2Name.toUpperCase() === player1.toUpperCase()) {
+        result = true;
+      }
+    });
+  });
+
+  return result;
+}
+
+function getFormerMatchResults(player1, player2) {
+  var bracketParts = bracket.value.split('/');
+  let fileName = bracketParts.pop() || bracketParts.pop();
+
+  let rawdata = fs.readFileSync(fileName + '.json');
+  let data = JSON.parse(rawdata);
+
+  let result = [];
+  
+  // Looping through all of the saved sets to see if the players have played before.
+  Object.keys(data).forEach(function(key){
+    let round = key;
+
+    data[round].forEach(function(match){
+      if(match.p1Name.toUpperCase() === player1.toUpperCase() && match.p2Name.toUpperCase() === player2.toUpperCase()) {
+        result.push(match);
+      }
+      if(match.p1Name.toUpperCase() === player2.toUpperCase() && match.p2Name.toUpperCase() === player1.toUpperCase()) {
+        result.push(match);
+      }
+    });
+  });
+
+  return result;
+}
+
 function sortTable(n) {
   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
   table = document.getElementById("match-table");
@@ -1011,6 +1117,7 @@ function saveContent() {
 
   generateNotification('Info saved!');
   saveForAutocomplete();
+  updateCurrentMatchHistory();
 }
 
 function saveForAutocomplete() {
