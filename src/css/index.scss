@@ -9,8 +9,38 @@ $message-color: #ffb643;
 $wasd-red-color: #ff6952;
 $wasd-green-color: #00c46a;
 
+.table-container {
+  height: 650px;
+  overflow-y: scroll;
+  border: 1px white solid;
+}
 tr {
-  color: $background-color;
+  color: $foreground-color;
+  text-align: center;
+
+  th {
+    color: $foreground-color;
+    font-weight: bolder;
+    background-color: $secondary-border-color;
+  }
+}
+
+.table-striped tr:nth-child(even) {
+  background-color: $secondary-border-color;
+}
+
+tr:active,
+.table-striped tr:active {
+  color: #fff;
+  background-color: #517bff;
+}
+
+.winner {
+  color: $wasd-green-color;
+}
+
+.loser {
+  color: $wasd-red-color;
 }
 
 body {

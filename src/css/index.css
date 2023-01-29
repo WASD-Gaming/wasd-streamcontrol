@@ -1,5 +1,29 @@
+.table-container {
+  height: 650px;
+  overflow-y: scroll;
+  border: 1px white solid; }
+
 tr {
-  color: #23272A; }
+  color: white;
+  text-align: center; }
+  tr th {
+    color: white;
+    font-weight: bolder;
+    background-color: #444c56; }
+
+.table-striped tr:nth-child(even) {
+  background-color: #444c56; }
+
+tr:active,
+.table-striped tr:active {
+  color: #fff;
+  background-color: #517bff; }
+
+.winner {
+  color: #00c46a; }
+
+.loser {
+  color: #ff6952; }
 
 body {
   color: white;

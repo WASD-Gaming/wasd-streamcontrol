@@ -97,6 +97,7 @@ app.on('activate', () => {
 
   // Loading the previous app state.
   sendNotification('load-state');
+  sendNotification('initialize-table');
 });
 
 app.on('will-quit', () => {

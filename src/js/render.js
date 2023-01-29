@@ -593,6 +593,7 @@ $('nav a').click(function() {
     break;
   case 'MatchHistory':
     $('#match-history').removeClass('hide');
+    populateMatchHistory();
     break;
   default:
     generateNotification('Something went wrong and we cannot show your tab.');
@@ -889,8 +890,45 @@ function populateMatchHistory() {
 
   let rawdata = fs.readFileSync(fileName + '.json');
   let data = JSON.parse(rawdata);
+  console.log(data);
 
   let table = document.getElementById('match-table');
+  table.innerHTML = "";
+  let th = document.createElement('tr');
+    th.innerHTML = '<th>' + 'Round' + '</th>' +
+      '<th>' + 'P1 Name' + '</th>' +
+      '<th>' + 'P1 Character' + '</th>' +
+      '<th>' + 'P1 Score' + '</th>' +
+      '<th>' + 'P1 Name' + '</th>' +
+      '<th>' + 'P1 Character' + '</th>' +
+      '<th>' + 'P1 Score' + '</th>';
+    table.appendChild(th);
+
+  Object.keys(data).forEach(function(key){
+    let round = key;
+
+    data[round].forEach(function(match){
+      let tr = document.createElement('tr');
+      if(match.p1Score > match.p2Score) {
+        tr.innerHTML = '<td>' + round + '</td>' +
+        '<td class="winner">' + match.p1Team + ' ' + match.p1Name + '</td>' +
+        '<td>' + match.p1Char + '</td>' +
+        '<td>' + match.p1Score + '</td>' +
+        '<td class="loser">' + match.p2Team + ' ' + match.p2Name + '</td>' +
+        '<td>' + match.p2Char + '</td>' +
+        '<td>' + match.p2Score + '</td>';
+      } else {
+        tr.innerHTML = '<td>' + round + '</td>' +
+        '<td class="loser">' + match.p1Team + ' ' + match.p1Name + '</td>' +
+        '<td>' + match.p1Char + '</td>' +
+        '<td>' + match.p1Score + '</td>' +
+        '<td class="winner">' + match.p2Team + ' ' + match.p2Name + '</td>' +
+        '<td>' + match.p2Char + '</td>' +
+        '<td>' + match.p2Score + '</td>';
+      }
+      table.appendChild(tr);
+    });
+  });
 }
 
 function saveForAutocomplete() {
