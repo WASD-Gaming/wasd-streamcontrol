@@ -390,6 +390,12 @@ document.addEventListener('input', function (event) {
         'Mai Natsume', 'Jūbei'
       ];
       break;
+    case 'DNF':
+      chars = [
+        'Berserker', 'Crusader', 'Dragon Knight', 'Enchantress', 'Ghostblade', 'Grappler', 'Hitman', 'Inquisitor', 'Kunoichi', 'Launcher', 'Lost Warrior',
+        'Ranger', 'Spectre', 'Striker', 'Swift Master', 'Troubleshooter', 'Vanguard'
+      ];
+      break;
     case 'BBTAG':
     case 'DBFZ':
     case 'KOFXV':
