@@ -1,5 +1,7 @@
 const fs = require('fs');
-const { ipcRenderer, clipboard } = require('electron');
+const { app, ipcRenderer, clipboard } = require('electron');
+const path = require('path');
+const remote = require('@electron/remote');
 const twitter = require('./js/tweet-gen.js');
 const autocomplete = require('autocompleter');
 
@@ -104,6 +106,7 @@ const lFinals2Score = document.getElementById('lFinals2Score');
 var gPlayers = [];
 var gTeams = [];
 var gRounds = [];
+var savePath = '';
 
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
@@ -750,16 +753,27 @@ It then adds it to a table on the Match History tab to be viewed later. Addition
 preliminary sorting work.
 */
 
+function getSavePath() {
+  ipcRenderer.invoke('read-user-data', 'settings.json').then((result) => {
+    let rawdata = fs.readFileSync(result + '\\' + 'settings.json');
+    let data = JSON.parse(rawdata);
+    console.log(data[savePath]);
+    savePath = data[savePath];
+    console.log(savePath);
+  });
+}
+
 function saveSet() {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
   let roundName = round.value;
+  console.log(getSavePath());
 
   try {
-    if (fs.existsSync(fileName + '.json')) {
+    if (fs.existsSync(getSavePath() + '\\' + fileName + '.json')) {
       //file exists
-      let rawdata = fs.readFileSync(fileName + '.json');
+      let rawdata = fs.readFileSync(getSavePath() + '\\' + fileName + '.json');
       let data = JSON.parse(rawdata);
 
       if (!(roundName in data) && roundName !== '') {
@@ -776,7 +790,7 @@ function saveSet() {
 
         let stringedJSON = JSON.stringify(data, null, 4);
         try {
-          fs.writeFileSync(fileName + '.json', stringedJSON)
+          fs.writeFileSync(getSavePath() + '\\' + fileName + '.json', stringedJSON)
           console.log('Saved Set!');
         }
         catch(e) { alert('Failed to save the file !'); }
@@ -796,7 +810,7 @@ function saveSet() {
 
         let stringedJSON = JSON.stringify(data, null, 4);
         try {
-          fs.writeFileSync(fileName + '.json', stringedJSON)
+          fs.writeFileSync(getSavePath() + '\\' + fileName + '.json', stringedJSON)
           console.log('Saved Set!');
         }
         catch(e) { alert('Failed to save the file !'); }
@@ -821,7 +835,7 @@ function saveSet() {
       console.log(stringedJSON);
 
       try {
-        fs.writeFileSync(fileName + '.json', stringedJSON)
+        fs.writeFileSync(getSavePath() + '\\' + fileName + '.json', stringedJSON)
         console.log('Saved Set!');
       }
       catch(e) { alert('Failed to save the file !'); }
@@ -835,7 +849,7 @@ function populateMatchHistory() {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(getSavePath() + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
   console.log(data);
 
@@ -900,7 +914,7 @@ function getCharactersForPlayer(player) {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(getSavePath() + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
   let characters = [];
 
@@ -927,7 +941,7 @@ function isRunback(player1, player2){
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(getSavePath() + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
 
   let result = false;
@@ -953,7 +967,7 @@ function getFormerMatchResults(player1, player2) {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(getSavePath() + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
 
   let result = [];
@@ -1109,11 +1123,12 @@ function saveContent() {
   };
   let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
+  console.log(remote.getGlobal('sharedData'));
   try {
-    fs.writeFileSync('streamcontrol.json', stringedJSON)
+    fs.writeFileSync(getSavePath() + '\\' + 'streamcontrol.json', stringedJSON)
     console.log('Saved!');
   }
-  catch(e) { alert('Failed to save the file !'); }
+  catch(e) { alert('Failed to save the file at ' + getSavePath() + '\\' + 'streamcontrol.json' + '!'); }
 
   generateNotification('Info saved!');
   saveForAutocomplete();
@@ -1121,7 +1136,7 @@ function saveContent() {
 }
 
 function saveForAutocomplete() {
-  let rawdata = fs.readFileSync('autocomplete.json');
+  let rawdata = fs.readFileSync(getSavePath() + '\\' + 'autocomplete.json');
   let data = JSON.parse(rawdata);
 
   let players = data.players;
@@ -1146,7 +1161,7 @@ function saveForAutocomplete() {
 
   let stringedJSON = JSON.stringify(json, null, 4);
   try {
-    fs.writeFileSync('autocomplete.json', stringedJSON)
+    fs.writeFileSync(getSavePath() + '\\' + 'autocomplete.json', stringedJSON)
     console.log('Saved autocomplete!');
   }
   catch(e) {
@@ -1187,7 +1202,7 @@ anything more complex.
 */
 ipcRenderer.on('load-state', (event, arg) => {
   // Pulling the file from the harddrive and converting it to a readable format.
-  let rawdata = fs.readFileSync('streamcontrol.json');
+  let rawdata = fs.readFileSync(getSavePath() + '\\' + 'streamcontrol.json');
   let data = JSON.parse(rawdata);
 
   // Inserting the data from the file into the UI.
@@ -1275,7 +1290,7 @@ ipcRenderer.on('load-state', (event, arg) => {
   lFinals2.value = data.lFinals2;
   lFinals2Score.value = data.lFinals2Score;
 
-  let acrawdata = fs.readFileSync('autocomplete.json');
+  let acrawdata = fs.readFileSync(getSavePath() + '\\' + 'autocomplete.json');
   let acdata = JSON.parse(acrawdata);
 
   let players = acdata.players;

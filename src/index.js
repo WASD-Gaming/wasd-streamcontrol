@@ -1,7 +1,9 @@
-const { app, BrowserWindow, globalShortcut, ipcMain } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, dialog } = require('electron');
+const fs = require('fs');
 const robot = require('robotjs');
 const path = require('path');
-// const Menu = electron.Menu;
+
+require('@electron/remote/main').initialize();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -14,22 +16,25 @@ let webContents;
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1330,
-    // width: 1630,
+    // width: 1330,
+    width: 1630,
     height: 850,
     resizable: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
-    }
+      enableRemoteModule: true,
+    },
+    icon: 'wasd.ico'
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools. Uncomment this out when not building RC.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
+  require('@electron/remote/main').enable(webContents);
 
   /* Hacky way to reload the last state of the app. Waits until the front end is loaded then sends
   a notification. */
@@ -118,3 +123,56 @@ function sendNotification(notification) {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+const template = [
+  {
+     label: 'File',
+     submenu: [
+        {
+          label: 'Select Save Path...',
+          click: async () => {
+              selectFilePath();
+          }
+        },
+        {
+          role: 'quit'
+        }
+     ]
+  },
+  
+  {
+     label: 'Help',
+     submenu: [
+        {
+          label: 'Discord'
+        }
+     ]
+  }
+]
+
+async function selectFilePath() {
+  let filePath = await dialog.showOpenDialog(
+    {
+      properties: ['openDirectory']
+    }
+  );
+
+  console.log(app.getPath('userData'));
+
+  global.sharedData = {
+    savePath: filePath.filePaths[0]
+  }
+  console.log(global.sharedData.savePath);
+  let string = {
+    savePath: filePath.filePaths[0]
+  }
+  let sData = JSON.stringify(string);
+  fs.writeFileSync(app.getPath('userData') + '\\' + 'settings.json', sData); 
+}
+
+ipcMain.handle('read-user-data', async (event, fileName) => {
+  const path = app.getPath('userData');
+  return path;
+})
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
