@@ -165,6 +165,34 @@ document.querySelector('#sixtyClipBtn').addEventListener('click', () => {
   keypress('F13');
 });
 
+document.querySelector('#col-0').addEventListener('click', () => {
+  sortTable(0);
+});
+
+document.querySelector('#col-1').addEventListener('click', () => {
+  sortTable(1);
+});
+
+document.querySelector('#col-2').addEventListener('click', () => {
+  sortTable(2);
+});
+
+document.querySelector('#col-3').addEventListener('click', () => {
+  sortTable(3);
+});
+
+document.querySelector('#col-4').addEventListener('click', () => {
+  sortTable(4);
+});
+
+document.querySelector('#col-5').addEventListener('click', () => {
+  sortTable(5);
+});
+
+document.querySelector('#col-6').addEventListener('click', () => {
+  sortTable(6);
+});
+
 document.querySelector('#starting-soon').addEventListener('click', () => {
   let p = twitter.generateTweet('starting-soon', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
   p.then(value => {
@@ -399,6 +427,8 @@ document.addEventListener('input', function (event) {
     case 'BBTAG':
     case 'DBFZ':
     case 'KOFXV':
+    case 'MVCI':
+    case 'UMVC3':
       chars = ['Teams Not Supported'];
       break;
     case 'GBVS':
@@ -428,16 +458,10 @@ document.addEventListener('input', function (event) {
         'Neco-Arc', 'Mash Kyrielight', 'Edmond Dantes', 'Ushiwakamaru'
       ];
       break;
-    case 'MVCI':
-      chars = [];
-      break;
     case 'SSFVCE':
       chars = [];
       break;
     case 'TEKKEN7':
-      chars = [];
-      break;
-    case 'UMVC3':
       chars = [];
       break;
     case 'UNICLR':
@@ -720,94 +744,11 @@ ipcRenderer.on('p2-score-down', (event, arg) => {
   p2Score.stepDown();
 });
 
-/* APP SAVE STATE HANDING
-This method saves the last set of info into the streamcontrol.json file. I'm sure
-there are 'better' and cleaner ways to handle this, but the app is so simple it
-doesn't really warrant anything more complex.
+/* MATCH HISTORY HANDING
+These methods save matches in a new JSON file based on bracket name hen "save set" is clicked. 
+It then adds it to a table on the Match History tab to be viewed later. Additionally, there is
+preliminary sorting work.
 */
-function saveContent() {
-  let json = {
-    p1Name: p1Name.value,
-    p1Team: p1Team.value,
-    p1Score: p1Score.value,
-    p1Win: p1Win.checked,
-    p1Loss: p1Loss.checked,
-    p2Name: p2Name.value,
-    p2Team: p2Team.value,
-    p2Score: p2Score.value,
-    p2Win: p2Win.checked,
-    p2Loss: p2Loss.checked,
-    round: round.value,
-    game: game.value,
-    runback: runback.checked,
-    offline: offline.checked,
-    matcherino: matcherino.value,
-    msg1: msg1.value,
-    msg2: msg2.value,
-    msg3: msg3.value,
-    com1Name: com1Name.value,
-    com1Twitter: com1Twitter.value,
-    com2Name: com2Name.value,
-    com2Twitter: com2Twitter.value,
-    matcherino1: matcherino1.value,
-    matcherino2: matcherino2.value,
-    matcherino3: matcherino3.value,
-    matcherino4: matcherino4.value,
-    matcherino5: matcherino5.value,
-    matcherino6: matcherino6.value,
-    bracket: bracket.value,
-    wsTop1: wsTop1.value,
-    wsTop1Score: wsTop1Score.value,
-    wsTop2: wsTop2.value,
-    wsTop2Score: wsTop2Score.value,
-    wsBottom1: wsBottom1.value,
-    wsBottom1Score: wsBottom1Score.value,
-    wsBottom2: wsBottom2.value,
-    wsBottom2Score: wsBottom2Score.value,
-    wFinals1: wFinals1.value,
-    wFinals1Score: wFinals1Score.value,
-    wFinals2: wFinals2.value,
-    wFinals2Score: wFinals2Score.value,
-    gFinals1: gFinals1.value,
-    gFinals1Score: gFinals1Score.value,
-    gFinals2: gFinals2.value,
-    gFinals2Score: gFinals2Score.value,
-    leTop1: leTop1.value,
-    leTop1Score: leTop1Score.value,
-    leTop2: leTop2.value,
-    leTop2Score: leTop2Score.value,
-    leBottom1: leBottom1.value,
-    leBottom1Score: leBottom1Score.value,
-    leBottom2: leBottom2.value,
-    leBottom2Score: leBottom2Score.value,
-    lqTop1: lqTop1.value,
-    lqTop1Score: lqTop1Score.value,
-    lqTop2: lqTop2.value,
-    lqTop2Score: lqTop2Score.value,
-    lqBottom1: lqBottom1.value,
-    lqBottom1Score: lqBottom1Score.value,
-    lqBottom2: lqBottom2.value,
-    lqBottom2Score: lqBottom2Score.value,
-    lSemis1: lSemis1.value,
-    lSemis1Score: lSemis1Score.value,
-    lSemis2: lSemis2.value,
-    lSemis2Score: lSemis2Score.value,
-    lFinals1: lFinals1.value,
-    lFinals1Score: lFinals1Score.value,
-    lFinals2: lFinals2.value,
-    lFinals2Score: lFinals2Score.value,
-  };
-  let stringedJSON = JSON.stringify(json, null, 4);
-  console.log(stringedJSON);
-  try {
-    fs.writeFileSync('streamcontrol.json', stringedJSON)
-    console.log('Saved!');
-  }
-  catch(e) { alert('Failed to save the file !'); }
-
-  generateNotification('Info saved!');
-  saveForAutocomplete();
-}
 
 function saveSet() {
   var bracketParts = bracket.value.split('/');
@@ -899,16 +840,7 @@ function populateMatchHistory() {
   console.log(data);
 
   let table = document.getElementById('match-table');
-  table.innerHTML = "";
-  let th = document.createElement('tr');
-    th.innerHTML = '<th>' + 'Round' + '</th>' +
-      '<th>' + 'P1 Name' + '</th>' +
-      '<th>' + 'P1 Character' + '</th>' +
-      '<th>' + 'P1 Score' + '</th>' +
-      '<th>' + 'P1 Name' + '</th>' +
-      '<th>' + 'P1 Character' + '</th>' +
-      '<th>' + 'P1 Score' + '</th>';
-    table.appendChild(th);
+  table.tBodies[0].innerHTML = "";
 
   Object.keys(data).forEach(function(key){
     let round = key;
@@ -932,9 +864,153 @@ function populateMatchHistory() {
         '<td>' + match.p2Char + '</td>' +
         '<td>' + match.p2Score + '</td>';
       }
-      table.appendChild(tr);
+      table.tBodies[0].appendChild(tr);
     });
   });
+}
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("match-table");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
+/* APP SAVE STATE HANDING
+This method saves the last set of info into the streamcontrol.json file. I'm sure
+there are 'better' and cleaner ways to handle this, but the app is so simple it
+doesn't really warrant anything more complex.
+*/
+function saveContent() {
+  let json = {
+    p1Name: p1Name.value,
+    p1Team: p1Team.value,
+    p1Score: p1Score.value,
+    p1Win: p1Win.checked,
+    p1Loss: p1Loss.checked,
+    p2Name: p2Name.value,
+    p2Team: p2Team.value,
+    p2Score: p2Score.value,
+    p2Win: p2Win.checked,
+    p2Loss: p2Loss.checked,
+    round: round.value,
+    game: game.value,
+    runback: runback.checked,
+    offline: offline.checked,
+    matcherino: matcherino.value,
+    msg1: msg1.value,
+    msg2: msg2.value,
+    msg3: msg3.value,
+    com1Name: com1Name.value,
+    com1Twitter: com1Twitter.value,
+    com2Name: com2Name.value,
+    com2Twitter: com2Twitter.value,
+    matcherino1: matcherino1.value,
+    matcherino2: matcherino2.value,
+    matcherino3: matcherino3.value,
+    matcherino4: matcherino4.value,
+    matcherino5: matcherino5.value,
+    matcherino6: matcherino6.value,
+    bracket: bracket.value,
+    wsTop1: wsTop1.value,
+    wsTop1Score: wsTop1Score.value,
+    wsTop2: wsTop2.value,
+    wsTop2Score: wsTop2Score.value,
+    wsBottom1: wsBottom1.value,
+    wsBottom1Score: wsBottom1Score.value,
+    wsBottom2: wsBottom2.value,
+    wsBottom2Score: wsBottom2Score.value,
+    wFinals1: wFinals1.value,
+    wFinals1Score: wFinals1Score.value,
+    wFinals2: wFinals2.value,
+    wFinals2Score: wFinals2Score.value,
+    gFinals1: gFinals1.value,
+    gFinals1Score: gFinals1Score.value,
+    gFinals2: gFinals2.value,
+    gFinals2Score: gFinals2Score.value,
+    leTop1: leTop1.value,
+    leTop1Score: leTop1Score.value,
+    leTop2: leTop2.value,
+    leTop2Score: leTop2Score.value,
+    leBottom1: leBottom1.value,
+    leBottom1Score: leBottom1Score.value,
+    leBottom2: leBottom2.value,
+    leBottom2Score: leBottom2Score.value,
+    lqTop1: lqTop1.value,
+    lqTop1Score: lqTop1Score.value,
+    lqTop2: lqTop2.value,
+    lqTop2Score: lqTop2Score.value,
+    lqBottom1: lqBottom1.value,
+    lqBottom1Score: lqBottom1Score.value,
+    lqBottom2: lqBottom2.value,
+    lqBottom2Score: lqBottom2Score.value,
+    lSemis1: lSemis1.value,
+    lSemis1Score: lSemis1Score.value,
+    lSemis2: lSemis2.value,
+    lSemis2Score: lSemis2Score.value,
+    lFinals1: lFinals1.value,
+    lFinals1Score: lFinals1Score.value,
+    lFinals2: lFinals2.value,
+    lFinals2Score: lFinals2Score.value,
+  };
+  let stringedJSON = JSON.stringify(json, null, 4);
+  console.log(stringedJSON);
+  try {
+    fs.writeFileSync('streamcontrol.json', stringedJSON)
+    console.log('Saved!');
+  }
+  catch(e) { alert('Failed to save the file !'); }
+
+  generateNotification('Info saved!');
+  saveForAutocomplete();
 }
 
 function saveForAutocomplete() {
