@@ -114,6 +114,10 @@ document.querySelector('#saveBtn').addEventListener('click', () => {
   saveContent();
 });
 
+document.querySelector('#saveSetBtn').addEventListener('click', () => {
+  saveSet();
+});
+
 document.querySelector('#adjustBtn').addEventListener('click', () => {
 });
 
@@ -408,13 +412,14 @@ document.addEventListener('input', function (event) {
       chars = [
         'Anji Mito', 'Axl Low', 'Baiken', 'Chipp Zanuff', 'Faust', 'Giovanna', 'Goldlewis Dickinson', 'Happy Chaos', 'I-No', "Jack-O'",
         'Ky Kiske', 'Leo Whitefang', 'May', 'Millia Rage', 'Nagoriyuki', 'Potemkin', 'Ramlethal Valentine', 'Sol Badguy', 'Testament',
-        'Zato-1'
+        'Zato-1', 'Sin Kiske', 'Bridget'
       ];
       break;
     case 'MBTL':
       chars = [
         'Shiki Tohno', 'Arcueid Brunestud', 'Akiha Tohno', 'Ciel', 'Hisui', 'Kohaku', 'Maids', 'Miyako Arima', 'Kouma Kishima', 'Noel',
-        'Michael Roa Valdamjong', 'Vlov Arkhangel', 'Red Arcueid', 'Saber', 'Dead Apostle Noel', 'Aoko Aozaki'
+        'Michael Roa Valdamjong', 'Vlov Arkhangel', 'Red Arcueid', 'Saber', 'Dead Apostle Noel', 'Aoko Aozaki', 'Mario Gallo Bestino', 'Powered Ciel',
+        'Neco-Arc', 'Mash Kyrielight', 'Edmond Dantes', 'Ushiwakamaru'
       ];
       break;
     case 'MVCI':
@@ -585,6 +590,9 @@ $('nav a').click(function() {
     break;
   case 'TweetGenerator':
     $('#twitter').removeClass('hide');
+    break;
+  case 'MatchHistory':
+    $('#match-history').removeClass('hide');
     break;
   default:
     generateNotification('Something went wrong and we cannot show your tab.');
@@ -792,6 +800,97 @@ function saveContent() {
 
   generateNotification('Info saved!');
   saveForAutocomplete();
+}
+
+function saveSet() {
+  var bracketParts = bracket.value.split('/');
+  let fileName = bracketParts.pop() || bracketParts.pop();
+
+  let roundName = round.value;
+
+  try {
+    if (fs.existsSync(fileName + '.json')) {
+      //file exists
+      let rawdata = fs.readFileSync(fileName + '.json');
+      let data = JSON.parse(rawdata);
+
+      if (!(roundName in data) && roundName !== '') {
+        data[roundName] = [{
+          p1Team: p1Team.value,
+          p1Name: p1Name.value,
+          p1Score: p1Score.value,
+          p1Char: p1Char.value,
+          p2Team: p2Team.value,
+          p2Name: p2Name.value,
+          p2Score: p2Score.value,
+          p2Char: p2Char.value,
+        }]
+
+        let stringedJSON = JSON.stringify(data, null, 4);
+        try {
+          fs.writeFileSync(fileName + '.json', stringedJSON)
+          console.log('Saved Set!');
+        }
+        catch(e) { alert('Failed to save the file !'); }
+      } else {
+        data[roundName].push(
+          {
+          p1Team: p1Team.value,
+          p1Name: p1Name.value,
+          p1Score: p1Score.value,
+          p1Char: p1Char.value,
+          p2Team: p2Team.value,
+          p2Name: p2Name.value,
+          p2Score: p2Score.value,
+          p2Char: p2Char.value,
+        }
+        );
+
+        let stringedJSON = JSON.stringify(data, null, 4);
+        try {
+          fs.writeFileSync(fileName + '.json', stringedJSON)
+          console.log('Saved Set!');
+        }
+        catch(e) { alert('Failed to save the file !'); }
+      }
+    } else {
+      let json = {
+        [roundName]: [
+          {
+            p1Team: p1Team.value,
+            p1Name: p1Name.value,
+            p1Score: p1Score.value,
+            p1Char: p1Char.value,
+            p2Team: p2Team.value,
+            p2Name: p2Name.value,
+            p2Score: p2Score.value,
+            p2Char: p2Char.value,
+          }
+        ]
+      }
+
+      let stringedJSON = JSON.stringify(json, null, 4);
+      console.log(stringedJSON);
+
+      try {
+        fs.writeFileSync(fileName + '.json', stringedJSON)
+        console.log('Saved Set!');
+      }
+      catch(e) { alert('Failed to save the file !'); }
+      }
+  } catch(err) {
+    console.error(err)
+  }
+}
+
+function populateMatchHistory() {
+  var bracketParts = bracket.value.split('/');
+  let fileName = bracketParts.pop() || bracketParts.pop();
+
+  let rawdata = fs.readFileSync(fileName + '.json');
+  let data = JSON.parse(rawdata);
+
+  let table = document.getElementById('match-table');
 }
 
 function saveForAutocomplete() {

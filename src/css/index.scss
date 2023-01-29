@@ -6,6 +6,12 @@ $background-color: #23272A;
 $foreground-color: white;
 $accent-color: #517bff;
 $message-color: #ffb643;
+$wasd-red-color: #ff6952;
+$wasd-green-color: #00c46a;
+
+tr {
+  color: $background-color;
+}
 
 body {
   color: $foreground-color;
@@ -232,6 +238,24 @@ body {
             color: $foreground-color;
             background-image:none;
             border-color: $input-background;
+          }
+
+          #newTournamentBtn {
+            background-color: $wasd-red-color;
+          }
+
+          #newTournamentBtn:hover {
+            background-color: $foreground-color;
+            color: $wasd-red-color;
+          }
+
+          #saveSetBtn {
+            background-color: $wasd-green-color;
+          }
+
+          #saveSetBtn:hover {
+            background-color: $foreground-color;
+            color: $wasd-green-color;
           }
 
           #new-set {
