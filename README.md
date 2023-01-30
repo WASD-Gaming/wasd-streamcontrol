@@ -21,7 +21,7 @@ Disclaimer: Code is messy at the moment. Between my 9-5 and running my own event
 
 ## To-Dos
 Various features I plan to add in no particular order:
-- [ ] Start.gg support.
+- [ ] Start.gg support in Tweet generator.
 - [ ] Encorporate direct Tweeting from app including clip selection.
 - [ ] Enable custom hotkeys.
 - [ ] Custom tweet templates.
