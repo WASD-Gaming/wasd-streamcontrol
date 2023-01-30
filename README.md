@@ -1,5 +1,5 @@
 # WASD StreamControl
-A completely reworked version of StreamControl using electron. Outputs to a json file in the same format as StreamControl making it compatible with any HTML overlays that currently rely on stream control.
+A completely reworked version of StreamControl using electron. Outputs to a json file in the same format as StreamControl making it compatible with any HTML overlays that currently rely on StreamControl.
 
 Some things to note:
 
@@ -8,6 +8,8 @@ The Clip Stream buttons do not work out of the box. They require the use of a cu
 Player history populates with random placeholder info. It's not a bug but I'm too lazy to change it.
 
 **YOU MUST SELECT A GAME FOR THE CHARACTER LIST TO POPULATE**. Even though the app saves the last selected game the characters will not populate until you select a game from the drop-down. This will eventually be fixed.
+
+Disclaimer: Code is messy at the moment. Between my 9-5 and running my own events I've been working on this at absurd hours so my approach has been "make X work" and not "what's the best cleanest way to make X work". Feel free to contribute to code cleanup.
 
 ## Hotkeys
 * Player 1 score up > F20
@@ -23,6 +25,7 @@ Various features I plan to add in no particular order:
 - [ ] Encorporate direct Tweeting from app including clip selection.
 - [ ] Enable custom hotkeys.
 - [ ] Custom tweet templates.
+- [ ] Code cleanup.
 
 ## Usage Instructions
 General usage of WASD StreamControl is pretty easy. Just select where you'd like your json files saved and use the program as you'd use the OG version of StreamControl.
