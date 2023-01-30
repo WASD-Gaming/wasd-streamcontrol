@@ -167,11 +167,36 @@ async function selectFilePath() {
   }
   let sData = JSON.stringify(string);
   fs.writeFileSync(app.getPath('userData') + '\\' + 'settings.json', sData); 
+
+  try {
+    if (!fs.existsSync(filePath.filePaths[0] + '\\' + 'autocomplete.json')) {
+      //Autocomplete file does not exist so create the empty template.
+      let template = {
+        "players": [
+        ],
+        "teams": [
+        ],
+        "rounds": [
+        ]
+      }
+      let stringedJSON = JSON.stringify(template, null, 4);
+      try {
+        fs.writeFileSync(filePath.filePaths[0] + '\\' + 'autocomplete.json', stringedJSON)
+        console.log('Saved autocomplete!');
+      }
+      catch(e) {
+        alert('Failed to save the file !');
+        console.log(e);
+      }
+    }
+  } catch(err) {
+    console.error(err)
+  }
 }
 
-ipcMain.handle('read-user-data', async (event, fileName) => {
+ipcMain.on('read-user-data', async (event) => {
   const path = app.getPath('userData');
-  return path;
+  event.returnValue = path;
 })
 
 const menu = Menu.buildFromTemplate(template)
