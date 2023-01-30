@@ -10,6 +10,7 @@
     <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script defer src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script defer src="js/render.js"></script>
+    <script src="js/multiselect-dropdown.js" ></script>
     <script>if (window.module) module = window.module;</script>
   </head>
   <body>
@@ -66,7 +67,7 @@
               <label>Player 1</label>
               <input class="form-control" id="p1Team" type="search" name="Player 1 Team">
               <input class="form-control" id="p1Name" type="search" name="Player 1">
-              <select multiple class="form-control" name="p1Char" id="p1Char"></select>
+              <select multiple multiselect-search="true" multiselect-max-items="1" class="form-control" name="p1Char" id="p1Char"></select>
               <input class="form-control" id="p1Score" type="number" value="0">
               <input class="form-control" id="p1Win" type="checkbox">[W]
               <input class="form-control" id="p1Loss" type="checkbox">[L]
@@ -75,7 +76,7 @@
               <label>Player 2</label>
               <input class="form-control" id="p2Team" type="search" name="Player 2 Team">
               <input class="form-control" id="p2Name" type="search" name="Player 2">
-              <select multiple class="form-control" name="p2Char" id="p2Char"></select>
+              <select multiple multiselect-search="true" multiselect-max-items="1" class="form-control" name="p2Char" id="p2Char"></select>
               <input class="form-control" id="p2Score" type="number" value="0">
               <input class="form-control" id="p2Win" type="checkbox">[W]
               <input class="form-control" id="p2Loss" type="checkbox">[L]
@@ -103,7 +104,9 @@
                 <option value="KOFXV">KOFXV</option>
                 <option value="MBTL">MBTL</option>
                 <option value="MVCI">MVCI</option>
+                <option value="P4AU">P4AU</option>
                 <option value="SFVCE">SFVCE</option>
+                <option value="SF6">SF6</option>
                 <option value="TEKKEN7">TEKKEN7</option>
                 <option value="UMVC3">UMVC3</option>
                 <option value="UNICLR">UNICLR</option>

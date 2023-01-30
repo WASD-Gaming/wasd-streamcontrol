@@ -225,6 +225,50 @@ body {
             border-color: $input-background;
           }
 
+          .multiselect-dropdown-list {
+            background-color: $input-background;
+          }
+
+          .multiselect-dropdown-list-wrapper {
+            background-color: $input-background;
+            border: 0px solid transparent;
+            box-shadow: none;
+          }
+          .multiselect-dropdown-list div:hover{
+            background-color: $accent-color;
+          }
+
+          .multiselect-dropdown span.optext {
+            background-color: $accent-color;
+          }
+
+          .multiselect-dropdown span.maxselected {
+            background-color: $accent-color;
+          }
+
+          .multiselect-dropdown {
+            background-color: $input-background;
+            border-color: $input-background;
+            margin-right: 10px;
+            height: 32px;
+            width: 255px !important;
+
+            label {
+              min-width: 15px;
+              margin: 0;
+            }
+
+            input[type=checkbox] {
+              margin-left: 0;
+            }
+
+            span {
+              .placeholder {
+                color: $foreground-color;
+              }
+            }
+          }
+
           textarea {
             height: 300px;
             width: 700px;
