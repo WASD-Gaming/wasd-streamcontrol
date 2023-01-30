@@ -453,6 +453,12 @@ document.addEventListener('input', function (event) {
       ];
       break;
     case 'MVCI':
+      chars = [
+        'Arthur', 'Chris', 'Chun-Li', 'Dante', 'Firebrand', 'Frank West', 'Haggar', 'Jedah', 'Monster Hunter', 'Morrigan', 'Nemesis', 'Ryu', 'Sigma', 'Spencer', 'Strider Hiryu',
+        'X', 'Zero', 'Black Panther', 'Black Widow', 'Captain America', 'Captain Marvel', 'Doctor Strange', 'Dormammu', 'Gamora', 'Ghost Rider', 'Hawkeye', 'Hulk', 'Iron Man', 'Nova',
+        'Rocket Raccoon', 'Spider-Man', 'Thanos', 'Thor', 'Ultron', 'Venom', 'Winter Soldier'
+      ];
+      break;
     case 'UMVC3':
       chars = ['Marvel Not Yet Supported'];
       break;
@@ -502,7 +508,12 @@ document.addEventListener('input', function (event) {
       ];
       break;
     case 'TEKKEN7':
-      chars = ['Tekken Not Yet Supported'];
+      chars = [
+        'Asuka', 'Akuma', 'King', 'Jin', 'Lili', 'Kazuya', 'Kazumi', 'Eliza', 'Josie', 'Dragunov', 'Lucky Chloe', 'Geese Howard', 'Katarina', 'Hwoarang', 'Bryan', 'Steve',
+        'Miguel', 'Feng', 'Alisa', 'Lars', 'Nina', 'Xiaoyu', 'Lee', 'Paul', 'Noctis', 'Law', 'Heihachi', 'Armor King', 'Leo', 'Devil Jin', 'Yoshimitsu', 'Claudio', 'Julia',
+        'Shaheen', 'Master Raven', 'Anna', 'Negan', 'Kuma', 'Bob', 'Gigas', 'Jack-7', 'Eddy', 'Lei', 'Kunimitsu', 'Leroy', 'Marduk', 'Fahkumram', 'Zafina', 'Lidia',
+        'Panda', 'Ganryu'
+      ];
       break;
     case 'UNICLR':
       chars = [
