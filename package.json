@@ -1,7 +1,7 @@
 {
   "name": "stream-control",
   "productName": "stream-control",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An updated streamcontrol alternative with a focus on the FGC.",
   "main": "src/index.js",
   "scripts": {
