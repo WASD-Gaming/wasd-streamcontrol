@@ -140,7 +140,10 @@ const template = [
      label: 'Help',
      submenu: [
         {
-          label: 'Discord'
+          label: 'Discord',
+          click: async() => {
+            require('electron').shell.openExternal('https://discord.gg/wasdgaming-gg-669890850511257620');
+          }
         }
      ]
   }
