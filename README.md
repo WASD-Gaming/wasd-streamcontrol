@@ -3,11 +3,11 @@ A completely reworked version of StreamControl using electron. Outputs to a json
 
 Some things to note:
 
-The Clip Stream buttons do not work out of the box. They require use of a custom OBS script I've developed that is currently in testing.
+The Clip Stream buttons do not work out of the box. They require the use of a custom OBS script I've developed that is currently in testing.
 
 Player history populates with random placeholder info. It's not a bug but I'm too lazy to change it.
 
-**YOU MUST SELECT A GAME FOR THE CHARACTER LIST TO POPULATE**. Even though the app saves the last selected game the characters will not populate until you select a game from the drop down. This will eventually be fixed.
+**YOU MUST SELECT A GAME FOR THE CHARACTER LIST TO POPULATE**. Even though the app saves the last selected game the characters will not populate until you select a game from the drop-down. This will eventually be fixed.
 
 ## Hotkeys
 * Player 1 score up > F20
