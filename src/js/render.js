@@ -460,7 +460,12 @@ document.addEventListener('input', function (event) {
       ];
       break;
     case 'UMVC3':
-      chars = ['Marvel Not Yet Supported'];
+      chars = [
+        'Dr. Doom', 'Dante', 'Vergil', 'Wesker', 'Wolverine', 'Akuma', 'Nova', 'Sentinel', 'Zero', 'Spencer', 'Magneto', 'Deadpool', 'Strider', 'Morrigan', 'Frank West', 'Taskmaster',
+        'Captain America', 'Dormammu', 'Ryu', 'Hulk', 'Amaterasu', 'Hawkeye', 'X-23', 'Phoenix Wright', 'Trish', 'Haggar', 'Chris Redfield', 'Iron Man', 'Super-Skrull', 'Spider-Man',
+        'Dr. Strange', 'Felicia', 'Nemesis', 'C. Viper', 'Chun-Li', 'Ghost Rider', 'Iron Fist', 'Phoenix', 'Tron Bonne', 'Rocket Raccoon', 'Firebrand', 'Hsien-Ko', 'Storm', 'Shuma-Gorath',
+        'Arthur', 'Viewtiful Joe', 'She-Hulk', 'Jill', 'Thor', 'Modok'
+      ];
       break;
     case 'P4AU':
       chars = [
