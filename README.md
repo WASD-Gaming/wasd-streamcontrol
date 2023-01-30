@@ -12,7 +12,9 @@ A completely reworked version of StreamControl using electron.
 ## To-Dos
 Various features I plan to add in no particular order:
 
-- Character tracking per match.
 - Incorporate direct Tweeting from app including clip selection.
 - Enable custom hotkeys.
 - Tweet templates.
+
+## Instructions
+Build with electron-builder --win portable
