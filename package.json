@@ -45,7 +45,6 @@
     }
   },
   "dependencies": {
-    "@electron/remote": "^2.0.9",
     "autocompleter": "^6.1.2",
     "datatables.net-dt": "^1.13.1",
     "electron-squirrel-startup": "^1.0.0",

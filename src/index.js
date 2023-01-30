@@ -3,8 +3,6 @@ const fs = require('fs');
 const robot = require('robotjs');
 const path = require('path');
 
-require('@electron/remote/main').initialize();
-
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -34,7 +32,6 @@ const createWindow = () => {
   // Open the DevTools. Uncomment this out when not building RC.
   mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
-  require('@electron/remote/main').enable(webContents);
 
   /* Hacky way to reload the last state of the app. Waits until the front end is loaded then sends
   a notification. */

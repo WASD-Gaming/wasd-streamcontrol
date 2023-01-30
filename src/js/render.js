@@ -1,7 +1,6 @@
 const fs = require('fs');
 const { app, ipcRenderer, clipboard } = require('electron');
 const path = require('path');
-const remote = require('@electron/remote');
 const twitter = require('./js/tweet-gen.js');
 const autocomplete = require('autocompleter');
 
@@ -1119,7 +1118,6 @@ function saveContent() {
   };
   let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
-  console.log(remote.getGlobal('sharedData'));
   try {
     fs.writeFileSync(savePath + '\\' + 'streamcontrol.json', stringedJSON)
     console.log('Saved!');
