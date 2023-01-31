@@ -106,6 +106,7 @@ var gPlayers = [];
 var gTeams = [];
 var gRounds = [];
 var savePath = getSavePath();
+var chars;
 
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
@@ -125,6 +126,7 @@ document.querySelector('#adjustBtn').addEventListener('click', () => {
 
 document.querySelector('#swapBtn').addEventListener('click', () => {
   swapPlayers();
+  swapChars();
 });
 
 document.querySelector('#swapComBtn').addEventListener('click', () => {
@@ -407,8 +409,6 @@ document.addEventListener('input', function (event) {
   // Clearing out old game characters
   removeOptions(p1Char);
   removeOptions(p2Char);
-
-  var chars;
 
 	switch (event.target.value) {
     case 'BBCF':
@@ -745,6 +745,40 @@ function swapComs() {
   com2Twitter.value = com1.twitter;
 }
 
+function swapChars() {
+  var p1Chars = [...p1Char.options]
+                     .filter(x => x.selected)
+                     .map(x => x.value);
+      
+  var p2Chars = [...p2Char.options]
+                    .filter(x => x.selected)
+                    .map(x => x.value);
+
+  // This is janky as hell but it was the only way I could think of to check
+  // the box on the dropdown with minimal effort.
+  removeOptions(p1Char);
+  removeOptions(p2Char);
+
+  var sortedChars = chars.sort();
+  for (var i = 0; i < sortedChars.length; i++){
+    var character = sortedChars[i];
+    var element = document.createElement("option");
+    element.innerText = character;
+    if(p2Chars.includes(character)) element.selected = true;
+    p1Char.append(element);
+    p1Char.loadOptions();
+  }
+
+  for (var i = 0; i < sortedChars.length; i++){
+    var character = sortedChars[i];
+    var element = document.createElement("option");
+    element.innerText = character;
+    if(p1Chars.includes(character)) element.selected = true;
+    p2Char.append(element);
+    p2Char.loadOptions();
+  }
+}
+
 function resetScores() {
   p1Score.value = 0;
   p2Score.value = 0;
@@ -756,12 +790,14 @@ function clearFields() {
   p1Score.value = 0;
   p1Win.checked = false;
   p1Loss.checked = false;
+  p1Char.value = '';
 
   p2Name.value = '';
   p2Team.value = '';
   p2Score.value = 0;
   p2Win.ckecked = false;
   p2Loss.checked = false;
+  p2Char.value = '';
 }
 
 /* HOTKEY HANDING
