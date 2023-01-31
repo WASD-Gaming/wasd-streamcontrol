@@ -139,6 +139,31 @@ body {
         body .container .tab-info form .row select {
           background-color: #2C2F33;
           border-color: #2C2F33; }
+        body .container .tab-info form .row .multiselect-dropdown-list {
+          background-color: #2C2F33; }
+        body .container .tab-info form .row .multiselect-dropdown-list-wrapper {
+          background-color: #2C2F33;
+          border: 0px solid transparent;
+          box-shadow: none; }
+        body .container .tab-info form .row .multiselect-dropdown-list div:hover {
+          background-color: #517bff; }
+        body .container .tab-info form .row .multiselect-dropdown span.optext {
+          background-color: #517bff; }
+        body .container .tab-info form .row .multiselect-dropdown span.maxselected {
+          background-color: #517bff; }
+        body .container .tab-info form .row .multiselect-dropdown {
+          background-color: #2C2F33;
+          border-color: #2C2F33;
+          margin-right: 10px;
+          height: 32px;
+          width: 255px !important; }
+          body .container .tab-info form .row .multiselect-dropdown label {
+            min-width: 15px;
+            margin: 0; }
+          body .container .tab-info form .row .multiselect-dropdown input[type=checkbox] {
+            margin-left: 0; }
+          body .container .tab-info form .row .multiselect-dropdown span .placeholder {
+            color: white; }
         body .container .tab-info form .row textarea {
           height: 300px;
           width: 700px;

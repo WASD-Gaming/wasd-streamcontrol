@@ -1,5 +1,6 @@
 const fs = require('fs');
-const { ipcRenderer, clipboard } = require('electron');
+const { app, ipcRenderer, clipboard } = require('electron');
+const path = require('path');
 const twitter = require('./js/tweet-gen.js');
 const autocomplete = require('autocompleter');
 
@@ -104,6 +105,7 @@ const lFinals2Score = document.getElementById('lFinals2Score');
 var gPlayers = [];
 var gTeams = [];
 var gRounds = [];
+var savePath = getSavePath();
 
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
@@ -425,11 +427,51 @@ document.addEventListener('input', function (event) {
       ];
       break;
     case 'BBTAG':
+      chars = [
+        'Azrael', 'Celica A. Mercury', 'Es', 'Hakumen', 'Hazama', 'Iron Tager', 'Izayoi', 'Jin Kisaragi', 'Jubei', 'Mai Natsume', 'Makoto Nanaya',
+        'Naoto Kurogane', 'Nine the Phantom', 'Noel Vermillion', 'Nu-13', 'Platinum the Trinity', 'Rachel Alucard', 'Ragna the Bloodedge', "Susano'o",
+        'Aegis', 'Akihiko Sanada', 'Chie Satonaka', 'Elizabeth', 'Kanji Tatsumi', 'Labrys', 'Mitsuru Kirijo', 'Naoto Shirogane', 'Teddie', 'Tohru Adachi',
+        'Yousuke Hanamura', 'Yu Narukami', 'Yukiki Amagi', 'Carmine', 'Gordeau', 'Hilda', 'Hyde', 'Linne', 'Merkava', 'Mika', 'Orie', 'Seth', 'Vatista',
+        'Waldstein', 'Yuzuriha', 'Blake Belladonna', 'Neo Politan', 'Ruby Rose', 'Weiss Schnee', 'Yang Xia Long', 'Heart Aino', 'Yumi', 'Akatsuki', 'Blitztank'
+      ];
+      break;
     case 'DBFZ':
+      chars = [
+        'Android 16', 'Android 17', 'Android 18', 'Android 21', 'Lab Coat Android 21', 'Bardock', 'Beerus', 'Broly', 'DBS Broly', 'Captain Ginyu', 'Cell', 'Cooler',
+        'Frieza', 'SSB Gogeta', 'SS4 Gogeta', 'Teen Gohan', 'Adult Gohan', 'Goku', 'SS Goku', 'SSB Goku', 'UI Goku', 'GT Goku', 'Goku Black', 'Gotenks', 'Hit', 'Janemba',
+        'Jiren', 'Kefla', 'Kid Buu', 'Krillin', 'Majin Buu', 'Master Roshi', 'Nappa', 'Piccolo', 'Super Baby 2', 'Tien', 'Trunks', 'Vegeta', 'SS Vegeta', 'SSB Vegeta',
+        'SSB Vegito', 'Videl', 'Yamcha', 'Fused Zamasu'
+      ];
+      break;
     case 'KOFXV':
+      chars = [
+        "Shun'ei", 'Meitenkun', 'Benimaru Nikaido', 'Ash Crimson', 'Elisabeth', 'Kukri', 'Kyo Kusanagi', 'Iori Yagami', 'Chizuru Kagura', "K'", 'Maxima',
+        'Whip', 'Isla', 'Heidern', 'Dolores', 'Terry Bogard', 'Andy Bogard', 'Joe Higashi', 'Ryo Sakazaki', 'Robert Garcia', 'King', 'Yashiro Nanakase',
+        'Shermie', 'Chris', 'Athena Asamiya', 'Yuri Sakazaki', 'Mai Shiranui', 'Leona Heidern', 'Ralf Jones', 'Clark Still', 'Antonov', 'Ramon', 'King of Dinosaurs',
+        'Krohnen', 'Kula Diamond', 'Angel', 'Blue Mary', 'Vanessa', 'Luong', 'Rock Howard', 'B. Jenet', 'Gato', 'Geese Howard', 'Billy Kane', 'Ryuji Yamazaki', 'Orochi Yashiro',
+        'Orochi Shermie', 'Orochi Chris', 'Haohmaru', 'Nakoruru', 'Darli Dagger', 'Shingo Yabuki', 'Omega Rugal'
+      ];
+      break;
     case 'MVCI':
+      chars = [
+        'Arthur', 'Chris', 'Chun-Li', 'Dante', 'Firebrand', 'Frank West', 'Haggar', 'Jedah', 'Monster Hunter', 'Morrigan', 'Nemesis', 'Ryu', 'Sigma', 'Spencer', 'Strider Hiryu',
+        'X', 'Zero', 'Black Panther', 'Black Widow', 'Captain America', 'Captain Marvel', 'Doctor Strange', 'Dormammu', 'Gamora', 'Ghost Rider', 'Hawkeye', 'Hulk', 'Iron Man', 'Nova',
+        'Rocket Raccoon', 'Spider-Man', 'Thanos', 'Thor', 'Ultron', 'Venom', 'Winter Soldier'
+      ];
+      break;
     case 'UMVC3':
-      chars = ['Teams Not Supported'];
+      chars = [
+        'Dr. Doom', 'Dante', 'Vergil', 'Wesker', 'Wolverine', 'Akuma', 'Nova', 'Sentinel', 'Zero', 'Spencer', 'Magneto', 'Deadpool', 'Strider', 'Morrigan', 'Frank West', 'Taskmaster',
+        'Captain America', 'Dormammu', 'Ryu', 'Hulk', 'Amaterasu', 'Hawkeye', 'X-23', 'Phoenix Wright', 'Trish', 'Haggar', 'Chris Redfield', 'Iron Man', 'Super-Skrull', 'Spider-Man',
+        'Dr. Strange', 'Felicia', 'Nemesis', 'C. Viper', 'Chun-Li', 'Ghost Rider', 'Iron Fist', 'Phoenix', 'Tron Bonne', 'Rocket Raccoon', 'Firebrand', 'Hsien-Ko', 'Storm', 'Shuma-Gorath',
+        'Arthur', 'Viewtiful Joe', 'She-Hulk', 'Jill', 'Thor', 'Modok'
+      ];
+      break;
+    case 'P4AU':
+      chars = [
+        'Aigis', 'Akihiko Sanada', 'Chie Satonaka', 'Elizabeth', 'Junpei Iori', 'Kanji Tatsumi', 'Ken Amada',  'Labrys', 'Margaret', 'Marie', 'Mitsuru Kirijo', 'Naoto Shirogane', 'Rise Kujikawa', 'Shadow Labrys',
+        'SHO Minazuki', 'Sho MINAZUKI', 'Teddie', 'Tohru Adachi', 'Yosuke Hanamura', 'Yu Narukami', 'Yukari Takeba', 'Yukiko Amagi'
+      ];
       break;
     case 'GBVS':
       chars = [
@@ -458,11 +500,25 @@ document.addEventListener('input', function (event) {
         'Neco-Arc', 'Mash Kyrielight', 'Edmond Dantes', 'Ushiwakamaru'
       ];
       break;
-    case 'SSFVCE':
-      chars = [];
+    case 'SFVCE':
+      chars = [
+        'Ryu', 'Chun-Li', 'Nash', 'M. Bison', 'Cammy', 'Birdie', 'Ken', 'Necalli', 'Vega', 'R.Mika', 'Rashid', 'Karin', 'Zangief', 'Laura', 'Dhalism', 'F.A.N.G',
+        'Alex', 'Guile', 'Ibuki', 'Balrog', 'Juri', 'Urien', 'Akuma', 'Kolin', 'Ed', 'Abigail', 'Menat', 'Zeku', 'Sakura', 'Blanka', 'Falke', 'Cody', 'G', 'Sagat',
+        'Kage', 'E. Honda', 'Lucia', 'Poison', 'Gill', 'Seth', 'Dan', 'Rose', 'Oro', 'Akira', 'Luke'
+      ];
+      break;
+    case 'SF6':
+      chars = [
+         'Ryu', 'Luke', 'Jamie', 'Chun-Li', 'Guile', 'Kimberly', 'Juri', 'Ken', 'Blanka', 'Dhalism', 'E. Honda', 'Dee Jay', 'Manon', 'Marisa', 'JP'
+      ];
       break;
     case 'TEKKEN7':
-      chars = [];
+      chars = [
+        'Asuka', 'Akuma', 'King', 'Jin', 'Lili', 'Kazuya', 'Kazumi', 'Eliza', 'Josie', 'Dragunov', 'Lucky Chloe', 'Geese Howard', 'Katarina', 'Hwoarang', 'Bryan', 'Steve',
+        'Miguel', 'Feng', 'Alisa', 'Lars', 'Nina', 'Xiaoyu', 'Lee', 'Paul', 'Noctis', 'Law', 'Heihachi', 'Armor King', 'Leo', 'Devil Jin', 'Yoshimitsu', 'Claudio', 'Julia',
+        'Shaheen', 'Master Raven', 'Anna', 'Negan', 'Kuma', 'Bob', 'Gigas', 'Jack-7', 'Eddy', 'Lei', 'Kunimitsu', 'Leroy', 'Marduk', 'Fahkumram', 'Zafina', 'Lidia',
+        'Panda', 'Ganryu'
+      ];
       break;
     case 'UNICLR':
       chars = [
@@ -471,7 +527,11 @@ document.addEventListener('input', function (event) {
       ];
       break;
     case 'USF4':
-      chars = [];
+      chars = [
+        'Abel', 'Adon', 'Akuma', 'Balrog', 'Blanka', 'C. Viper', 'Cammy', 'Chun-Li', 'Cody', 'Dan', 'Decapre', 'Dee Jay', 'Dhalsim', 'Dudley', 'E. Honda',
+        'El Fuerte', 'Elena', 'Evil Ryu', 'Fei Long', 'Gen', 'Gouken', 'Guile', 'Guy', 'Hakan', 'Hugo', 'Ibuki', 'Juri', 'Ken', 'M. Bison', 'Makoto', 'Oni',
+        'Poison', 'Rolento', 'Rose', 'Rufus', 'Ryu', 'Sagat', 'Sakura', 'Seth', 'T. Hawk', 'Vega', 'Yang', 'Yun', 'Zangief'
+      ];
       break;
     default:
     // Defaulting to BBCF
@@ -491,6 +551,7 @@ document.addEventListener('input', function (event) {
     var element = document.createElement("option");
     element.innerText = character;
     p1Char.append(element);
+    p1Char.loadOptions();
   }
 
   for (var i = 0; i < sortedChars.length; i++){
@@ -498,6 +559,7 @@ document.addEventListener('input', function (event) {
     var element = document.createElement("option");
     element.innerText = character;
     p2Char.append(element);
+    p2Char.loadOptions();
   }
 
 }, false);
@@ -750,6 +812,13 @@ It then adds it to a table on the Match History tab to be viewed later. Addition
 preliminary sorting work.
 */
 
+function getSavePath() {
+  let result = ipcRenderer.sendSync('read-user-data');
+  let rawdata = fs.readFileSync(result + '\\' + 'settings.json');
+  let data = JSON.parse(rawdata);
+  return data.savePath;
+}
+
 function saveSet() {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
@@ -757,62 +826,85 @@ function saveSet() {
   let roundName = round.value;
 
   try {
-    if (fs.existsSync(fileName + '.json')) {
+    if (fs.existsSync(savePath + '\\' + fileName + '.json')) {
       //file exists
-      let rawdata = fs.readFileSync(fileName + '.json');
+      let rawdata = fs.readFileSync(savePath + '\\' + fileName + '.json');
       let data = JSON.parse(rawdata);
+
+      var p1Chars = [...p1Char.options]
+                     .filter(x => x.selected)
+                     .map(x => x.value);
+      
+      var p2Chars = [...p2Char.options]
+                    .filter(x => x.selected)
+                    .map(x => x.value);
 
       if (!(roundName in data) && roundName !== '') {
         data[roundName] = [{
           p1Team: p1Team.value,
           p1Name: p1Name.value,
           p1Score: p1Score.value,
-          p1Char: p1Char.value,
+          p1Char: p1Chars,
           p2Team: p2Team.value,
           p2Name: p2Name.value,
           p2Score: p2Score.value,
-          p2Char: p2Char.value,
+          p2Char: p2Chars,
         }]
 
         let stringedJSON = JSON.stringify(data, null, 4);
         try {
-          fs.writeFileSync(fileName + '.json', stringedJSON)
+          fs.writeFileSync(savePath + '\\' + fileName + '.json', stringedJSON)
           console.log('Saved Set!');
         }
         catch(e) { alert('Failed to save the file !'); }
       } else {
+        var p1Chars = [...p1Char.options]
+                      .filter(x => x.selected)
+                      .map(x => x.value);
+
+        var p2Chars = [...p2Char.options]
+                      .filter(x => x.selected)
+                      .map(x => x.value);
+
         data[roundName].push(
           {
           p1Team: p1Team.value,
           p1Name: p1Name.value,
           p1Score: p1Score.value,
-          p1Char: p1Char.value,
+          p1Char: p1Chars,
           p2Team: p2Team.value,
           p2Name: p2Name.value,
           p2Score: p2Score.value,
-          p2Char: p2Char.value,
+          p2Char: p2Chars,
         }
         );
 
         let stringedJSON = JSON.stringify(data, null, 4);
         try {
-          fs.writeFileSync(fileName + '.json', stringedJSON)
+          fs.writeFileSync(savePath + '\\' + fileName + '.json', stringedJSON)
           console.log('Saved Set!');
         }
         catch(e) { alert('Failed to save the file !'); }
       }
     } else {
+      var p1Chars = [...p1Char.options]
+                    .filter(x => x.selected)
+                    .map(x => x.value);
+
+      var p2Chars = [...p2Char.options]
+                    .filter(x => x.selected)
+                    .map(x => x.value);
       let json = {
         [roundName]: [
           {
             p1Team: p1Team.value,
             p1Name: p1Name.value,
             p1Score: p1Score.value,
-            p1Char: p1Char.value,
+            p1Char: p1Chars,
             p2Team: p2Team.value,
             p2Name: p2Name.value,
             p2Score: p2Score.value,
-            p2Char: p2Char.value,
+            p2Char: p2Chars,
           }
         ]
       }
@@ -821,7 +913,7 @@ function saveSet() {
       console.log(stringedJSON);
 
       try {
-        fs.writeFileSync(fileName + '.json', stringedJSON)
+        fs.writeFileSync(savePath + '\\' + fileName + '.json', stringedJSON)
         console.log('Saved Set!');
       }
       catch(e) { alert('Failed to save the file !'); }
@@ -835,7 +927,7 @@ function populateMatchHistory() {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(savePath + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
   console.log(data);
 
@@ -850,18 +942,18 @@ function populateMatchHistory() {
       if(match.p1Score > match.p2Score) {
         tr.innerHTML = '<td>' + round + '</td>' +
         '<td class="winner">' + match.p1Team + ' ' + match.p1Name + '</td>' +
-        '<td>' + match.p1Char + '</td>' +
+        '<td>' + match.p1Char.join(', ') + '</td>' +
         '<td>' + match.p1Score + '</td>' +
         '<td class="loser">' + match.p2Team + ' ' + match.p2Name + '</td>' +
-        '<td>' + match.p2Char + '</td>' +
+        '<td>' + match.p2Char.join(', ') + '</td>' +
         '<td>' + match.p2Score + '</td>';
       } else {
         tr.innerHTML = '<td>' + round + '</td>' +
         '<td class="loser">' + match.p1Team + ' ' + match.p1Name + '</td>' +
-        '<td>' + match.p1Char + '</td>' +
+        '<td>' + match.p1Char.join(', ') + '</td>' +
         '<td>' + match.p1Score + '</td>' +
         '<td class="winner">' + match.p2Team + ' ' + match.p2Name + '</td>' +
-        '<td>' + match.p2Char + '</td>' +
+        '<td>' + match.p2Char.join(', ') + '</td>' +
         '<td>' + match.p2Score + '</td>';
       }
       table.tBodies[0].appendChild(tr);
@@ -900,7 +992,7 @@ function getCharactersForPlayer(player) {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(savePath + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
   let characters = [];
 
@@ -911,11 +1003,15 @@ function getCharactersForPlayer(player) {
     data[round].forEach(function(match){
       if(match.p1Name.toUpperCase() === player.toUpperCase()) {
         // Sorting out duplicate entries of the same character
-        if(!characters.includes(match.p1Char) && match.p1Char != '') characters.push(match.p1Char);
+        match.p1Char.forEach(function(character){
+          if(!characters.includes(character) && character != '') characters.push(character);
+        })
       }
       if(match.p2Name.toUpperCase() === player.toUpperCase()) {
         // Sorting out duplicate entries of the same character
-        if(!characters.includes(match.p2Char) && match.p2Char != '') characters.push(match.p2Char);
+        match.p2Char.forEach(function(character){
+          if(!characters.includes(character) && character != '') characters.push(character);
+        })
       }
     });
   });
@@ -927,7 +1023,7 @@ function isRunback(player1, player2){
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(savePath + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
 
   let result = false;
@@ -953,7 +1049,7 @@ function getFormerMatchResults(player1, player2) {
   var bracketParts = bracket.value.split('/');
   let fileName = bracketParts.pop() || bracketParts.pop();
 
-  let rawdata = fs.readFileSync(fileName + '.json');
+  let rawdata = fs.readFileSync(savePath + '\\' + fileName + '.json');
   let data = JSON.parse(rawdata);
 
   let result = [];
@@ -1110,10 +1206,10 @@ function saveContent() {
   let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
   try {
-    fs.writeFileSync('streamcontrol.json', stringedJSON)
+    fs.writeFileSync(savePath + '\\' + 'streamcontrol.json', stringedJSON)
     console.log('Saved!');
   }
-  catch(e) { alert('Failed to save the file !'); }
+  catch(e) { alert('Failed to save the file at ' + savePath + '\\' + 'streamcontrol.json' + '!'); }
 
   generateNotification('Info saved!');
   saveForAutocomplete();
@@ -1121,7 +1217,7 @@ function saveContent() {
 }
 
 function saveForAutocomplete() {
-  let rawdata = fs.readFileSync('autocomplete.json');
+  let rawdata = fs.readFileSync(savePath + '\\' + 'autocomplete.json');
   let data = JSON.parse(rawdata);
 
   let players = data.players;
@@ -1146,7 +1242,7 @@ function saveForAutocomplete() {
 
   let stringedJSON = JSON.stringify(json, null, 4);
   try {
-    fs.writeFileSync('autocomplete.json', stringedJSON)
+    fs.writeFileSync(savePath + '\\' + 'autocomplete.json', stringedJSON)
     console.log('Saved autocomplete!');
   }
   catch(e) {
@@ -1187,7 +1283,7 @@ anything more complex.
 */
 ipcRenderer.on('load-state', (event, arg) => {
   // Pulling the file from the harddrive and converting it to a readable format.
-  let rawdata = fs.readFileSync('streamcontrol.json');
+  let rawdata = fs.readFileSync(savePath + '\\' + 'streamcontrol.json');
   let data = JSON.parse(rawdata);
 
   // Inserting the data from the file into the UI.
@@ -1275,7 +1371,7 @@ ipcRenderer.on('load-state', (event, arg) => {
   lFinals2.value = data.lFinals2;
   lFinals2Score.value = data.lFinals2Score;
 
-  let acrawdata = fs.readFileSync('autocomplete.json');
+  let acrawdata = fs.readFileSync(savePath + '\\' + 'autocomplete.json');
   let acdata = JSON.parse(acrawdata);
 
   let players = acdata.players;

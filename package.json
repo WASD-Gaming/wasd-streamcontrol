@@ -1,8 +1,8 @@
 {
   "name": "stream-control",
   "productName": "stream-control",
-  "version": "1.0.0",
-  "description": "My Electron application description",
+  "version": "1.0.1",
+  "description": "An updated streamcontrol alternative with a focus on the FGC.",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -57,6 +57,12 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "electron": "17.2.0"
+    "electron": "17.2.0",
+    "electron-builder": "^23.6.0"
+  },
+  "build": {
+    "win": {
+      "icon": "wasd.ico"
+    }
   }
 }
