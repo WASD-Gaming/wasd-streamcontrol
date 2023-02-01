@@ -98,3 +98,8 @@ streamcontrol.json
 *.exe
 streamcontrol.json
 autocomplete.json
+autocomplete.json
+dist/stream-control Setup 1.0.0.exe
+*.exe
+*.blockmap
+streamcontrol.json
