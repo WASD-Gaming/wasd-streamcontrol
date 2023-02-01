@@ -1272,8 +1272,6 @@ function populateCharacters(game) {
   removeOptions(p1Char);
   removeOptions(p2Char);
 
-  console.log(game);
-
 	switch (game) {
     case 'BBCF':
       chars = [

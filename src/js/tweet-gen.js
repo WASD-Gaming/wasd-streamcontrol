@@ -4,12 +4,18 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 			alert("😔 Something went wrong. Please make sure you've entered both the Matcherino and Bracket URLs.");
 		}
 
-		var pathArray = bracket.split( '/' );
-		var tournament_slug = pathArray[3];
-
-		pathArray = bracket.split( '.' );
+		var pathArray = bracket.split( '.' );
 		var organization = pathArray[0].replace('https://','');
 		var service = pathArray[1];
+
+		pathArray = bracket.split( '/' );
+		var tournament_slug;
+
+		if(service === 'start') {
+			tournament_slug = pathArray[4];
+		} else if(service==='challonge') {
+			tournament_slug = pathArray[3];
+		}
 
 		var bodyDictionary = {
 			'service': service,
@@ -47,12 +53,18 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 				alert("😔 Something went wrong. Please make sure you've entered a Bracket URLs.");
 			}
 
-			var pathArray = bracket.split( '/' );
-			var tournament_slug = pathArray[3];
-
-			pathArray = bracket.split( '.' );
+			var pathArray = bracket.split( '.' );
 			var organization = pathArray[0].replace('https://','');
 			var service = pathArray[1];
+
+			pathArray = bracket.split( '/' );
+			var tournament_slug;
+
+			if(service === 'start') {
+				tournament_slug = pathArray[4];
+			} else if(service==='challonge') {
+				tournament_slug = pathArray[3];
+			}
 
 			var bodyDictionary = {
 				'service': service,
@@ -64,7 +76,7 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 				'com1': '',
 				'com2': '',
 			};
-			// console.log(bodyDictionary);
+			
 			const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
 			// const response  = await fetch('http://localhost:5001/tweet-gen', {
 				method: 'post',
