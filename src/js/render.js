@@ -644,6 +644,26 @@ function clearFields() {
   p2Win.ckecked = false;
   p2Loss.checked = false;
   p2Char.value = '';
+
+  removeOptions(p1Char);
+  removeOptions(p2Char);
+
+  var sortedChars = chars.sort();
+  for (var i = 0; i < sortedChars.length; i++){
+    var character = sortedChars[i];
+    var element = document.createElement("option");
+    element.innerText = character;
+    p1Char.append(element);
+    p1Char.loadOptions();
+  }
+
+  for (var i = 0; i < sortedChars.length; i++){
+    var character = sortedChars[i];
+    var element = document.createElement("option");
+    element.innerText = character;
+    p2Char.append(element);
+    p2Char.loadOptions();
+  }
 }
 
 /* HOTKEY HANDING
