@@ -682,6 +682,7 @@ ipcRenderer.on('adjust-action', (event, arg) => {
 
 ipcRenderer.on('swap-action', (event, arg) => {
   swapPlayers();
+  swapChars();
 });
 
 ipcRenderer.on('reset-action', (event, arg) => {
