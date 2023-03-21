@@ -1375,6 +1375,13 @@ function populateCharacters(game) {
         'Zato-1', 'Sin Kiske', 'Bridget'
       ];
       break;
+    case 'MBAACC':
+      chars = [
+        'Aoko Aozaki', 'Shiki Tohno', 'Archetype: Earth', 'Shiki Nanaya', 'Kouma Kishima', 'Miyako Arima', 'Ciel', 'Sion Eltnam Atlasia', 'Riesbyfe Stridberg', 'Sion TATARI',
+        'Warachia', 'Roa', 'Maids', 'Akiha Tohno', 'Arcueid Brunestud', 'Powered Ciel', 'Red Arcueid', 'Akiha Vermilion', 'Mech-Hisui', 'Akiha Tohno (Seifuku)',
+        'Satsuki Yumizuka', 'Len', 'Shiki Ryougi', 'White Len', 'Nero Chaos', 'Neco-Arc Chaos', 'Koha & Mech', 'Hisui', 'Neco-Arc', 'Kohaku', 'Neco & Mech'
+      ];
+    break;
     case 'MBTL':
       chars = [
         'Shiki Tohno', 'Arcueid Brunestud', 'Akiha Tohno', 'Ciel', 'Hisui', 'Kohaku', 'Maids', 'Miyako Arima', 'Kouma Kishima', 'Noel',
