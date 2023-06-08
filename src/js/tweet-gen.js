@@ -1,4 +1,4 @@
-module.exports.generateTweet = async function (button, matcherino, bracket, com1, com2) {
+module.exports.generateTweet = async function (button, matcherino, bracket, com1, com2, game) {
 
 		if (matcherino === '' || bracket === '') {
 			alert("😔 Something went wrong. Please make sure you've entered both the Matcherino and Bracket URLs.");
@@ -26,6 +26,7 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 			'bracket': bracket,
 			'com1': com1,
 			'com2': com2,
+			'game': game
 		};
 		// console.log(bodyDictionary);
 		const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
