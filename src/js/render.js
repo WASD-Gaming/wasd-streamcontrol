@@ -198,7 +198,7 @@ document.querySelector('#col-6').addEventListener('click', () => {
 });
 
 document.querySelector('#starting-soon').addEventListener('click', () => {
-  let p = twitter.generateTweet('starting-soon', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('starting-soon', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -206,7 +206,7 @@ document.querySelector('#starting-soon').addEventListener('click', () => {
 });
 
 document.querySelector('#kickoff').addEventListener('click', () => {
-  let p = twitter.generateTweet('kickoff', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('kickoff', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -214,7 +214,7 @@ document.querySelector('#kickoff').addEventListener('click', () => {
 });
 
 document.querySelector('#top-16').addEventListener('click', () => {
-  let p = twitter.generateTweet('top-16', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('top-16', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -222,7 +222,7 @@ document.querySelector('#top-16').addEventListener('click', () => {
 });
 
 document.querySelector('#top-8').addEventListener('click', () => {
-  let p = twitter.generateTweet('top-8', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('top-8', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -230,7 +230,7 @@ document.querySelector('#top-8').addEventListener('click', () => {
 });
 
 document.querySelector('#top-4').addEventListener('click', () => {
-  let p = twitter.generateTweet('top-4', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('top-4', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -238,7 +238,7 @@ document.querySelector('#top-4').addEventListener('click', () => {
 });
 
 document.querySelector('#losers-semis').addEventListener('click', () => {
-  let p = twitter.generateTweet('losers-semis', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('losers-semis', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -246,7 +246,7 @@ document.querySelector('#losers-semis').addEventListener('click', () => {
 });
 
 document.querySelector('#losers-finals').addEventListener('click', () => {
-  let p = twitter.generateTweet('losers-finals', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('losers-finals', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -254,7 +254,7 @@ document.querySelector('#losers-finals').addEventListener('click', () => {
 });
 
 document.querySelector('#grand-finals').addEventListener('click', () => {
-  let p = twitter.generateTweet('grand-finals', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('grand-finals', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -262,7 +262,7 @@ document.querySelector('#grand-finals').addEventListener('click', () => {
 });
 
 document.querySelector('#reset').addEventListener('click', () => {
-  let p = twitter.generateTweet('reset', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('reset', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
@@ -270,7 +270,7 @@ document.querySelector('#reset').addEventListener('click', () => {
 });
 
 document.querySelector('#results').addEventListener('click', () => {
-  let p = twitter.generateTweet('results', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value);
+  let p = twitter.generateTweet('results', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
   p.then(value => {
     tweetMessage.value = value;
     currentCount.innerHTML = tweetMessage.value.length;
