@@ -283,7 +283,7 @@ document.querySelector('#copy').addEventListener('click', () => {
 });
 
 document.querySelector('#populate-top-8-winners').addEventListener('click', () => {
-  let p = twitter.populateTop8('populate-top-8', bracket.value);
+  let p = twitter.populateTop8('populate-top-8', bracket.value, game.value);
   p.then(value => {
     let winners = value[0]['winners'];
     wsTop1.value = winners[0]['player1'];
@@ -340,7 +340,7 @@ document.querySelector('#populate-top-8-winners').addEventListener('click', () =
 });
 
 document.querySelector('#populate-top-8-losers').addEventListener('click', () => {
-  let p = twitter.populateTop8('populate-top-8', bracket.value);
+  let p = twitter.populateTop8('populate-top-8', bracket.value, game.value);
   p.then(value => {
     let winners = value[0]['winners'];
     wsTop1.value = winners[0]['player1'];
