@@ -10,6 +10,7 @@ if (require('electron-squirrel-startup')) {
 }
 
 let webContents;
+let apiWindow;
 
 const createWindow = () => {
   // Create the browser window.
@@ -79,7 +80,11 @@ function registerHotkeys(data) {
 ipcMain.on('keypress', (event, arg) => {
   // console.log(arg)  // prints the button pressed
   robot.keyTap(arg.toLowerCase());
-})
+});
+
+ipcMain.on('close-api', (event, arg) => {
+  apiWindow.close();
+});
 
 /* Quit when all windows are closed, except on macOS. There, it's common
 for applications and their menu bar to stay active until the user quits
@@ -130,6 +135,13 @@ const template = [
               selectFilePath();
           }
         },
+        {
+          label: 'Enter API Keys...',
+          click: async () => {
+              enterAPIKeys();
+          }
+        },
+        { type: 'separator' },
         {
           role: 'quit'
         }
@@ -192,6 +204,25 @@ async function selectFilePath() {
   } catch(err) {
     console.error(err)
   }
+}
+
+async function enterAPIKeys() {
+  apiWindow = new BrowserWindow({
+    height: 300,
+    width: 600,
+    show: true,
+    minimizable: false,
+    maximizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+    },
+    icon: 'wasd.ico',
+  });
+
+  apiWindow.removeMenu();
+  apiWindow.loadFile(path.join(__dirname, 'apis.html'));
 }
 
 ipcMain.on('read-user-data', async (event) => {

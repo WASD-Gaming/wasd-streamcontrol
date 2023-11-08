@@ -1,0 +1,124 @@
+$row-height: 45px;
+$border-color: #4184e4;
+$secondary-border-color: #444c56;
+$input-background: #2C2F33;
+$background-color: #23272A;
+$foreground-color: white;
+$accent-color: #517bff;
+$message-color: #ffb643;
+$wasd-red-color: #ff6952;
+$wasd-green-color: #00c46a;
+
+body {
+    color: $foreground-color;
+    background-color: $background-color;
+  
+    .icon {
+      color: $foreground-color !important;
+    }
+  
+    .container  {
+        margin: 50px 10px 0px 10px;
+        width: 100%;
+
+      form {
+        .center {
+          justify-content: center;
+        }
+
+        #tweet-buttons {
+          width: 680px;
+          margin-left: 110px;
+          margin-bottom: 30px;
+        }
+
+        #clip-set {
+          margin-top: 30px !important;
+        }
+
+        fieldset {
+          margin-top: 60px;
+          border-color: $input-background;
+
+          legend {
+            span {
+              margin: 0 10px;
+            }
+          }
+        }
+
+        .row {
+          min-height: $row-height;
+          display: flex;
+          align-items: center;
+          width: 100%;
+
+          label {
+            margin: 0 10px 0 0;
+            min-width: 100px;
+          }
+
+          input {
+            margin: 0 10px 0 0;
+            background-color: $input-background;
+            border-color: $input-background;
+          }
+
+          input[type=search]::-webkit-search-cancel-button {
+            -webkit-appearance: searchfield-cancel-button;
+            cursor: auto;
+          }
+
+          input:focus {
+            border-color: $border-color;
+            outline-color: $border-color;
+          }
+
+          .form-control:focus {
+            box-shadow: 2px 2px 0 $border-color, -2px -2px 0 $border-color, -2px 2px 0 $border-color, 2px -2px 0 $border-color;
+          }
+
+          select {
+            background-color: $input-background;
+            border-color: $input-background;
+          }
+
+          #challonge-api-key, #start-api-key {
+            width: 450px;
+          }
+
+          button {
+            margin-left: 10px;
+            height: 40px;
+            min-width: 70px;
+            color: $foreground-color;
+            background-image:none;
+            border-color: $input-background;
+          }
+
+          #cancelAPIsBtn {
+            background-color: $wasd-red-color;
+          }
+
+          #cancelAPIsBtn:hover {
+            background-color: $foreground-color;
+            color: $wasd-red-color;
+          } 
+
+          #saveAPIsBtn {
+            background-color: $wasd-green-color;
+          }
+
+          #saveAPIsBtn:hover {
+            background-color: $foreground-color;
+            color: $wasd-green-color;
+          }
+
+          button:hover {
+            background-color: $foreground-color;
+            color: $accent-color;
+          }
+        }
+      }
+    }
+  }

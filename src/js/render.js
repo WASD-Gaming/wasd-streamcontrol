@@ -277,6 +277,14 @@ document.querySelector('#results').addEventListener('click', () => {
   });
 });
 
+document.querySelector('#player-list').addEventListener('click', () => {
+  let p = twitter.generateTweet('player-list', matcherino.value, bracket.value, com1Twitter.value, com2Twitter.value, game.value);
+  p.then(value => {
+    tweetMessage.value = value;
+    currentCount.innerHTML = tweetMessage.value.length;
+  });
+});
+
 document.querySelector('#copy').addEventListener('click', () => {
   clipboard.writeText(tweetMessage.value, 'selection');
   generateNotification('Tweet coppied to clipboard!');

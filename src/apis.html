@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>API Keys</title>
+
+    <link rel="stylesheet" href="css/photon.min.css">
+    <link rel="stylesheet" href="css/api.css" />
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script defer src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script defer src="js/api.js"></script>
+    <script>if (window.module) module = window.module;</script>
+  </head>
+  <body>
+    <div class="container">
+        <form>
+            <div class="row form-group">
+              <label>Challonge Key</label>
+              <input class="form-control" id="challonge-api-key" type="search" name="Challonge API Key">
+            </div>
+            <div class="row form-group">
+              <label>Start.gg Key</label>
+              <input class="form-control" id="start-api-key" type="search" name="Startgg API Key">
+            </div>
+            <div class="row center">
+                <button type="button" class="btn btn-default" id="saveAPIsBtn">Save & Close</button>
+                <button type="button" class="btn btn-default" id="cancelAPIsBtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+  </body>
+</html>
