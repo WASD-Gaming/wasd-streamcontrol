@@ -1370,6 +1370,13 @@ function populateCharacters(game) {
         'Narmaya', 'Soriz', 'Djeeta', 'Zooey', 'Belial', 'Cagliostro', 'Yuel', 'Anre', 'Eustace', 'Seox', 'Vira', 'Avatar Belial'
       ];
       break;
+    case 'GBVSR':
+      chars = [
+          'Gran', 'Katalina', 'Charlotta', 'Lancelot', 'Ferry', 'Lowain', 'Ladiva', 'Percival', 'Metera', 'Zeta', 'Vaseraga', 'Beelzebub',
+          'Narmaya', 'Soriz', 'Djeeta', 'Zooey', 'Belial', 'Cagliostro', 'Yuel', 'Anre', 'Eustace', 'Seox', 'Vira', 'Avatar Belial', 'Anila',
+          'Siegfried', 'Nier', 'Grimnir'
+      ];
+      break;
     case 'GGXRD':
       chars = [
         'Answer', 'Axl Low', 'Baiken', 'Bedman', 'Chipp Zanuff', 'Dizzy', 'Elphelt Valentine', 'Faust', 'I-No', "Jack-O'", 'Jam Kuradoberi',
@@ -1422,6 +1429,12 @@ function populateCharacters(game) {
       chars = [
         'Hyde', 'Linne', 'Waldstein', 'Carmine', 'Orie', 'Gordeau', 'Merkava', 'Vatista', 'Seth', 'Yuzuriha', 'Hilda', 'Chaos', 'Nanase',
         'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki'
+      ];
+      break;
+    case 'UNISC':
+      chars = [
+          'Hyde', 'Linne', 'Waldstein', 'Carmine', 'Orie', 'Gordeau', 'Merkava', 'Vatista', 'Seth', 'Yuzuriha', 'Hilda', 'Chaos', 'Nanase',
+          'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki', 'Tsurugi', 'Kagyua', 'Kuon'
       ];
       break;
     case 'USF4':
