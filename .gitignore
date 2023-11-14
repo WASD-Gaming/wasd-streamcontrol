@@ -103,3 +103,4 @@ dist/stream-control Setup 1.0.0.exe
 *.exe
 *.blockmap
 streamcontrol.json
+keys.json
