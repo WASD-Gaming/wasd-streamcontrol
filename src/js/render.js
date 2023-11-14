@@ -1192,9 +1192,10 @@ and loads it into the fields of the app. I'm sure there are 'better' and
 cleaner ways to handle this, but the app is so simple it doesn't really warrant
 anything more complex.
 */
-ipcRenderer.on('load-state', (event, arg) => {
+
+document.addEventListener("DOMContentLoaded", (event) => {
   // Pulling the file from the harddrive and converting it to a readable format.
-  let rawdata = fs.readFileSync(savePath + '\\' + 'streamcontrol.json');
+  let rawdata = fs.readFileSync(savePath + '\\streamcontrol.json');
   let data = JSON.parse(rawdata);
 
   // Inserting the data from the file into the UI.
@@ -1293,7 +1294,6 @@ ipcRenderer.on('load-state', (event, arg) => {
   formatTeamsArray(teams);
   formatRoundsArray(rounds);
   populateCharacters(game.value);
-
 });
 
 function populateCharacters(game) {

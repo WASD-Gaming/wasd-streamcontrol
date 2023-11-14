@@ -33,12 +33,6 @@ const createWindow = () => {
   // Open the DevTools. Uncomment this out when not building RC.
   mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
-
-  /* Hacky way to reload the last state of the app. Waits until the front end is loaded then sends
-  a notification. */
-  webContents.once('dom-ready', () => {
-    sendNotification('load-state');
-  });
 };
 
 /* This method will be called when Electron has finished
@@ -101,9 +95,6 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
-
-  // Loading the previous app state.
-  sendNotification('load-state');
 });
 
 app.on('will-quit', () => {

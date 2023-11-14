@@ -1,0 +1,186 @@
+{
+    "Round 1": [
+        {
+            "p1Team": "JPV | SDB",
+            "p1Name": "Soulrobba",
+            "p1Score": "0",
+            "p1Char": [
+                "Charlotta"
+            ],
+            "p2Team": "",
+            "p2Name": "DotMP4",
+            "p2Score": "2",
+            "p2Char": [
+                "Yuel"
+            ]
+        },
+        {
+            "p1Team": "",
+            "p1Name": "RedMageSusie",
+            "p1Score": "0",
+            "p1Char": [
+                "Djeeta"
+            ],
+            "p2Team": "",
+            "p2Name": "CharCharRealSmooth",
+            "p2Score": "2",
+            "p2Char": [
+                "Vira"
+            ]
+        }
+    ],
+    "Round 2": [
+        {
+            "p1Team": "",
+            "p1Name": "Inspector",
+            "p1Score": "2",
+            "p1Char": [
+                "Percival"
+            ],
+            "p2Team": "",
+            "p2Name": "Bloo",
+            "p2Score": "0",
+            "p2Char": [
+                "Eustace"
+            ]
+        },
+        {
+            "p1Team": "",
+            "p1Name": "Umbi",
+            "p1Score": "2",
+            "p1Char": [
+                "Katalina"
+            ],
+            "p2Team": "",
+            "p2Name": "Xurkey",
+            "p2Score": "0",
+            "p2Char": [
+                "Charlotta"
+            ]
+        },
+        {
+            "p1Team": "",
+            "p1Name": "SenpaiSpyder",
+            "p1Score": "2",
+            "p1Char": [
+                "Metera"
+            ],
+            "p2Team": "",
+            "p2Name": "Inspector",
+            "p2Score": "0",
+            "p2Char": [
+                "Percival"
+            ]
+        }
+    ],
+    "Winners Semifinals": [
+        {
+            "p1Team": "",
+            "p1Name": "Mrs. Nameless",
+            "p1Score": "2",
+            "p1Char": [
+                "Cagliostro"
+            ],
+            "p2Team": "",
+            "p2Name": "Umbi",
+            "p2Score": "1",
+            "p2Char": [
+                "Katalina"
+            ]
+        }
+    ],
+    "Losers Quarter Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "Makouna",
+            "p1Score": "2",
+            "p1Char": [
+                "Yuel"
+            ],
+            "p2Team": "",
+            "p2Name": "Inspector",
+            "p2Score": "1",
+            "p2Char": [
+                "Percival"
+            ]
+        },
+        {
+            "p1Team": "",
+            "p1Name": "Umbi",
+            "p1Score": "0",
+            "p1Char": [
+                "Katalina"
+            ],
+            "p2Team": "JPV",
+            "p2Name": "DotMP4",
+            "p2Score": "2",
+            "p2Char": [
+                "Yuel"
+            ]
+        }
+    ],
+    "Winners Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "SenpaiSpyder",
+            "p1Score": "3",
+            "p1Char": [
+                "Anre"
+            ],
+            "p2Team": "",
+            "p2Name": "Mrs. Nameless",
+            "p2Score": "1",
+            "p2Char": [
+                "Cagliostro"
+            ]
+        }
+    ],
+    "Losers Semifinals": [
+        {
+            "p1Team": "",
+            "p1Name": "DotMP4 (White)",
+            "p1Score": "2",
+            "p1Char": [
+                "Yuel"
+            ],
+            "p2Team": "",
+            "p2Name": "Makouna (Brown)",
+            "p2Score": "0",
+            "p2Char": [
+                "Yuel"
+            ]
+        }
+    ],
+    "Losers Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "Mrs. Nameless",
+            "p1Score": "3",
+            "p1Char": [
+                "Cagliostro"
+            ],
+            "p2Team": "",
+            "p2Name": "DotMP4",
+            "p2Score": "1",
+            "p2Char": [
+                "Yuel"
+            ]
+        }
+    ],
+    "Grand Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "SenpaiSpyder",
+            "p1Score": "2",
+            "p1Char": [
+                "Metera"
+            ],
+            "p2Team": "",
+            "p2Name": "Mrs. Nameless",
+            "p2Score": "3",
+            "p2Char": [
+                "Cagliostro"
+            ]
+        }
+    ]
+}

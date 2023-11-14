@@ -1,0 +1,134 @@
+{
+    "Round 1": [
+        {
+            "p1Team": "",
+            "p1Name": "L_B_O_W",
+            "p1Score": "0",
+            "p1Char": [
+                "Waldstein"
+            ],
+            "p2Team": "",
+            "p2Name": "Ddmjc1",
+            "p2Score": "2",
+            "p2Char": [
+                "Yuzuriha"
+            ]
+        }
+    ],
+    "Round 2": [
+        {
+            "p1Team": "",
+            "p1Name": "FadedNick~ ",
+            "p1Score": "0",
+            "p1Char": [
+                "Seth"
+            ],
+            "p2Team": "",
+            "p2Name": "Malarky",
+            "p2Score": "2",
+            "p2Char": [
+                "Nanase"
+            ]
+        },
+        {
+            "p1Team": "",
+            "p1Name": "Tarik13",
+            "p1Score": "0",
+            "p1Char": [
+                "Gordeau"
+            ],
+            "p2Team": "",
+            "p2Name": "Roxiehalo",
+            "p2Score": "2",
+            "p2Char": [
+                "Vatista"
+            ]
+        }
+    ],
+    "Winners Semifinals": [
+        {
+            "p1Team": "",
+            "p1Name": "Malarky",
+            "p1Score": "0",
+            "p1Char": [
+                "Nanase"
+            ],
+            "p2Team": "",
+            "p2Name": "Mr. B",
+            "p2Score": "2",
+            "p2Char": [
+                "Orie"
+            ]
+        },
+        {
+            "p1Team": "",
+            "p1Name": "Roxiehalo",
+            "p1Score": "0",
+            "p1Char": [],
+            "p2Team": "",
+            "p2Name": "Defiant",
+            "p2Score": "2",
+            "p2Char": []
+        }
+    ],
+    "Losers Quarter Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "lvl0Slime",
+            "p1Score": "2",
+            "p1Char": [],
+            "p2Team": "",
+            "p2Name": "Malarky",
+            "p2Score": "0",
+            "p2Char": []
+        }
+    ],
+    "Winners Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "Mr. B",
+            "p1Score": "3",
+            "p1Char": [],
+            "p2Team": "",
+            "p2Name": "Defiant",
+            "p2Score": "0",
+            "p2Char": []
+        }
+    ],
+    "Losers Semifinals": [
+        {
+            "p1Team": "",
+            "p1Name": "Roxiehalo",
+            "p1Score": "2",
+            "p1Char": [],
+            "p2Team": "",
+            "p2Name": "lvl0Slime",
+            "p2Score": "1",
+            "p2Char": []
+        }
+    ],
+    "Losers Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "Roxiehalo",
+            "p1Score": "1",
+            "p1Char": [],
+            "p2Team": "",
+            "p2Name": "Defiant",
+            "p2Score": "3",
+            "p2Char": []
+        }
+    ],
+    "Grand Finals": [
+        {
+            "p1Team": "",
+            "p1Name": "Mr. B",
+            "p1Score": "0",
+            "p1Char": [],
+            "p2Team": "",
+            "p2Name": "Defiant",
+            "p2Score": "3",
+            "p2Char": []
+        }
+    ]
+}

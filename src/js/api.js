@@ -1,10 +1,19 @@
 const fs = require('fs');
 const { ipcRenderer, BrowserWindow } = require('electron');
+const { log } = require('console');
 
 const challongeAPIKey = document.getElementById('challonge-api-key');
 const startAPIKey = document.getElementById('start-api-key');
 
 var savePath = getSavePath();
+
+document.addEventListener("DOMContentLoaded", (event) => {
+  let rawdata = fs.readFileSync(savePath + '\\keys.json');
+  let data = JSON.parse(rawdata);
+
+  challongeAPIKey.value = data.challonge;
+  startAPIKey.value = data.start;
+});
 
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
@@ -18,15 +27,6 @@ document.querySelector('#saveAPIsBtn').addEventListener('click', () => {
 
 document.querySelector('#cancelAPIsBtn').addEventListener('click', () => {
     closeWindow();
-});
-
-ipcRenderer.on('load-state', (event, arg) => {
-// Pulling the file from the harddrive and converting it to a readable format.
-  let rawdata = fs.readFileSync(savePath + '\\keys.json');
-  let data = JSON.parse(rawdata);
-
-  challongeAPIKey.value = data.challonge;
-  startAPIKey.value = data.start;
 });
 
 function saveKeys() {
@@ -50,12 +50,16 @@ function saveKeys() {
 }
 
 function closeWindow() {
-    ipcRenderer.send('close-api', 'close');
+    // ipcRenderer.send('close-api', 'close');
+    let rawdata = fs.readFileSync(savePath + '\\keys.json');
+  let data = JSON.parse(rawdata);
+    alert('closed! ' + data.start);
+    startAPIKey.value = data.start;
 }
 
 function getSavePath() {
     let result = ipcRenderer.sendSync('read-user-data');
-    let rawdata = fs.readFileSync(result + '\\' + 'settings.json');
+    let rawdata = fs.readFileSync(result + '\\settings.json');
     let data = JSON.parse(rawdata);
     return data.savePath;
   }
