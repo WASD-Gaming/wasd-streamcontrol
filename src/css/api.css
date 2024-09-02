@@ -1,68 +1,88 @@
 body {
   color: white;
-  background-color: #23272A; }
-  body .icon {
-    color: white !important; }
-  body .container {
-    margin: 50px 10px 0px 10px;
-    width: 100%; }
-    body .container form .center {
-      justify-content: center; }
-    body .container form #tweet-buttons {
-      width: 680px;
-      margin-left: 110px;
-      margin-bottom: 30px; }
-    body .container form #clip-set {
-      margin-top: 30px !important; }
-    body .container form fieldset {
-      margin-top: 60px;
-      border-color: #2C2F33; }
-      body .container form fieldset legend span {
-        margin: 0 10px; }
-    body .container form .row {
-      min-height: 45px;
-      display: flex;
-      align-items: center;
-      width: 100%; }
-      body .container form .row label {
-        margin: 0 10px 0 0;
-        min-width: 100px; }
-      body .container form .row input {
-        margin: 0 10px 0 0;
-        background-color: #2C2F33;
-        border-color: #2C2F33; }
-      body .container form .row input[type=search]::-webkit-search-cancel-button {
-        -webkit-appearance: searchfield-cancel-button;
-        cursor: auto; }
-      body .container form .row input:focus {
-        border-color: #4184e4;
-        outline-color: #4184e4; }
-      body .container form .row .form-control:focus {
-        box-shadow: 2px 2px 0 #4184e4, -2px -2px 0 #4184e4, -2px 2px 0 #4184e4, 2px -2px 0 #4184e4; }
-      body .container form .row select {
-        background-color: #2C2F33;
-        border-color: #2C2F33; }
-      body .container form .row #challonge-api-key, body .container form .row #start-api-key {
-        width: 450px; }
-      body .container form .row button {
-        margin-left: 10px;
-        height: 40px;
-        min-width: 70px;
-        color: white;
-        background-image: none;
-        border-color: #2C2F33; }
-      body .container form .row #cancelAPIsBtn {
-        background-color: #ff6952; }
-      body .container form .row #cancelAPIsBtn:hover {
-        background-color: white;
-        color: #ff6952; }
-      body .container form .row #saveAPIsBtn {
-        background-color: #00c46a; }
-      body .container form .row #saveAPIsBtn:hover {
-        background-color: white;
-        color: #00c46a; }
-      body .container form .row button:hover {
-        background-color: white;
-        color: #517bff; }
-
-/*# sourceMappingURL=api.css.map */
+  background-color: #23272A;
+}
+body .icon {
+  color: white !important;
+}
+body .container {
+  margin: 50px 10px 0px 10px;
+  width: 100%;
+}
+body .container form .center {
+  justify-content: center;
+}
+body .container form #tweet-buttons {
+  width: 680px;
+  margin-left: 110px;
+  margin-bottom: 30px;
+}
+body .container form #clip-set {
+  margin-top: 30px !important;
+}
+body .container form fieldset {
+  margin-top: 60px;
+  border-color: #2C2F33;
+}
+body .container form fieldset legend span {
+  margin: 0 10px;
+}
+body .container form .row {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+body .container form .row label {
+  margin: 0 10px 0 0;
+  min-width: 100px;
+}
+body .container form .row input {
+  margin: 0 10px 0 0;
+  background-color: #2C2F33;
+  border-color: #2C2F33;
+}
+body .container form .row input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+  cursor: auto;
+}
+body .container form .row input:focus {
+  border-color: #4184e4;
+  outline-color: #4184e4;
+}
+body .container form .row .form-control:focus {
+  box-shadow: 2px 2px 0 #4184e4, -2px -2px 0 #4184e4, -2px 2px 0 #4184e4, 2px -2px 0 #4184e4;
+}
+body .container form .row select {
+  background-color: #2C2F33;
+  border-color: #2C2F33;
+}
+body .container form .row #challonge-api-key, body .container form .row #start-api-key {
+  width: 450px;
+}
+body .container form .row button {
+  margin-left: 10px;
+  height: 40px;
+  min-width: 70px;
+  color: white;
+  background-image: none;
+  border-color: #2C2F33;
+}
+body .container form .row #cancelAPIsBtn {
+  background-color: #ff6952;
+}
+body .container form .row #cancelAPIsBtn:hover {
+  background-color: white;
+  color: #ff6952;
+}
+body .container form .row #saveAPIsBtn {
+  background-color: #00c46a;
+}
+body .container form .row #saveAPIsBtn:hover {
+  background-color: white;
+  color: #00c46a;
+}
+body .container form .row button:hover {
+  background-color: white;
+  color: #517bff;
+}/*# sourceMappingURL=api.css.map */

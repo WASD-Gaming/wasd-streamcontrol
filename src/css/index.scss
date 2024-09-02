@@ -343,6 +343,15 @@ body {
             color: $wasd-green-color;
           }
 
+          #pushResultsBtn {
+            background-color: $wasd-red-color;
+          } 
+
+          #pushResultsBtn:hover {
+            background-color: $foreground-color;
+            color: $wasd-red-color;
+          }
+
           #new-set {
             width: 100px;
           }

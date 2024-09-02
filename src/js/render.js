@@ -1302,6 +1302,11 @@ function populateCharacters(game) {
   removeOptions(p2Char);
 
 	switch (game) {
+    case '2XKO':
+      chars =[
+        'Darius', 'Ekko', 'Ahri', 'Yasuo', 'Illaoi', 'Braum', 'Jinx', 'Katarina'
+      ];
+      break;
     case 'BBCF':
       chars = [
         'Ragna the Bloodedge', 'Jin Kisaragi', 'Noel Vermillion', 'Rachel Alucard', 'Taokaka', 'Iron Tager', 'Litchi Faye Ling', 'Arakune',
@@ -1334,13 +1339,18 @@ function populateCharacters(game) {
         'SSB Vegito', 'Videl', 'Yamcha', 'Fused Zamasu'
       ];
       break;
+    case 'FFCOTW':
+      chars = [
+        'Rock Howard', 'Terry Bogard', 'Preecha', 'Hotaru Futaba', 'Tizoc', 'Marco Rodrigues', 'B. Jenet', 'Vox Reaper', 'Kevin Rian', 'Billy Kane', 'Mai Shiranui'
+      ];
+      break;
     case 'KOFXV':
       chars = [
         "Shun'ei", 'Meitenkun', 'Benimaru Nikaido', 'Ash Crimson', 'Elisabeth', 'Kukri', 'Kyo Kusanagi', 'Iori Yagami', 'Chizuru Kagura', "K'", 'Maxima',
         'Whip', 'Isla', 'Heidern', 'Dolores', 'Terry Bogard', 'Andy Bogard', 'Joe Higashi', 'Ryo Sakazaki', 'Robert Garcia', 'King', 'Yashiro Nanakase',
         'Shermie', 'Chris', 'Athena Asamiya', 'Yuri Sakazaki', 'Mai Shiranui', 'Leona Heidern', 'Ralf Jones', 'Clark Still', 'Antonov', 'Ramon', 'King of Dinosaurs',
         'Krohnen', 'Kula Diamond', 'Angel', 'Blue Mary', 'Vanessa', 'Luong', 'Rock Howard', 'B. Jenet', 'Gato', 'Geese Howard', 'Billy Kane', 'Ryuji Yamazaki', 'Orochi Yashiro',
-        'Orochi Shermie', 'Orochi Chris', 'Haohmaru', 'Nakoruru', 'Darli Dagger', 'Shingo Yabuki', 'Omega Rugal'
+        'Orochi Shermie', 'Orochi Chris', 'Haohmaru', 'Nakoruru', 'Darli Dagger', 'Shingo Yabuki', 'Kim Kaphwan', 'Sylvie Paula Paula', 'Goenitz', 'Najd', 'Duolon', 'Hinakno Shijo', 'Omega Rugal'
       ];
       break;
     case 'MVCI':
@@ -1374,7 +1384,7 @@ function populateCharacters(game) {
       chars = [
           'Gran', 'Katalina', 'Charlotta', 'Lancelot', 'Ferry', 'Lowain', 'Ladiva', 'Percival', 'Metera', 'Zeta', 'Vaseraga', 'Beelzebub',
           'Narmaya', 'Soriz', 'Djeeta', 'Zooey', 'Belial', 'Cagliostro', 'Yuel', 'Anre', 'Eustace', 'Seox', 'Vira', 'Avatar Belial', 'Anila',
-          'Siegfried', 'Nier', 'Grimnir'
+          'Siegfried', 'Nier', 'Grimnir', 'Lucilius', '2B', 'Vane', 'Beatrix', 'Versusia', 'Vikala', 'Sandalphon'
       ];
       break;
     case 'GGXRD':
@@ -1388,7 +1398,7 @@ function populateCharacters(game) {
       chars = [
         'Anji Mito', 'Axl Low', 'Baiken', 'Chipp Zanuff', 'Faust', 'Giovanna', 'Goldlewis Dickinson', 'Happy Chaos', 'I-No', "Jack-O'",
         'Ky Kiske', 'Leo Whitefang', 'May', 'Millia Rage', 'Nagoriyuki', 'Potemkin', 'Ramlethal Valentine', 'Sol Badguy', 'Testament',
-        'Zato-1', 'Sin Kiske', 'Bridget'
+        'Zato-1', 'Sin Kiske', 'Bridget', 'Bedman?', 'Asuka R♯', 'Johnny', ' Elphelt Valentine', 'A.B.A.', 'Slayer', 'Queen Dizzy', 'Venom', 'Unika'
       ];
       break;
     case 'MBAACC':
@@ -1414,7 +1424,8 @@ function populateCharacters(game) {
       break;
     case 'SF6':
       chars = [
-         'Ryu', 'Luke', 'Jamie', 'Chun-Li', 'Guile', 'Kimberly', 'Juri', 'Ken', 'Blanka', 'Dhalism', 'E. Honda', 'Dee Jay', 'Manon', 'Marisa', 'JP'
+         'Ryu', 'Luke', 'Jamie', 'Chun-Li', 'Guile', 'Kimberly', 'Juri', 'Ken', 'Blanka', 'Dhalism', 'E. Honda', 'Dee Jay', 'Manon', 'Marisa', 'JP', 'Terry', 'M.Bison', 'Akuma',
+         'Ed', 'A.K.I', 'Rashid', 'Cammy', 'Lily', 'Zangief'
       ];
       break;
     case 'TEKKEN7':
@@ -1423,6 +1434,12 @@ function populateCharacters(game) {
         'Miguel', 'Feng', 'Alisa', 'Lars', 'Nina', 'Xiaoyu', 'Lee', 'Paul', 'Noctis', 'Law', 'Heihachi', 'Armor King', 'Leo', 'Devil Jin', 'Yoshimitsu', 'Claudio', 'Julia',
         'Shaheen', 'Master Raven', 'Anna', 'Negan', 'Kuma', 'Bob', 'Gigas', 'Jack-7', 'Eddy', 'Lei', 'Kunimitsu', 'Leroy', 'Marduk', 'Fahkumram', 'Zafina', 'Lidia',
         'Panda', 'Ganryu'
+      ];
+      break;
+    case 'TEKKEN8':
+      chars = [
+        'Kazuya', 'Jin', 'King', 'Jun', 'Paul', 'Law', 'Jack-8', 'Lars', 'Xiaoyu', 'Nina', 'Leroy', 'Asuka', 'Lili', 'Bryan', 'Hwoarang', 'Claudio', 'Azucena', 'Raven', 'Leo',
+        'Steve', 'Kuma', 'Yoshimitsu', 'Shaheen', 'Dragunov', 'Feng', 'Panda', 'Lee', 'Alisa', 'Zafina', 'Devil Jin', 'Victor', 'Reina', 'Eddy', 'Lidia'
       ];
       break;
     case 'UNICLR':
@@ -1434,7 +1451,7 @@ function populateCharacters(game) {
     case 'UNISC':
       chars = [
           'Hyde', 'Linne', 'Waldstein', 'Carmine', 'Orie', 'Gordeau', 'Merkava', 'Vatista', 'Seth', 'Yuzuriha', 'Hilda', 'Chaos', 'Nanase',
-          'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki', 'Tsurugi', 'Kagyua', 'Kuon'
+          'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki', 'Tsurugi', 'Kagyua', 'Kuon', 'Uzuki', 'Ogre', 'Izumi'
       ];
       break;
     case 'USF4':
