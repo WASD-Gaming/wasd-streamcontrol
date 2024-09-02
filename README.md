@@ -5,9 +5,11 @@ Some things to note:
 
 The Clip Stream buttons do not work out of the box. They require the use of a custom OBS script I've developed that is currently in testing.
 
-Player history populates with random placeholder info. It's not a bug but I'm too lazy to change it.
+Player history populates with random placeholder info on launch. It's not a bug but it's not important enough to xhange yet.
 
-Disclaimer: Code is messy at the moment. Between my 9-5 and running my own events I've been working on this at absurd hours so my approach has been "make X work" and not "what's the best cleanest way to make X work". Feel free to contribute to code cleanup.
+Stream queue currently only supports single event Startgg tournaments. I'm working out a way to better support multi-event tournaments but as I run a lot of single event online tournaments this was my priority.
+
+Disclaimer: Code is messy at the moment. I've been focusing on "make X work" and not "what's the cleanest way to make X work". Feel free to contribute to code cleanup. I will eventually do a pass to clean things up.
 
 ## Hotkeys
 * Player 1 score up > F20
@@ -19,10 +21,9 @@ Disclaimer: Code is messy at the moment. Between my 9-5 and running my own event
 
 ## To-Dos
 Various features I plan to add in no particular order:
-- [ ] Start.gg support in Tweet generator.
-- [ ] Encorporate direct Tweeting from app including clip selection.
 - [ ] Enable custom hotkeys.
 - [ ] Custom tweet templates.
+- [ ] Allow users to provide their own API keys.
 - [ ] Code cleanup.
 
 ## Usage Instructions
@@ -38,12 +39,14 @@ The 'Match History' tab is currently manual. In order to make it work follow the
 3. Select 1+ characters for each player.
 4. Once the set as concluded click 'Save Set'
 
-### Twitter Instructions
-This feature is integrated into Challonge and requires the use of 'Cutom Fields' to work properly.
-1. Create a REQUIRED Custom Field of type Text to collect a player's Twitter handle. (make sure it is the first question)
+### Twitter (X) Instructions
+For Startgg, this pulls from the linked X account on the player profile.
+
+For Challonge, this feature requires the use of 'Cutom Fields' to work properly.
+1. Create a REQUIRED Custom Field of type Text to collect a player's X handle. (make sure it is the first question)
 2. Click various buttons to generate tweets.
 
-Suggested question text: **Twitter Handle (enter N/A if you don't have one or don't want to be tagged in a results post):**
+Suggested question text: **Twitter/X Handle (enter N/A if you don't have one or don't want to be tagged in a results post):**
 
 ## Build Instructions
 1. yarn install

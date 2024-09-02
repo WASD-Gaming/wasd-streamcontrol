@@ -1,99 +1,182 @@
 module.exports.generateTweet = async function (button, matcherino, bracket, com1, com2, game) {
 
-		if (matcherino === '' || bracket === '') {
-			alert("😔 Something went wrong. Please make sure you've entered both the Matcherino and Bracket URLs.");
-		}
+	if (matcherino === '' || bracket === '') {
+		alert("😔 Something went wrong. Please make sure you've entered both the Matcherino and Bracket URLs.");
+	}
 
-		var pathArray = bracket.split( '.' );
-		var organization = pathArray[0].replace('https://','');
-		var service = pathArray[1];
+	var pathArray = bracket.split( '.' );
+	var organization = pathArray[0].replace('https://','');
+	var service = pathArray[1];
 
-		pathArray = bracket.split( '/' );
-		var tournament_slug;
+	pathArray = bracket.split( '/' );
+	var tournament_slug;
 
-		if(service === 'start') {
-			tournament_slug = pathArray[4];
-		} else if(service==='challonge') {
-			tournament_slug = pathArray[3];
-		}
+	if(service === 'start') {
+		tournament_slug = pathArray[4];
+	} else if(service === 'challonge') {
+		tournament_slug = pathArray[3];
+	}
 
-		var bodyDictionary = {
-			'service': service,
-			'organization': organization,
-			'tournament_slug': tournament_slug,
-			'button': button,
-			'matcherino': matcherino,
-			'bracket': bracket,
-			'com1': com1,
-			'com2': com2,
-			'game': game
-		};
-		// console.log(bodyDictionary);
-		const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-		// const response  = await fetch('http://localhost:5001/tweet-gen', {
-			method: 'post',
-			headers: {
-        'Content-Type': 'application/json'
-    	},
-			body: JSON.stringify(bodyDictionary),
-		});
-		var data = await response.json();
-
-		if ('error' in data[0]) {
-			alert(data[0]['error']);
-			return data[0]['error'];
-		} else {
-			console.log(data);
-			return data[0]['message'];
-		}
+	var bodyDictionary = {
+		'service': service,
+		'organization': organization,
+		'tournament_slug': tournament_slug,
+		'button': button,
+		'matcherino': matcherino,
+		'bracket': bracket,
+		'com1': com1,
+		'com2': com2,
+		'game': game
 	};
 
-	module.exports.populateTop8 = async function (button, bracket, game) {
+	// console.log(bodyDictionary);
+	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
+	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+		method: 'post',
+		headers: {
+       'Content-Type': 'application/json'
+   	},
+		body: JSON.stringify(bodyDictionary),
+	});
+	var data = await response.json();
 
-			if (bracket === '') {
-				alert("😔 Something went wrong. Please make sure you've entered a Bracket URLs.");
-			}
+	if ('error' in data[0]) {
+		alert(data[0]['error']);
+		return data[0]['error'];
+	} else {
+		console.log(data);
+		return data[0]['message'];
+	}
+};
 
-			var pathArray = bracket.split( '.' );
-			var organization = pathArray[0].replace('https://','');
-			var service = pathArray[1];
+module.exports.populateTop8 = async function (button, bracket, game) {
 
-			pathArray = bracket.split( '/' );
-			var tournament_slug;
+	if (bracket === '') {
+		alert("😔 Something went wrong. Please make sure you've entered a Bracket URLs.");
+	}
 
-			if(service === 'start') {
-				tournament_slug = pathArray[4];
-			} else if(service==='challonge') {
-				tournament_slug = pathArray[3];
-			}
+	var pathArray = bracket.split( '.' );
+	var organization = pathArray[0].replace('https://','');
+	var service = pathArray[1];
 
-			var bodyDictionary = {
-				'service': service,
-				'organization': organization,
-				'tournament_slug': tournament_slug,
-				'button': button,
-				'matcherino': '',
-				'bracket': bracket,
-				'com1': '',
-				'com2': '',
-				'game': game
-			};
+	pathArray = bracket.split( '/' );
+	var tournament_slug;
+
+	if(service === 'start') {
+		tournament_slug = pathArray[4];
+	} else if(service==='challonge') {
+		tournament_slug = pathArray[3];
+	}
+
+	var bodyDictionary = {
+		'service': service,
+		'organization': organization,
+		'tournament_slug': tournament_slug,
+		'button': button,
+		'matcherino': '',
+		'bracket': bracket,
+		'com1': '',
+		'com2': '',
+		'game': game
+	};
 			
-			const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-			// const response  = await fetch('http://localhost:5001/tweet-gen', {
-				method: 'post',
-				headers: {
-	        'Content-Type': 'application/json'
-	    	},
-				body: JSON.stringify(bodyDictionary),
-			});
-			var data = await response.json();
+	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
+	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+		method: 'post',
+		headers: {
+       'Content-Type': 'application/json'
+    },
+		body: JSON.stringify(bodyDictionary),
+	});
+	var data = await response.json();
 
-			if ('error' in data[0]) {
-				alert(data[0]['error']);
-				return data[0]['error'];
-			} else {
-				console.log(data);
-				return data[0]['matches'];
-			}
-		};
+	if ('error' in data[0]) {
+		alert(data[0]['error']);
+		return data[0]['error'];
+	} else {
+		console.log(data);
+		return data[0]['matches'];
+	}
+};
+
+module.exports.getStreamQueue = async function (button, bracket) {
+
+	if (bracket === '') {
+		alert("😔 Something went wrong. Please make sure you've entered a Bracket URLs.");
+	}
+
+	var pathArray = bracket.split( '.' );
+	var service = pathArray[1];
+
+	pathArray = bracket.split( '/' );
+	var tournament_slug;
+
+	if(service === 'start') {
+		tournament_slug = pathArray[4];
+	} else if(service==='challonge') {
+		tournament_slug = pathArray[3];
+	}
+
+	var bodyDictionary = {
+		'service': service,
+		'tournament_slug': tournament_slug,
+		'button': button
+	};
+			
+	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
+	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+		method: 'post',
+		headers: {
+       'Content-Type': 'application/json'
+    },
+		body: JSON.stringify(bodyDictionary),
+	});
+	var data = await response.json();
+
+	if ('error' in data[0]) {
+		alert(data[0]['error']);
+		return data[0]['error'];
+	} else {
+		console.log(data);
+		return data;
+	}
+};
+
+module.exports.sendSetResults = async function (button, bracket, setID, winnerID, p1ID, p1Score, p2ID, p2Score) {
+
+	if (bracket === '') {
+		alert("😔 Something went wrong. Please make sure you've entered a Bracket URLs.");
+	}
+
+	var pathArray = bracket.split( '.' );
+	var service = pathArray[1];
+
+	var bodyDictionary = {
+		'service': service,
+		'button': button,
+		'setID': setID,
+		'winnerID': winnerID,
+		'p1ID': p1ID,
+		'p1Score': p1Score,
+		'p2ID': p2ID,
+		'p2Score': p2Score
+	};
+			
+	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
+	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+		method: 'post',
+		headers: {
+       'Content-Type': 'application/json'
+    },
+		body: JSON.stringify(bodyDictionary),
+	});
+	var data = await response.json();
+
+	if ('error' in data[0]) {
+		alert(data[0]['error']);
+		return data[0]['error'];
+	} else {
+		console.log(data);
+		return data;
+	}
+};

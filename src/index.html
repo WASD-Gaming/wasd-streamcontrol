@@ -89,9 +89,8 @@
               <button type="button" class="btn btn-default" id="clearBtn">Clear</button>
               &nbsp;&nbsp;&nbsp;|
               <!-- <button type="button" class="btn btn-default" id="newTournamentBtn">New Tournament</button> -->
-              <button type="button" class="btn btn-default" id="loadSetBtn">Load Set</button>
-              <button type="button" class="btn btn-default" id="saveSetBtn">Save Set</button>
-              <button type="button" class="btn btn-default" id="pushResultsBtn">Push Results</button>
+              <button type="button" class="btn btn-default" id="saveSetBtn">Save Results</button>
+              <button type="button" class="btn btn-default" id="pushResultsBtn">Update Startgg</button>
             </div>
             <div class="row form-group">
               <label>Game</label>
@@ -150,21 +149,21 @@
               <fieldset style="text-align: center; margin-top: 20px;">
                 <legend align="center"><span>Player History</span></legend>
                 <div class="player-info">
-                  <p class="header"><b><span id="player1">ImpurestClub</span></b></p>
+                  <p class="header"><b><span id="player1">Player One</span></b></p>
                   <p>Today's Chars:
-                  <br><span id="player1-chars">Baiken, Ramlethal Valentine</span></p>
+                  <br><span id="player1-chars">??</span></p>
                 </div>
                 <div id="vs">
                   VS
                 </div>
                 <div class="player-info">
-                  <p class="header"><b><span id="player2">ImpurestClub</span></b></p>
+                  <p class="header"><b><span id="player2">Player Two</span></b></p>
                   <p>Today's Chars:
-                  <br><span id="player2-chars">Baiken, Ramlethal Valentine</span></p>
+                  <br><span id="player2-chars">??</span></p>
                 </div>
                 <div>
                   Runback? <span id="runback-result">YES</span><br>
-                  <span id="first-meet">ImpurestClub 2 - 1 ImpurestClub</span>
+                  <span id="first-meet">Player One 2 - 1 Player Two</span>
                 </div>
               </fieldset>
             </div>
@@ -374,6 +373,25 @@
             <button type="button" class="btn btn-default" id="copy">Copy Tweet</button>
           </div>
         </form>
+      </div>
+      </div>
+      <div class="upcoming-sets">
+        <h4>Upcoming Sets</h4>
+        <h5>Pulls from  the Startgg Stream Queue<br>every 60 seconds.</h5>
+        <button type="button" class="btn btn-default" id="streamQueueBtn">Manual Reload</button>
+        <div class="table-container">
+          <table class="table-striped" id="set-table">
+          <thead>
+            <tr>
+              <th id="col-0-sets">Round</th>
+              <th id="col-1-sets">P1 Name</th>
+              <th id="col-2-sets">P2 Name</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        </div>
       </div>
     </div>
   </body>

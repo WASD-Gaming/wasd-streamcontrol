@@ -86,7 +86,6 @@ body {
 
     .tab-info {
       margin-left: 40px;
-      width: 78%;
       float: left;
       height: 800px;
       width: 1000px;
@@ -382,6 +381,60 @@ body {
             background-color: $foreground-color;
             color: $accent-color;
           }
+        }
+      }
+    }
+
+    .upcoming-sets {
+      margin-left: 40px;
+      float: left;
+      height: 800px;
+      width: 400px;
+      border-left: 1px solid $secondary-border-color;
+      text-align: center;
+
+      h4, h5 {
+        text-transform: uppercase;
+      }
+
+      h4 {
+        margin-bottom: 5px;
+      }
+
+      h5 {
+        color: $message-color;
+        margin: 0 5px;
+        font-size: 10px;
+      }
+
+      .table-container {
+        margin-left: 5px;
+
+        table  {
+          overflow: auto;
+        }
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      #streamQueueBtn {
+        background-color: $accent-color;
+        color: $foreground-color;
+        border-color: $input-background;
+        background-image: none;
+        cursor: pointer;
+        margin-top: 5px;
+        margin-bottom: 10px;
+      }
+
+      #streamQueueBtn:hover {
+        background-color: $foreground-color;
+        color: $accent-color;
+
+        .icon {
+          color: $accent-color !important;
         }
       }
     }
