@@ -1,3 +1,7 @@
+# Save Files
+*.json
+!package.json
+
 # Logs
 logs
 *.log
@@ -104,3 +108,4 @@ dist/stream-control Setup 1.0.0.exe
 *.blockmap
 streamcontrol.json
 keys.json
+*.json
