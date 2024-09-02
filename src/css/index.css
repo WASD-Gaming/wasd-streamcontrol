@@ -69,7 +69,6 @@ body .container .new-set {
 }
 body .container .tab-info {
   margin-left: 40px;
-  width: 78%;
   float: left;
   height: 800px;
   width: 1000px;
@@ -305,6 +304,50 @@ body .container .tab-info form .row #runback-result {
 body .container .tab-info form .row button:hover {
   background-color: white;
   color: #517bff;
+}
+body .container .upcoming-sets {
+  margin-left: 40px;
+  float: left;
+  height: 800px;
+  width: 400px;
+  border-left: 1px solid #444c56;
+  text-align: center;
+}
+body .container .upcoming-sets h4, body .container .upcoming-sets h5 {
+  text-transform: uppercase;
+}
+body .container .upcoming-sets h4 {
+  margin-bottom: 5px;
+}
+body .container .upcoming-sets h5 {
+  color: #ffb643;
+  margin: 0 5px;
+  font-size: 10px;
+}
+body .container .upcoming-sets .table-container {
+  margin-left: 5px;
+}
+body .container .upcoming-sets .table-container table {
+  overflow: auto;
+}
+body .container .upcoming-sets .table-container::-webkit-scrollbar {
+  display: none;
+}
+body .container .upcoming-sets #streamQueueBtn {
+  background-color: #517bff;
+  color: white;
+  border-color: #2C2F33;
+  background-image: none;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+body .container .upcoming-sets #streamQueueBtn:hover {
+  background-color: white;
+  color: #517bff;
+}
+body .container .upcoming-sets #streamQueueBtn:hover .icon {
+  color: #517bff !important;
 }
 
 .match-column {

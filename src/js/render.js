@@ -3,6 +3,7 @@ const { app, ipcRenderer, clipboard } = require('electron');
 const path = require('path');
 const twitter = require('./js/tweet-gen.js');
 const autocomplete = require('autocompleter');
+const { log } = require('console');
 
 // MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
@@ -108,6 +109,11 @@ var gRounds = [];
 var savePath = getSavePath();
 var chars;
 
+// Startgg Update variables
+var setID;
+var p1ID;
+var p2ID;
+
 /* BUTTON CLICK HANDING
 This section of code handles the physical button clicks in the app. Assigning buttons
 actions via onclick causes weird behavior and so we need to add event listeners
@@ -195,6 +201,32 @@ document.querySelector('#col-5').addEventListener('click', () => {
 
 document.querySelector('#col-6').addEventListener('click', () => {
   sortTable(6);
+});
+
+document.querySelector('#col-0-sets').addEventListener('click', () => {
+  sortSetTable(0);
+});
+
+document.querySelector('#col-1-sets').addEventListener('click', () => {
+  sortSetTable(1);
+});
+
+document.querySelector('#col-2-sets').addEventListener('click', () => {
+  sortSetTable(2);
+});
+
+document.querySelector('#streamQueueBtn').addEventListener('click', () => {
+  populateUpcomingSets();
+});
+
+setInterval(populateUpcomingSets, 60000);
+
+document.querySelector('#pushResultsBtn').addEventListener('click', () => {
+  let winnerID;
+  if (p1Score.value > p2Score.value) winnerID = p1ID;
+  else winnerID = p2ID;
+
+  twitter.sendSetResults('update-startgg', bracket.value, setID, winnerID, p1ID, p1Score.value, p2ID, p2Score.value);
 });
 
 document.querySelector('#starting-soon').addEventListener('click', () => {
@@ -557,7 +589,8 @@ function swapPlayers() {
     team: p1Team.value,
     score: p1Score.value,
     win: p1Win.checked,
-    loss: p1Loss.checked
+    loss: p1Loss.checked,
+    playerID: p1ID
   }
 
   let player2 = {
@@ -565,7 +598,8 @@ function swapPlayers() {
     team: p2Team.value,
     score: p2Score.value,
     win: p2Win.checked,
-    loss: p2Loss.checked
+    loss: p2Loss.checked,
+    playerID: p2ID
   }
 
   p1Name.value = player2.name;
@@ -573,12 +607,14 @@ function swapPlayers() {
   p1Score.value = player2.score;
   p1Win.checked = player2.win;
   p1Loss.checked = player2.loss;
+  p1ID = player2.playerID;
 
   p2Name.value = player1.name;
   p2Team.value = player1.team;
   p2Score.value = player1.score;
   p2Win.ckecked = player1.win;
   p2Loss.checked = player1.loss;
+  p2ID = player1.playerID;
 }
 
 function swapComs() {
@@ -645,6 +681,7 @@ function clearFields() {
   p1Win.checked = false;
   p1Loss.checked = false;
   p1Char.value = '';
+  p1ID = 0
 
   p2Name.value = '';
   p2Team.value = '';
@@ -652,6 +689,7 @@ function clearFields() {
   p2Win.ckecked = false;
   p2Loss.checked = false;
   p2Char.value = '';
+  p2ID = 0
 
   removeOptions(p1Char);
   removeOptions(p2Char);
@@ -718,7 +756,7 @@ ipcRenderer.on('p2-score-down', (event, arg) => {
 });
 
 /* MATCH HISTORY HANDING
-These methods save matches in a new JSON file based on bracket name hen "save set" is clicked. 
+These methods save matches in a new JSON file based on bracket name when "save set" is clicked. 
 It then adds it to a table on the Match History tab to be viewed later. Additionally, there is
 preliminary sorting work.
 */
@@ -1037,6 +1075,124 @@ function sortTable(n) {
   }
 }
 
+/* UPCOMING SETS HANDING
+These methods handle the upcoming sets table. Additionally, there is preliminary sorting work.
+*/
+
+function populateUpcomingSets() {
+  let table = document.getElementById('set-table');
+  table.tBodies[0].innerHTML = "";
+
+  let p = twitter.getStreamQueue('stream-queue', bracket.value);
+  p.then(value => {
+    value.forEach(function(set){
+      let round = set.round;
+
+      // Modify the round name based on the conditions
+      if (round.toLowerCase().includes('semi-final')) {
+        round = round.replace(/Semi-Final/i, 'Semifinal');
+      } else if (round.toLowerCase().endsWith('final')) {
+        round = round.replace(/Final/i, 'Finals');
+      }
+  
+      let tr = document.createElement('tr');
+      tr.dataset.id = set.id; // Storing the id for use when updating Startgg
+      tr.dataset.round = round;
+      tr.dataset.p1Tag = set.player1Tag;
+      tr.dataset.p1Name = set.player1Name;
+      tr.dataset.p1ID = set.player1ID;
+      tr.dataset.p2Tag = set.player2Tag;
+      tr.dataset.p2Name = set.player2Name;
+      tr.dataset.p2ID = set.player2ID;
+
+      let player1Content = set.player1Tag ? `${set.player1Tag} | ${set.player1Name}` : set.player1Name;
+      let player2Content = set.player2Tag ? `${set.player2Tag} | ${set.player2Name}` : set.player2Name;
+        
+      tr.innerHTML = `<td>${round}</td>
+                      <td>${player1Content}</td>
+                      <td>${player2Content}</td>`;
+        
+      table.tBodies[0].appendChild(tr);
+    });
+
+    table.tBodies[0].addEventListener('click', function(event) {
+      const target = event.target;
+      const row = target.closest('tr');
+
+      if (row) {
+        setID = row.dataset.id;
+        round.value = row.dataset.round;
+        p1Team.value = row.dataset.p1Tag;
+        p1Name.value = row.dataset.p1Name;
+        p1ID = row.dataset.p1ID;
+        p1Score.value = 0
+        p2Team.value = row.dataset.p2Tag;
+        p2Name.value = row.dataset.p2Name;
+        p2ID = row.dataset.p2ID;
+        p2Score.value = 0
+      }
+
+      saveContent(); // Saving content to update the overlay
+    });
+
+  });
+}
+
+function sortSetTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("set-table");
+  switching = true;
+  // Set the sorting direction to ascending:
+  dir = "asc";
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /* Check if the two rows should switch place,
+      based on the direction, asc or desc: */
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      // Each time a switch is done, increase this count by 1:
+      switchcount ++;
+    } else {
+      /* If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again. */
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
 /* APP SAVE STATE HANDING
 This method saves the last set of info into the streamcontrol.json file. I'm sure
 there are 'better' and cleaner ways to handle this, but the app is so simple it
@@ -1059,6 +1215,7 @@ function saveContent() {
     runback: runback.checked,
     offline: offline.checked,
     matcherino: matcherino.value,
+    'no-matcherino': noMatcherino.value,
     msg1: msg1.value,
     msg2: msg2.value,
     msg3: msg3.value,
@@ -1113,6 +1270,9 @@ function saveContent() {
     lFinals1Score: lFinals1Score.value,
     lFinals2: lFinals2.value,
     lFinals2Score: lFinals2Score.value,
+    setID: setID,
+    p1ID: p1ID,
+    p2ID: p2ID
   };
   let stringedJSON = JSON.stringify(json, null, 4);
   console.log(stringedJSON);
@@ -1282,6 +1442,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
   lFinals1Score.value = data.lFinals1Score;
   lFinals2.value = data.lFinals2;
   lFinals2Score.value = data.lFinals2Score;
+
+  setID = data.setID;
+  p1ID = data.p1ID;
+  p2ID = data.p2ID;
 
   let acrawdata = fs.readFileSync(savePath + '\\' + 'autocomplete.json');
   let acdata = JSON.parse(acrawdata);
