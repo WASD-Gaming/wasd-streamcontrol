@@ -938,35 +938,58 @@ function updateCurrentMatchHistory() {
 }
 
 function getCharactersForPlayer(player) {
-  var bracketParts = bracket.value.split('/');
-  let fileName = bracketParts.pop() || bracketParts.pop();
+  try {
+    var bracketParts = bracket.value.split('/');
+    let fileName = bracketParts.pop() || bracketParts.pop();
+    let filePath = savePath + '\\' + fileName + '.json';
 
-  let rawdata = fs.readFileSync(savePath + '\\' + fileName + '.json');
-  let data = JSON.parse(rawdata);
-  let characters = [];
+    // Check if the file exists before trying to read it
+    if (!fs.existsSync(filePath)) {
+      console.error(`File not found: ${filePath}`);
+      return [];
+    }
 
-  // Looping through all of the saved sets to see what characters a given player has played.
-  Object.keys(data).forEach(function(key){
-    let round = key;
+    let rawdata = fs.readFileSync(filePath);
+    let data = JSON.parse(rawdata);
+    let characters = [];
 
-    data[round].forEach(function(match){
-      if(match.p1Name.toUpperCase() === player.toUpperCase()) {
-        // Sorting out duplicate entries of the same character
-        match.p1Char.forEach(function(character){
-          if(!characters.includes(character) && character != '') characters.push(character);
-        })
-      }
-      if(match.p2Name.toUpperCase() === player.toUpperCase()) {
-        // Sorting out duplicate entries of the same character
-        match.p2Char.forEach(function(character){
-          if(!characters.includes(character) && character != '') characters.push(character);
-        })
+    // Ensure the data is in the expected format
+    if (typeof data !== 'object' || data === null) {
+      console.error('Data format is invalid.');
+      return [];
+    }
+
+    // Looping through all of the saved sets to see what characters a given player has played.
+    Object.keys(data).forEach(function(key) {
+      let round = key;
+
+      if (Array.isArray(data[round])) {
+        data[round].forEach(function(match) {
+          if (match.p1Name?.toUpperCase() === player.toUpperCase()) {
+            // Sorting out duplicate entries of the same character
+            match.p1Char?.forEach(function(character) {
+              if (character && !characters.includes(character)) characters.push(character);
+            });
+          }
+          if (match.p2Name?.toUpperCase() === player.toUpperCase()) {
+            // Sorting out duplicate entries of the same character
+            match.p2Char?.forEach(function(character) {
+              if (character && !characters.includes(character)) characters.push(character);
+            });
+          }
+        });
       }
     });
-  });
 
-  return characters;
+    if (characters.length == 0) return ['??'];
+
+    return characters;
+  } catch (error) {
+    console.error('Error reading or parsing file:', error);
+    return [];
+  }
 }
+
 
 function isRunback(player1, player2){
   var bracketParts = bracket.value.split('/');
