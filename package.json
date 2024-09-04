@@ -47,6 +47,7 @@
   "dependencies": {
     "autocompleter": "^6.1.2",
     "datatables.net-dt": "^1.13.1",
+    "dotenv": "^16.4.5",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.6.3",
     "robotjs": "^0.6.0"

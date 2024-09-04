@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports.generateTweet = async function (button, matcherino, bracket, com1, com2, game) {
 
 	if (matcherino === '' || bracket === '') {
@@ -30,8 +32,8 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 	};
 
 	// console.log(bodyDictionary);
-	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
+	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -80,8 +82,8 @@ module.exports.populateTop8 = async function (button, bracket, game) {
 		'game': game
 	};
 			
-	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
+	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -123,8 +125,8 @@ module.exports.getStreamQueue = async function (button, bracket) {
 		'button': button
 	};
 			
-	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
+	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -162,8 +164,8 @@ module.exports.sendSetResults = async function (button, bracket, setID, winnerID
 		'p2Score': p2Score
 	};
 			
-	const response  = await fetch('https://wasd-tweet-gen.herokuapp.com/tweet-gen', {
-	// const response  = await fetch('http://localhost:5001/tweet-gen', {
+	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
+	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
