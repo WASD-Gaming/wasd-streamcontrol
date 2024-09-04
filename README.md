@@ -24,6 +24,7 @@ Various features I plan to add in no particular order:
 - [ ] Enable custom hotkeys.
 - [ ] Custom tweet templates.
 - [ ] Allow users to provide their own API keys.
+- [ ] Allow users to select what stream to show matches for. (And potentially add pagination)
 - [ ] Code cleanup.
 
 ## Usage Instructions
