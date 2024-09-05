@@ -31,9 +31,9 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 		'game': game
 	};
 
-	// console.log(bodyDictionary);
-	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
-	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
+	console.log(process.env.PRODUCTION_API_URL);
+	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -82,8 +82,8 @@ module.exports.populateTop8 = async function (button, bracket, game) {
 		'game': game
 	};
 			
-	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
-	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
+	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -125,8 +125,8 @@ module.exports.getStreamQueue = async function (button, bracket) {
 		'button': button
 	};
 			
-	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
-	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
+	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -164,8 +164,8 @@ module.exports.sendSetResults = async function (button, bracket, setID, winnerID
 		'p2Score': p2Score
 	};
 			
-	// const response  = await fetch('process.env.PRODUCTION_API_URL', {
-	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
+	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
