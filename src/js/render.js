@@ -1139,6 +1139,7 @@ function populateUpcomingSets() {
     });
 
     table.tBodies[0].addEventListener('click', function(event) {
+      clearFields(); // To clear out old character selections
       const target = event.target;
       const row = target.closest('tr');
 
