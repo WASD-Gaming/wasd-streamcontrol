@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, ipcMain, Menu, dialog } = require('electron');
+const { app, BrowserWindow, globalShortcut, ipcMain, Menu, dialog, session } = require('electron');
 const fs = require('fs');
 const robot = require('robotjs');
 const path = require('path');
@@ -23,6 +23,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
+      webSecurity: true,
     },
     icon: 'wasd.ico'
   });
@@ -43,6 +44,18 @@ app.on('ready', () => {
 
   let data = {'_': '_'};
   registerHotkeys(data);
+
+  // /* This section is used to allow for use of SSL while developing locally.
+  // Uncomment it when doing local development.*/
+  // session.defaultSession.setCertificateVerifyProc((request, callback) => {
+  //   if (request.hostname === 'localhost') {
+  //     // Trust self-signed certificate for localhost
+  //     callback(0); // 0 means the certificate is trusted
+  //   } else {
+  //     callback(-2); // -2 means default behavior (not trusted)
+  //   }
+  // });
+
 });
 
 function registerHotkeys(data) {
@@ -208,6 +221,7 @@ async function enterAPIKeys() {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
+      webSecurity: true
     },
     icon: 'wasd.ico',
   });
