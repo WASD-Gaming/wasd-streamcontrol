@@ -9,6 +9,8 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+app.disableHardwareAcceleration();
+
 let webContents;
 let apiWindow;
 
@@ -44,17 +46,6 @@ app.on('ready', () => {
 
   let data = {'_': '_'};
   registerHotkeys(data);
-
-  // /* This section is used to allow for use of SSL while developing locally.
-  // Uncomment it when doing local development.*/
-  // session.defaultSession.setCertificateVerifyProc((request, callback) => {
-  //   if (request.hostname === 'localhost') {
-  //     // Trust self-signed certificate for localhost
-  //     callback(0); // 0 means the certificate is trusted
-  //   } else {
-  //     callback(-2); // -2 means default behavior (not trusted)
-  //   }
-  // });
 
 });
 

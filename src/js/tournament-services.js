@@ -32,7 +32,8 @@ module.exports.generateTweet = async function (button, matcherino, bracket, com1
 	};
 
 	console.log(process.env.PRODUCTION_API_URL);
-	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	const response  = await fetch('https://sc.wasdgaming.gg/tweet-gen', {
+	// const response  = await fetch(process.env.PRODUCTION_API_URL, {
 	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
@@ -82,7 +83,8 @@ module.exports.populateTop8 = async function (button, bracket, game) {
 		'game': game
 	};
 			
-	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	// const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	const response  = await fetch('https://sc.wasdgaming.gg/tweet-gen', {
 	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
@@ -124,9 +126,38 @@ module.exports.getStreamQueue = async function (button, bracket) {
 		'tournament_slug': tournament_slug,
 		'button': button
 	};
-			
-	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	
+	const response  = await fetch('https://sc.wasdgaming.gg/tweet-gen', {		
+	// const response  = await fetch(process.env.PRODUCTION_API_URL, {
 	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
+		method: 'post',
+		headers: {
+       'Content-Type': 'application/json'
+    },
+		body: JSON.stringify(bodyDictionary),
+	});
+	var data = await response.json();
+
+	if ('error' in data[0]) {
+		alert(data[0]['error']);
+		return data[0]['error'];
+	} else {
+		console.log(data);
+		return data;
+	}
+};
+
+module.exports.getGameCharacters = async function (button, gameShortCode) {
+
+	var bodyDictionary = {
+		'game': gameShortCode,
+		'button': button,
+		'service': 'start'
+	};
+	
+	// const response  = await fetch('https://sc.wasdgaming.gg/tweet-gen', {		
+	// const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {
        'Content-Type': 'application/json'
@@ -163,8 +194,9 @@ module.exports.sendSetResults = async function (button, bracket, setID, winnerID
 		'p2ID': p2ID,
 		'p2Score': p2Score
 	};
-			
-	const response  = await fetch(process.env.PRODUCTION_API_URL, {
+	
+	const response  = await fetch('https://sc.wasdgaming.gg/tweet-gen', {
+	// const response  = await fetch(process.env.PRODUCTION_API_URL, {
 	// const response  = await fetch(process.env.DEVELOPMENT_API_URL, {
 		method: 'post',
 		headers: {

@@ -35,7 +35,7 @@ tbody {
 }
 
 tr:active,
-.table-striped tr:active {
+.table-striped tr:active { 
   color: #fff;
   background-color: #517bff;
 }
@@ -79,9 +79,13 @@ body {
       }
     }
 
-    .new-set {
-      margin-top: -40px;
-      margin-bottom: 20px;
+    #update-characters {
+      margin-bottom: 0;
+    }
+
+    #character-pool {
+      margin-left: 42%;
+      height: 30px;
     }
 
     .tab-info {
