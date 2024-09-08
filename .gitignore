@@ -103,3 +103,4 @@ streamcontrol.json
 *.blockmap
 keys.json
 *.json
+src/js/char-notes.js
