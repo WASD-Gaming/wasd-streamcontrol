@@ -1504,53 +1504,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
   populateCharacters(game.value);
 });
 
-// I need a function that will take an array of game shortcodes, call getGameCharacters for each one, and then save the results to a json file. All games should be saved to the same file.
-function saveGameCharacters() {
-  let games = ['2XKO', 'BBCF', 'DNF', 'BBTAG', 'DBFZ', 'FFCOTW', 'KOFXV', 'MVCI', 'UMVC3', 'P4AU', 'GBVS', 'GBVSR', 'GGXRD', 'GGST', 'MBAACC', 'MBTL', 'SFVCE', 'SF6', 'TEKKEN7', 'TEKKEN8', 'UNICLR', 'UNISC', 'USF4'];
-  let allChars = [];
-
-  games.forEach(game => {
-    let chars = getGameCharacters('character-pool', game);
-    console.log('Characters for ' + game + ':', chars);
-    
-    try {
-      allChars = [...allChars, ...chars];
-    } catch (error) {
-      console.log('Error adding characters for ' + game + ':', error);
-      return;
-    }
-  }); 
-
-  let json = {
-    "characters": allChars
-  }
-
-  let stringedJSON = JSON.stringify(json, null, 4);
-  try {
-    fs.writeFileSync(savePath + '\\' + 'gameCharacters.json', stringedJSON, { flag: 'w' });
-    console.log('Game characters file saved successfully.');
-  } catch (e) {
-    console.error('Error saving game characters file:', e);
-  }
-}
-
-// I need a function that will take a single shortcode and return an array of characters for that game from the gameCharacters.json file. It should only return character names. Each character will be saved as a sictionary with an id and a name.
-// function getGameCharactersFromFile(game) {
-//   let rawdata = fs.readFileSync(savePath + '\\' + 'gameCharacters.json');
-//   let data = JSON.parse(rawdata);
-//   let characters = data.characters;
-//   let gameCharacters = characters.filter(character => character.game === game);
-//   return gameCharacters;
-// }
-
 function populateCharacters(game) {
   // Clearing out old game characters
   removeOptions(p1Char);
   removeOptions(p2Char);
 
   var chars;
-	// let chars = getGameCharactersFromFile(game);
   switch (game) {
+    // hardcoding these values in because Startgg doesn't have lists for most of the below games.
     case '2XKO':
       chars =[
         'Darius', 'Ekko', 'Ahri', 'Yasuo', 'Illaoi', 'Braum', 'Jinx', 'Katarina'
