@@ -1,9 +1,9 @@
 const fs = require('fs');
 const { app, ipcRenderer, clipboard } = require('electron');
 const path = require('path');
-const twitter = require('./js/tweet-gen.js');
 const autocomplete = require('autocompleter');
 const { log } = require('console');
+const { getGameCharacters, twitter } = require('./js/tournament-services.js');
 
 // MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
@@ -40,12 +40,10 @@ const com1Twitter = document.getElementById('com1Twitter');
 const com2Name = document.getElementById('com2Name');
 const com2Twitter = document.getElementById('com2Twitter');
 
-const matcherino1 = document.getElementById('matcherino1');
-const matcherino2 = document.getElementById('matcherino2');
-const matcherino3 = document.getElementById('matcherino3');
-const matcherino4 = document.getElementById('matcherino4');
-const matcherino5 = document.getElementById('matcherino5');
-const matcherino6 = document.getElementById('matcherino6');
+const eventLine1 = document.getElementById('eventLine1');
+const eventLine2 = document.getElementById('eventLine2');
+const eventNumber = document.getElementById('eventNumber');
+const previousWinner = document.getElementById('previousWinner');
 
 const bracket = document.getElementById('bracket');
 const tweetMessage = document.getElementById('tweet-message');
@@ -119,6 +117,10 @@ This section of code handles the physical button clicks in the app. Assigning bu
 actions via onclick causes weird behavior and so we need to add event listeners
 to look for the 'click' action.
 */
+document.querySelector('#character-pool').addEventListener('click', () => {
+  saveGameCharacters();
+});
+
 document.querySelector('#saveBtn').addEventListener('click', () => {
   saveContent();
 });
@@ -1247,12 +1249,10 @@ function saveContent() {
     com1Twitter: com1Twitter.value,
     com2Name: com2Name.value,
     com2Twitter: com2Twitter.value,
-    matcherino1: matcherino1.value,
-    matcherino2: matcherino2.value,
-    matcherino3: matcherino3.value,
-    matcherino4: matcherino4.value,
-    matcherino5: matcherino5.value,
-    matcherino6: matcherino6.value,
+    eventLine1: eventLine1.value,
+    eventLine2: eventLine2.value,
+    eventNumber: eventNumber.value,
+    previousWinner: previousWinner.value,
     bracket: bracket.value,
     wsTop1: wsTop1.value,
     wsTop1Score: wsTop1Score.value,
@@ -1312,36 +1312,58 @@ function saveContent() {
 }
 
 function saveForAutocomplete() {
-  let rawdata = fs.readFileSync(savePath + '\\' + 'autocomplete.json');
+  const filePath = savePath + '\\' + 'autocomplete.json';
+  
+  // Check if the autocomplete file exists, if not, create it with the empty template
+  if (!fs.existsSync(filePath)) {
+    let template = {
+      "players": [],
+      "teams": [],
+      "rounds": []
+    };
+    try {
+      fs.writeFileSync(filePath, JSON.stringify(template, null, 4));
+      console.log('Created new autocomplete file with empty template!');
+    } catch (e) {
+      alert('Failed to create the file!');
+      console.log(e);
+      return;  // Exit if file creation failed
+    }
+  }
+
+  // Read the existing or newly created autocomplete file
+  let rawdata = fs.readFileSync(filePath);
   let data = JSON.parse(rawdata);
 
   let players = data.players;
   let teams = data.teams;
   let rounds = data.rounds;
 
+  // Update the data arrays if new entries are present
   if (!players.includes(p1Name.value) && p1Name.value !== '') players.push(p1Name.value);
   if (!players.includes(p2Name.value) && p2Name.value !== '') players.push(p2Name.value);
   if (!teams.includes(p1Team.value) && p1Team.value !== '') teams.push(p1Team.value);
   if (!teams.includes(p2Team.value) && p2Team.value !== '') teams.push(p2Team.value);
   if (!rounds.includes(round.value) && round.value !== '') rounds.push(round.value);
 
-  let json = {
-    "players": players,
-    "teams": teams,
-    "rounds": rounds
-  }
-
+  // Format the arrays before saving (if needed)
   formatPlayersArray(players);
   formatTeamsArray(teams);
   formatRoundsArray(rounds);
 
+  // Save the updated data back to the file
+  let json = {
+    "players": players,
+    "teams": teams,
+    "rounds": rounds
+  };
+
   let stringedJSON = JSON.stringify(json, null, 4);
   try {
-    fs.writeFileSync(savePath + '\\' + 'autocomplete.json', stringedJSON)
+    fs.writeFileSync(filePath, stringedJSON);
     console.log('Saved autocomplete!');
-  }
-  catch(e) {
-    alert('Failed to save the file !');
+  } catch (e) {
+    alert('Failed to save the file!');
     console.log(e);
   }
 }
@@ -1408,12 +1430,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
   com2Name.value = data.com2Name;
   com2Twitter.value = data.com2Twitter;
 
-  matcherino1.value = data.matcherino1;
-  matcherino2.value = data.matcherino2;
-  matcherino3.value = data.matcherino3;
-  matcherino4.value = data.matcherino4;
-  matcherino5.value = data.matcherino5;
-  matcherino6.value = data.matcherino6;
+  eventLine1.value = data.eventLine1;
+  eventLine2.value = data.eventLine2;
+  eventNumber.value = data.eventNumber;
+  previousWinner.value = data.previousWinner;
 
   bracket.value = data.bracket;
 
@@ -1484,181 +1504,51 @@ document.addEventListener("DOMContentLoaded", (event) => {
   populateCharacters(game.value);
 });
 
+// I need a function that will take an array of game shortcodes, call getGameCharacters for each one, and then save the results to a json file. All games should be saved to the same file.
+function saveGameCharacters() {
+  let games = ['2XKO', 'BBCF', 'DNF', 'BBTAG', 'DBFZ', 'FFCOTW', 'KOFXV', 'MVCI', 'UMVC3', 'P4AU', 'GBVS', 'GBVSR', 'GGXRD', 'GGST', 'MBAACC', 'MBTL', 'SFVCE', 'SF6', 'TEKKEN7', 'TEKKEN8', 'UNICLR', 'UNISC', 'USF4'];
+  let allChars = [];
+
+  games.forEach(game => {
+    let chars = getGameCharacters('character-pool', game);
+    console.log('Characters for ' + game + ':', chars);
+    
+    try {
+      allChars = [...allChars, ...chars];
+    } catch (error) {
+      console.log('Error adding characters for ' + game + ':', error);
+      return;
+    }
+  }); 
+
+  let json = {
+    "characters": allChars
+  }
+
+  let stringedJSON = JSON.stringify(json, null, 4);
+  try {
+    fs.writeFileSync(savePath + '\\' + 'gameCharacters.json', stringedJSON, { flag: 'w' });
+    console.log('Game characters file saved successfully.');
+  } catch (e) {
+    console.error('Error saving game characters file:', e);
+  }
+}
+
+// I need a function that will take a single shortcode and return an array of characters for that game from the gameCharacters.json file. It should only return character names. Each character will be saved as a sictionary with an id and a name.
+function getGameCharactersFromFile(game) {
+  let rawdata = fs.readFileSync(savePath + '\\' + 'gameCharacters.json');
+  let data = JSON.parse(rawdata);
+  let characters = data.characters;
+  let gameCharacters = characters.filter(character => character.game === game);
+  return gameCharacters;
+}
+
 function populateCharacters(game) {
   // Clearing out old game characters
   removeOptions(p1Char);
   removeOptions(p2Char);
 
-	switch (game) {
-    case '2XKO':
-      chars =[
-        'Darius', 'Ekko', 'Ahri', 'Yasuo', 'Illaoi', 'Braum', 'Jinx', 'Katarina'
-      ];
-      break;
-    case 'BBCF':
-      chars = [
-        'Ragna the Bloodedge', 'Jin Kisaragi', 'Noel Vermillion', 'Rachel Alucard', 'Taokaka', 'Iron Tager', 'Litchi Faye Ling', 'Arakune',
-        'Bang Shishigami', 'Carl Clover', 'Hakumen', 'Nu-13', 'Tsubaki Yayoi', 'Hazama', 'Mu-12', 'Makoto Nanaya', 'Valkenhayn R. Hellsing',
-        'Platinum the Trinity', 'Relius Clover', 'Izayoi', 'Amane Nishiki', 'Bullet', 'Azrael', 'Kagura Mutsuki', 'Kokonoe', 'Yūki Terumi',
-        'Celica A. Mercury', 'Lambda-11', 'Hibiki Kohaku', 'Konoe A. Mercury', 'Naoto Kurogane', 'Hades Izanami', "Susano'o", 'Es',
-        'Mai Natsume', 'Jūbei'
-      ];
-      break;
-    case 'DNF':
-      chars = [
-        'Berserker', 'Crusader', 'Dragon Knight', 'Enchantress', 'Ghostblade', 'Grappler', 'Hitman', 'Inquisitor', 'Kunoichi', 'Launcher', 'Lost Warrior',
-        'Ranger', 'Spectre', 'Striker', 'Swift Master', 'Troubleshooter', 'Vanguard'
-      ];
-      break;
-    case 'BBTAG':
-      chars = [
-        'Azrael', 'Celica A. Mercury', 'Es', 'Hakumen', 'Hazama', 'Iron Tager', 'Izayoi', 'Jin Kisaragi', 'Jubei', 'Mai Natsume', 'Makoto Nanaya',
-        'Naoto Kurogane', 'Nine the Phantom', 'Noel Vermillion', 'Nu-13', 'Platinum the Trinity', 'Rachel Alucard', 'Ragna the Bloodedge', "Susano'o",
-        'Aegis', 'Akihiko Sanada', 'Chie Satonaka', 'Elizabeth', 'Kanji Tatsumi', 'Labrys', 'Mitsuru Kirijo', 'Naoto Shirogane', 'Teddie', 'Tohru Adachi',
-        'Yousuke Hanamura', 'Yu Narukami', 'Yukiki Amagi', 'Carmine', 'Gordeau', 'Hilda', 'Hyde', 'Linne', 'Merkava', 'Mika', 'Orie', 'Seth', 'Vatista',
-        'Waldstein', 'Yuzuriha', 'Blake Belladonna', 'Neo Politan', 'Ruby Rose', 'Weiss Schnee', 'Yang Xia Long', 'Heart Aino', 'Yumi', 'Akatsuki', 'Blitztank'
-      ];
-      break;
-    case 'DBFZ':
-      chars = [
-        'Android 16', 'Android 17', 'Android 18', 'Android 21', 'Lab Coat Android 21', 'Bardock', 'Beerus', 'Broly', 'DBS Broly', 'Captain Ginyu', 'Cell', 'Cooler',
-        'Frieza', 'SSB Gogeta', 'SS4 Gogeta', 'Teen Gohan', 'Adult Gohan', 'Goku', 'SS Goku', 'SSB Goku', 'UI Goku', 'GT Goku', 'Goku Black', 'Gotenks', 'Hit', 'Janemba',
-        'Jiren', 'Kefla', 'Kid Buu', 'Krillin', 'Majin Buu', 'Master Roshi', 'Nappa', 'Piccolo', 'Super Baby 2', 'Tien', 'Trunks', 'Vegeta', 'SS Vegeta', 'SSB Vegeta',
-        'SSB Vegito', 'Videl', 'Yamcha', 'Fused Zamasu'
-      ];
-      break;
-    case 'FFCOTW':
-      chars = [
-        'Rock Howard', 'Terry Bogard', 'Preecha', 'Hotaru Futaba', 'Tizoc', 'Marco Rodrigues', 'B. Jenet', 'Vox Reaper', 'Kevin Rian', 'Billy Kane', 'Mai Shiranui'
-      ];
-      break;
-    case 'KOFXV':
-      chars = [
-        "Shun'ei", 'Meitenkun', 'Benimaru Nikaido', 'Ash Crimson', 'Elisabeth', 'Kukri', 'Kyo Kusanagi', 'Iori Yagami', 'Chizuru Kagura', "K'", 'Maxima',
-        'Whip', 'Isla', 'Heidern', 'Dolores', 'Terry Bogard', 'Andy Bogard', 'Joe Higashi', 'Ryo Sakazaki', 'Robert Garcia', 'King', 'Yashiro Nanakase',
-        'Shermie', 'Chris', 'Athena Asamiya', 'Yuri Sakazaki', 'Mai Shiranui', 'Leona Heidern', 'Ralf Jones', 'Clark Still', 'Antonov', 'Ramon', 'King of Dinosaurs',
-        'Krohnen', 'Kula Diamond', 'Angel', 'Blue Mary', 'Vanessa', 'Luong', 'Rock Howard', 'B. Jenet', 'Gato', 'Geese Howard', 'Billy Kane', 'Ryuji Yamazaki', 'Orochi Yashiro',
-        'Orochi Shermie', 'Orochi Chris', 'Haohmaru', 'Nakoruru', 'Darli Dagger', 'Shingo Yabuki', 'Kim Kaphwan', 'Sylvie Paula Paula', 'Goenitz', 'Najd', 'Duolon', 'Hinakno Shijo', 'Omega Rugal'
-      ];
-      break;
-    case 'MVCI':
-      chars = [
-        'Arthur', 'Chris', 'Chun-Li', 'Dante', 'Firebrand', 'Frank West', 'Haggar', 'Jedah', 'Monster Hunter', 'Morrigan', 'Nemesis', 'Ryu', 'Sigma', 'Spencer', 'Strider Hiryu',
-        'X', 'Zero', 'Black Panther', 'Black Widow', 'Captain America', 'Captain Marvel', 'Doctor Strange', 'Dormammu', 'Gamora', 'Ghost Rider', 'Hawkeye', 'Hulk', 'Iron Man', 'Nova',
-        'Rocket Raccoon', 'Spider-Man', 'Thanos', 'Thor', 'Ultron', 'Venom', 'Winter Soldier'
-      ];
-      break;
-    case 'UMVC3':
-      chars = [
-        'Dr. Doom', 'Dante', 'Vergil', 'Wesker', 'Wolverine', 'Akuma', 'Nova', 'Sentinel', 'Zero', 'Spencer', 'Magneto', 'Deadpool', 'Strider', 'Morrigan', 'Frank West', 'Taskmaster',
-        'Captain America', 'Dormammu', 'Ryu', 'Hulk', 'Amaterasu', 'Hawkeye', 'X-23', 'Phoenix Wright', 'Trish', 'Haggar', 'Chris Redfield', 'Iron Man', 'Super-Skrull', 'Spider-Man',
-        'Dr. Strange', 'Felicia', 'Nemesis', 'C. Viper', 'Chun-Li', 'Ghost Rider', 'Iron Fist', 'Phoenix', 'Tron Bonne', 'Rocket Raccoon', 'Firebrand', 'Hsien-Ko', 'Storm', 'Shuma-Gorath',
-        'Arthur', 'Viewtiful Joe', 'She-Hulk', 'Jill', 'Thor', 'Modok'
-      ];
-      break;
-    case 'P4AU':
-      chars = [
-        'Aigis', 'Akihiko Sanada', 'Chie Satonaka', 'Elizabeth', 'Junpei Iori', 'Kanji Tatsumi', 'Ken Amada',  'Labrys', 'Margaret', 'Marie', 'Mitsuru Kirijo', 'Naoto Shirogane', 'Rise Kujikawa', 'Shadow Labrys',
-        'SHO Minazuki', 'Sho MINAZUKI', 'Teddie', 'Tohru Adachi', 'Yosuke Hanamura', 'Yu Narukami', 'Yukari Takeba', 'Yukiko Amagi'
-      ];
-      break;
-    case 'GBVS':
-      chars = [
-        'Gran', 'Katalina', 'Charlotta', 'Lancelot', 'Ferry', 'Lowain', 'Ladiva', 'Percival', 'Metera', 'Zeta', 'Vaseraga', 'Beelzebub',
-        'Narmaya', 'Soriz', 'Djeeta', 'Zooey', 'Belial', 'Cagliostro', 'Yuel', 'Anre', 'Eustace', 'Seox', 'Vira', 'Avatar Belial'
-      ];
-      break;
-    case 'GBVSR':
-      chars = [
-          'Gran', 'Katalina', 'Charlotta', 'Lancelot', 'Ferry', 'Lowain', 'Ladiva', 'Percival', 'Metera', 'Zeta', 'Vaseraga', 'Beelzebub',
-          'Narmaya', 'Soriz', 'Djeeta', 'Zooey', 'Belial', 'Cagliostro', 'Yuel', 'Anre', 'Eustace', 'Seox', 'Vira', 'Avatar Belial', 'Anila',
-          'Siegfried', 'Nier', 'Grimnir', 'Lucilius', '2B', 'Vane', 'Beatrix', 'Versusia', 'Vikala', 'Sandalphon'
-      ];
-      break;
-    case 'GGXRD':
-      chars = [
-        'Answer', 'Axl Low', 'Baiken', 'Bedman', 'Chipp Zanuff', 'Dizzy', 'Elphelt Valentine', 'Faust', 'I-No', "Jack-O'", 'Jam Kuradoberi',
-        'Johnny', 'Kum Haehyun', 'Ky Kiske', 'Leo Whitefang', 'May', 'Millia Rage', 'Potemkin', 'Ramlethal Valentine', 'Raven', 'Sin Kiske',
-        'Slayer', 'Sol Badguy', 'Venom'
-      ];
-      break;
-    case 'GGST':
-      chars = [
-        'Anji Mito', 'Axl Low', 'Baiken', 'Chipp Zanuff', 'Faust', 'Giovanna', 'Goldlewis Dickinson', 'Happy Chaos', 'I-No', "Jack-O'",
-        'Ky Kiske', 'Leo Whitefang', 'May', 'Millia Rage', 'Nagoriyuki', 'Potemkin', 'Ramlethal Valentine', 'Sol Badguy', 'Testament',
-        'Zato-1', 'Sin Kiske', 'Bridget', 'Bedman?', 'Asuka R♯', 'Johnny', ' Elphelt Valentine', 'A.B.A.', 'Slayer', 'Queen Dizzy', 'Venom', 'Unika'
-      ];
-      break;
-    case 'MBAACC':
-      chars = [
-        'Aoko Aozaki', 'Shiki Tohno', 'Archetype: Earth', 'Shiki Nanaya', 'Kouma Kishima', 'Miyako Arima', 'Ciel', 'Sion Eltnam Atlasia', 'Riesbyfe Stridberg', 'Sion TATARI',
-        'Warachia', 'Roa', 'Maids', 'Akiha Tohno', 'Arcueid Brunestud', 'Powered Ciel', 'Red Arcueid', 'Akiha Vermilion', 'Mech-Hisui', 'Akiha Tohno (Seifuku)',
-        'Satsuki Yumizuka', 'Len', 'Shiki Ryougi', 'White Len', 'Nero Chaos', 'Neco-Arc Chaos', 'Koha & Mech', 'Hisui', 'Neco-Arc', 'Kohaku', 'Neco & Mech'
-      ];
-    break;
-    case 'MBTL':
-      chars = [
-        'Shiki Tohno', 'Arcueid Brunestud', 'Akiha Tohno', 'Ciel', 'Hisui', 'Kohaku', 'Maids', 'Miyako Arima', 'Kouma Kishima', 'Noel',
-        'Michael Roa Valdamjong', 'Vlov Arkhangel', 'Red Arcueid', 'Saber', 'Dead Apostle Noel', 'Aoko Aozaki', 'Mario Gallo Bestino', 'Powered Ciel',
-        'Neco-Arc', 'Mash Kyrielight', 'Edmond Dantes', 'Ushiwakamaru'
-      ];
-      break;
-    case 'SFVCE':
-      chars = [
-        'Ryu', 'Chun-Li', 'Nash', 'M. Bison', 'Cammy', 'Birdie', 'Ken', 'Necalli', 'Vega', 'R.Mika', 'Rashid', 'Karin', 'Zangief', 'Laura', 'Dhalism', 'F.A.N.G',
-        'Alex', 'Guile', 'Ibuki', 'Balrog', 'Juri', 'Urien', 'Akuma', 'Kolin', 'Ed', 'Abigail', 'Menat', 'Zeku', 'Sakura', 'Blanka', 'Falke', 'Cody', 'G', 'Sagat',
-        'Kage', 'E. Honda', 'Lucia', 'Poison', 'Gill', 'Seth', 'Dan', 'Rose', 'Oro', 'Akira', 'Luke'
-      ];
-      break;
-    case 'SF6':
-      chars = [
-         'Ryu', 'Luke', 'Jamie', 'Chun-Li', 'Guile', 'Kimberly', 'Juri', 'Ken', 'Blanka', 'Dhalism', 'E. Honda', 'Dee Jay', 'Manon', 'Marisa', 'JP', 'Terry', 'M.Bison', 'Akuma',
-         'Ed', 'A.K.I', 'Rashid', 'Cammy', 'Lily', 'Zangief'
-      ];
-      break;
-    case 'TEKKEN7':
-      chars = [
-        'Asuka', 'Akuma', 'King', 'Jin', 'Lili', 'Kazuya', 'Kazumi', 'Eliza', 'Josie', 'Dragunov', 'Lucky Chloe', 'Geese Howard', 'Katarina', 'Hwoarang', 'Bryan', 'Steve',
-        'Miguel', 'Feng', 'Alisa', 'Lars', 'Nina', 'Xiaoyu', 'Lee', 'Paul', 'Noctis', 'Law', 'Heihachi', 'Armor King', 'Leo', 'Devil Jin', 'Yoshimitsu', 'Claudio', 'Julia',
-        'Shaheen', 'Master Raven', 'Anna', 'Negan', 'Kuma', 'Bob', 'Gigas', 'Jack-7', 'Eddy', 'Lei', 'Kunimitsu', 'Leroy', 'Marduk', 'Fahkumram', 'Zafina', 'Lidia',
-        'Panda', 'Ganryu'
-      ];
-      break;
-    case 'TEKKEN8':
-      chars = [
-        'Kazuya', 'Jin', 'King', 'Jun', 'Paul', 'Law', 'Jack-8', 'Lars', 'Xiaoyu', 'Nina', 'Leroy', 'Asuka', 'Lili', 'Bryan', 'Hwoarang', 'Claudio', 'Azucena', 'Raven', 'Leo',
-        'Steve', 'Kuma', 'Yoshimitsu', 'Shaheen', 'Dragunov', 'Feng', 'Panda', 'Lee', 'Alisa', 'Zafina', 'Devil Jin', 'Victor', 'Reina', 'Eddy', 'Lidia'
-      ];
-      break;
-    case 'UNICLR':
-      chars = [
-        'Hyde', 'Linne', 'Waldstein', 'Carmine', 'Orie', 'Gordeau', 'Merkava', 'Vatista', 'Seth', 'Yuzuriha', 'Hilda', 'Chaos', 'Nanase',
-        'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki'
-      ];
-      break;
-    case 'UNISC':
-      chars = [
-          'Hyde', 'Linne', 'Waldstein', 'Carmine', 'Orie', 'Gordeau', 'Merkava', 'Vatista', 'Seth', 'Yuzuriha', 'Hilda', 'Chaos', 'Nanase',
-          'Byakuya', 'Phonon', 'Mika', 'Wagner', 'Enkidu', 'Londrekia', 'Eltnum', 'Akatsuki', 'Tsurugi', 'Kagyua', 'Kuon', 'Uzuki', 'Ogre', 'Izumi'
-      ];
-      break;
-    case 'USF4':
-      chars = [
-        'Abel', 'Adon', 'Akuma', 'Balrog', 'Blanka', 'C. Viper', 'Cammy', 'Chun-Li', 'Cody', 'Dan', 'Decapre', 'Dee Jay', 'Dhalsim', 'Dudley', 'E. Honda',
-        'El Fuerte', 'Elena', 'Evil Ryu', 'Fei Long', 'Gen', 'Gouken', 'Guile', 'Guy', 'Hakan', 'Hugo', 'Ibuki', 'Juri', 'Ken', 'M. Bison', 'Makoto', 'Oni',
-        'Poison', 'Rolento', 'Rose', 'Rufus', 'Ryu', 'Sagat', 'Sakura', 'Seth', 'T. Hawk', 'Vega', 'Yang', 'Yun', 'Zangief'
-      ];
-      break;
-    default:
-    // Defaulting to BBCF
-    chars = [
-      'Ragna the Bloodedge', 'Jin Kisaragi', 'Noel Vermillion', 'Rachel Alucard', 'Taokaka', 'Iron Tager', 'Litchi Faye Ling', 'Arakune',
-      'Bang Shishigami', 'Carl Clover', 'Hakumen', 'Nu-13', 'Tsubaki Yayoi', 'Hazama', 'Mu-12', 'Makoto Nanaya', 'Valkenhayn R. Hellsing',
-      'Platinum the Trinity', 'Relius Clover', 'Izayoi', 'Amane Nishiki', 'Bullet', 'Azrael', 'Kagura Mutsuki', 'Kokonoe', 'Yūki Terumi',
-      'Celica A. Mercury', 'Lambda-11', 'Hibiki Kohaku', 'Konoe A. Mercury', 'Naoto Kurogane', 'Hades Izanami', "Susano'o", 'Es',
-      'Mai Natsume', 'Jūbei'
-    ];
-  }
+	let chars = getGameCharactersFromFile(game);
 
   // Adding the charaters to the UI
   var sortedChars = chars.sort();

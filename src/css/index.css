@@ -63,9 +63,12 @@ body .container nav .nav-group-item {
 body .container nav .active {
   background-color: #2C2F33;
 }
-body .container .new-set {
-  margin-top: -40px;
-  margin-bottom: 20px;
+body .container #update-characters {
+  margin-bottom: 0;
+}
+body .container #character-pool {
+  margin-left: 42%;
+  height: 30px;
 }
 body .container .tab-info {
   margin-left: 40px;
