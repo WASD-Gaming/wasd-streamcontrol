@@ -3,7 +3,7 @@ const { app, ipcRenderer, clipboard } = require('electron');
 const path = require('path');
 const autocomplete = require('autocompleter');
 const { log } = require('console');
-const { getGameCharacters, twitter } = require('./js/tournament-services.js');
+const { twitter } = require('./js/tournament-services.js');
 
 // MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
@@ -105,7 +105,7 @@ var gPlayers = [];
 var gTeams = [];
 var gRounds = [];
 var savePath = getSavePath();
-var chars;
+var chars = [];
 
 // Startgg Update variables
 var setID;
@@ -650,25 +650,7 @@ function swapChars() {
   // the box on the dropdown with minimal effort.
   removeOptions(p1Char);
   removeOptions(p2Char);
-
-  var sortedChars = chars.sort();
-  for (var i = 0; i < sortedChars.length; i++){
-    var character = sortedChars[i];
-    var element = document.createElement("option");
-    element.innerText = character;
-    if(p2Chars.includes(character)) element.selected = true;
-    p1Char.append(element);
-    p1Char.loadOptions();
-  }
-
-  for (var i = 0; i < sortedChars.length; i++){
-    var character = sortedChars[i];
-    var element = document.createElement("option");
-    element.innerText = character;
-    if(p1Chars.includes(character)) element.selected = true;
-    p2Char.append(element);
-    p2Char.loadOptions();
-  }
+  sortCharacters(chars);
 }
 
 function resetScores() {
@@ -695,23 +677,7 @@ function clearFields() {
 
   removeOptions(p1Char);
   removeOptions(p2Char);
-
-  var sortedChars = chars.sort();
-  for (var i = 0; i < sortedChars.length; i++){
-    var character = sortedChars[i];
-    var element = document.createElement("option");
-    element.innerText = character;
-    p1Char.append(element);
-    p1Char.loadOptions();
-  }
-
-  for (var i = 0; i < sortedChars.length; i++){
-    var character = sortedChars[i];
-    var element = document.createElement("option");
-    element.innerText = character;
-    p2Char.append(element);
-    p2Char.loadOptions();
-  }
+  sortCharacters(chars);
 }
 
 /* HOTKEY HANDING
@@ -1682,6 +1648,13 @@ function populateCharacters(game) {
     ];
   }
 
+  sortCharacters(chars);
+}
+
+function sortCharacters(chars) {
+
+  console.log(chars);
+
   // Adding the charaters to the UI
   var sortedChars = chars.sort();
   for (var i = 0; i < sortedChars.length; i++){
@@ -1689,7 +1662,12 @@ function populateCharacters(game) {
     var element = document.createElement("option");
     element.innerText = character;
     p1Char.append(element);
-    p1Char.loadOptions();
+
+    // For some reason changing the name of the Matcherino objects requires I add a check for this.
+    // The app will crash without it.
+    if (typeof p1Char.loadOptions === 'function') {
+      p1Char.loadOptions();
+    }
   }
 
   for (var i = 0; i < sortedChars.length; i++){
@@ -1697,7 +1675,12 @@ function populateCharacters(game) {
     var element = document.createElement("option");
     element.innerText = character;
     p2Char.append(element);
-    p2Char.loadOptions();
+    
+    // For some reason changing the name of the Matcherino objects requires I add a check for this.
+    // The app will crash without it.
+    if (typeof p2Char.loadOptions === 'function') {
+      p2Char.loadOptions();
+    }
   }
 }
 
