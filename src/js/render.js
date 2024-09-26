@@ -405,7 +405,7 @@ document.querySelector('#populate-top-8-losers').addEventListener('click', () =>
     gFinals2.value = winners[3]['player2'];
     gFinals2Score.value = winners[3]['player2score'];
 
-    let losers = value[1]['losers'];
+    let losers = value[1]['losers'].reverse();
     leTop1.value = losers[0]['player1'];
     leTop1Score.value = losers[0]['player1score'];
     leTop2.value = losers[0]['player2'];
