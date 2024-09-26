@@ -650,7 +650,7 @@ function swapChars() {
   // the box on the dropdown with minimal effort.
   removeOptions(p1Char);
   removeOptions(p2Char);
-  sortCharacters(chars);
+  sortCharacters(chars, p2Chars, p1Chars);
 }
 
 function resetScores() {
@@ -677,7 +677,7 @@ function clearFields() {
 
   removeOptions(p1Char);
   removeOptions(p2Char);
-  sortCharacters(chars);
+  sortCharacters(chars, [], []);
 }
 
 /* HOTKEY HANDING
@@ -1475,7 +1475,6 @@ function populateCharacters(game) {
   removeOptions(p1Char);
   removeOptions(p2Char);
 
-  var chars;
   switch (game) {
     // hardcoding these values in because Startgg doesn't have lists for most of the below games.
     case '2XKO':
@@ -1648,12 +1647,10 @@ function populateCharacters(game) {
     ];
   }
 
-  sortCharacters(chars);
+  sortCharacters(chars, [], []);
 }
 
-function sortCharacters(chars) {
-
-  console.log(chars);
+function sortCharacters(chars, p1Chars, p2Chars) {
 
   // Adding the charaters to the UI
   var sortedChars = chars.sort();
@@ -1661,6 +1658,7 @@ function sortCharacters(chars) {
     var character = sortedChars[i];
     var element = document.createElement("option");
     element.innerText = character;
+    if(p1Chars.includes(character)) element.selected = true;
     p1Char.append(element);
 
     // For some reason changing the name of the Matcherino objects requires I add a check for this.
@@ -1674,6 +1672,7 @@ function sortCharacters(chars) {
     var character = sortedChars[i];
     var element = document.createElement("option");
     element.innerText = character;
+    if(p2Chars.includes(character)) element.selected = true;
     p2Char.append(element);
     
     // For some reason changing the name of the Matcherino objects requires I add a check for this.

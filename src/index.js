@@ -17,8 +17,8 @@ let apiWindow;
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1740,
-    // width: 2300,
+    // width: 1740,
+    width: 2300,
     height: 850,
     resizable: false,
     webPreferences: {
@@ -34,7 +34,7 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools. Uncomment this out when not building RC.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
   webContents = mainWindow.webContents;
 };
 
