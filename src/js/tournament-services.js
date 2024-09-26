@@ -1,7 +1,6 @@
-require('dotenv').config();
+require('dotenv').config({ path: './src/.env' });
 
 const twitter = {
-  // Correcting the syntax by removing '=' and using shorthand method definitions
   async generateTweet(button, matcherino, bracket, com1, com2, game) {
     if (matcherino === '' || bracket === '') {
       alert("😔 Something went wrong. Please make sure you've entered both the Matcherino and Bracket URLs.");
@@ -32,7 +31,6 @@ const twitter = {
       'game': game
     };
 
-    console.log(process.env.PRODUCTION_API_URL);
     const response  = await fetch(process.env.PRODUCTION_API_URL, {
       method: 'post',
       headers: {
