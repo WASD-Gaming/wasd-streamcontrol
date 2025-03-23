@@ -3,7 +3,15 @@ const { app, ipcRenderer, clipboard } = require('electron');
 const path = require('path');
 const autocomplete = require('autocompleter');
 const { log } = require('console');
-const { twitter } = require('./js/tournament-services.js');
+
+const { initTwitterModule } = require('./js/tournament-services.js');
+
+let twitter;
+
+ipcRenderer.once('env-vars', (event, data) => {
+  twitter = initTwitterModule(data);
+});
+
 
 // MATCH INFO UI ITEMS
 const p1Name = document.getElementById('p1Name');
@@ -325,118 +333,103 @@ document.querySelector('#copy').addEventListener('click', () => {
 });
 
 document.querySelector('#populate-top-8-winners').addEventListener('click', () => {
-  let p = twitter.populateTop8('populate-top-8', bracket.value, game.value);
-  p.then(value => {
-    let winners = value[0]['winners'];
-    wsTop1.value = winners[0]['player1'];
-    wsTop1Score.value = winners[0]['player1score'];
-    wsTop2.value = winners[0]['player2'];
-    wsTop2Score.value = winners[0]['player2score'];
-
-    wsBottom1.value = winners[1]['player1'];
-    wsBottom1Score.value = winners[1]['player1score'];
-    wsBottom2.value = winners[1]['player2'];
-    wsBottom2Score.value = winners[1]['player2score'];
-
-    wFinals1.value = winners[2]['player1'];
-    wFinals1Score.value = winners[2]['player1score'];
-    wFinals2.value = winners[2]['player2'];
-    wFinals2Score.value = winners[2]['player2score'];
-
-    gFinals1.value = winners[3]['player1'];
-    gFinals1Score.value = winners[3]['player1score'];
-    gFinals2.value = winners[3]['player2'];
-    gFinals2Score.value = winners[3]['player2score'];
-
-    let losers = value[1]['losers'];
-    leTop1.value = losers[0]['player1'];
-    leTop1Score.value = losers[0]['player1score'];
-    leTop2.value = losers[0]['player2'];
-    leTop2Score.value = losers[0]['player2score'];
-
-    leBottom1.value = losers[1]['player1'];
-    leBottom1Score.value = losers[1]['player1score'];
-    leBottom2.value = losers[1]['player2'];
-    leBottom2Score.value = losers[1]['player2score'];
-
-    lqTop1.value = losers[2]['player1'];
-    lqTop1Score.value = losers[2]['player1score'];
-    lqTop2.value = losers[2]['player2'];
-    lqTop2Score.value = losers[2]['player2score'];
-
-    lqBottom1.value = losers[3]['player1'];
-    lqBottom1Score.value = losers[3]['player1score'];
-    lqBottom2.value = losers[3]['player2'];
-    lqBottom2Score.value = losers[3]['player2score'];
-
-    lSemis1.value = losers[4]['player1'];
-    lSemis1Score.value = losers[4]['player1score'];
-    lSemis2.value = losers[4]['player2'];
-    lSemis2Score.value = losers[4]['player2score'];
-
-    lFinals1.value = losers[5]['player1'];
-    lFinals1Score.value = losers[5]['player1score'];
-    lFinals2.value = losers[5]['player2'];
-    lFinals2Score.value = losers[5]['player2score'];
-  });
+  populateTop8();
 });
 
 document.querySelector('#populate-top-8-losers').addEventListener('click', () => {
-  let p = twitter.populateTop8('populate-top-8', bracket.value, game.value);
-  p.then(value => {
-    let winners = value[0]['winners'];
-    wsTop1.value = winners[0]['player1'];
-    wsTop1Score.value = winners[0]['player1score'];
-    wsTop2.value = winners[0]['player2'];
-    wsTop2Score.value = winners[0]['player2score'];
-
-    wsBottom1.value = winners[1]['player1'];
-    wsBottom1Score.value = winners[1]['player1score'];
-    wsBottom2.value = winners[1]['player2'];
-    wsBottom2Score.value = winners[1]['player2score'];
-
-    wFinals1.value = winners[2]['player1'];
-    wFinals1Score.value = winners[2]['player1score'];
-    wFinals2.value = winners[2]['player2'];
-    wFinals2Score.value = winners[2]['player2score'];
-
-    gFinals1.value = winners[3]['player1'];
-    gFinals1Score.value = winners[3]['player1score'];
-    gFinals2.value = winners[3]['player2'];
-    gFinals2Score.value = winners[3]['player2score'];
-
-    let losers = value[1]['losers'];
-    leTop1.value = losers[0]['player1'];
-    leTop1Score.value = losers[0]['player1score'];
-    leTop2.value = losers[0]['player2'];
-    leTop2Score.value = losers[0]['player2score'];
-
-    leBottom1.value = losers[1]['player1'];
-    leBottom1Score.value = losers[1]['player1score'];
-    leBottom2.value = losers[1]['player2'];
-    leBottom2Score.value = losers[1]['player2score'];
-
-    lqTop1.value = losers[2]['player1'];
-    lqTop1Score.value = losers[2]['player1score'];
-    lqTop2.value = losers[2]['player2'];
-    lqTop2Score.value = losers[2]['player2score'];
-
-    lqBottom1.value = losers[3]['player1'];
-    lqBottom1Score.value = losers[3]['player1score'];
-    lqBottom2.value = losers[3]['player2'];
-    lqBottom2Score.value = losers[3]['player2score'];
-
-    lSemis1.value = losers[4]['player1'];
-    lSemis1Score.value = losers[4]['player1score'];
-    lSemis2.value = losers[4]['player2'];
-    lSemis2Score.value = losers[4]['player2score'];
-
-    lFinals1.value = losers[5]['player1'];
-    lFinals1Score.value = losers[5]['player1score'];
-    lFinals2.value = losers[5]['player2'];
-    lFinals2Score.value = losers[5]['player2score'];
-  });
+  populateTop8();
 });
+
+
+function populateTop8() {
+  twitter.populateTop8('populate-top-8', bracket.value, game.value).then(value => {
+    const winners = value[0]['winners'];
+    const losers = value[1]['losers'];
+
+    let wsCount = 0;
+    let lqCount = 0;
+    let leCount = 0;
+
+    // Handle Winners Side
+    winners.forEach(set => {
+      const round = set.fullRoundText;
+      switch (round) {
+        case 'Winners Semi-Final':
+          if (wsCount === 0) {
+            wsTop1.value = set.player1;
+            wsTop1Score.value = set.player1score;
+            wsTop2.value = set.player2;
+            wsTop2Score.value = set.player2score;
+            wsCount++;
+          } else {
+            wsBottom1.value = set.player1;
+            wsBottom1Score.value = set.player1score;
+            wsBottom2.value = set.player2;
+            wsBottom2Score.value = set.player2score;
+          }
+          break;
+        case 'Winners Final':
+          wFinals1.value = set.player1;
+          wFinals1Score.value = set.player1score;
+          wFinals2.value = set.player2;
+          wFinals2Score.value = set.player2score;
+          break;
+        case 'Grand Final':
+          gFinals1.value = set.player1;
+          gFinals1Score.value = set.player1score;
+          gFinals2.value = set.player2;
+          gFinals2Score.value = set.player2score;
+          break;
+      }
+    });
+
+    // Handle Losers Side
+    losers.forEach(set => {
+      const round = set.fullRoundText;
+      switch (round) {
+        case 'Losers Final':
+          lFinals1.value = set.player1;
+          lFinals1Score.value = set.player1score;
+          lFinals2.value = set.player2;
+          lFinals2Score.value = set.player2score;
+          break;
+        case 'Losers Semi-Final':
+          lSemis1.value = set.player1;
+          lSemis1Score.value = set.player1score;
+          lSemis2.value = set.player2;
+          lSemis2Score.value = set.player2score;
+          break;
+        case 'Losers Quarter-Final':
+          if (lqCount === 0) {
+            lqTop1.value = set.player1;
+            lqTop1Score.value = set.player1score;
+            lqTop2.value = set.player2;
+            lqTop2Score.value = set.player2score;
+            lqCount++;
+          } else {
+            lqBottom1.value = set.player1;
+            lqBottom1Score.value = set.player1score;
+            lqBottom2.value = set.player2;
+            lqBottom2Score.value = set.player2score;
+          }
+          break;
+        default: // Treat as Losers Eighths ("Either")
+          if (leCount === 0) {
+            leTop1.value = set.player1;
+            leTop1Score.value = set.player1score;
+            leTop2.value = set.player2;
+            leTop2Score.value = set.player2score;
+            leCount++;
+          } else {
+            leBottom1.value = set.player1;
+            leBottom1Score.value = set.player1score;
+            leBottom2.value = set.player2;
+            leBottom2Score.value = set.player2score;
+          }
+      }
+    });
+  });
+}
 
 /* GAME SELECT HANDING
 This section of code handles the game select dropdown. Basically, changing the game

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { app, BrowserWindow, globalShortcut, ipcMain, Menu, dialog, session } = require('electron');
 const fs = require('fs');
 const robot = require('robotjs');
@@ -16,9 +17,11 @@ let apiWindow;
 
 const createWindow = () => {
   // Create the browser window.
+  const debug = false;
+  process.env.NODE_ENV = debug ? 'development' : 'production';
+
   const mainWindow = new BrowserWindow({
-    width: 1740,
-    // width: 2300,
+    width: debug ? 2300 : 1740,
     height: 850,
     resizable: false,
     webPreferences: {
@@ -34,7 +37,14 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools. Uncomment this out when not building RC.
-  // mainWindow.webContents.openDevTools();
+  if (debug) {mainWindow.webContents.openDevTools();}
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('env-vars', {
+      production: process.env.PRODUCTION_API_URL,
+      development: process.env.DEVELOPMENT_API_URL,
+      nodeEnv: process.env.NODE_ENV
+    });
+  });  
   webContents = mainWindow.webContents;
 };
 
@@ -82,6 +92,10 @@ ipcMain.on('keypress', (event, arg) => {
 
 ipcMain.on('close-api', (event, arg) => {
   apiWindow.close();
+});
+
+ipcMain.handle('get-api-url', () => {
+  return process.env.PRODUCTION_API_URL;
 });
 
 /* Quit when all windows are closed, except on macOS. There, it's common
