@@ -1,8 +1,8 @@
-require('dotenv').config();
 const { app, BrowserWindow, globalShortcut, ipcMain, Menu, dialog, session } = require('electron');
 const fs = require('fs');
 const robot = require('robotjs');
 const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -14,9 +14,13 @@ app.disableHardwareAcceleration();
 
 let webContents;
 let apiWindow;
+let envVars;
 
 const createWindow = () => {
   // Create the browser window.
+  console.log('[ENV] PRODUCTION_API_URL:', process.env.PRODUCTION_API_URL);
+  console.log('[ENV] DEVELOPMENT_API_URL:', process.env.DEVELOPMENT_API_URL);
+
   const debug = false;
   process.env.NODE_ENV = debug ? 'development' : 'production';
 
@@ -36,15 +40,17 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
+  envVars = {
+    production: process.env.PRODUCTION_API_URL,
+    development: process.env.DEVELOPMENT_API_URL,
+    nodeEnv: process.env.NODE_ENV,
+  };
+
   // Open the DevTools. Uncomment this out when not building RC.
   if (debug) {mainWindow.webContents.openDevTools();}
   mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow.webContents.send('env-vars', {
-      production: process.env.PRODUCTION_API_URL,
-      development: process.env.DEVELOPMENT_API_URL,
-      nodeEnv: process.env.NODE_ENV
-    });
-  });  
+    mainWindow.webContents.send('env-vars', envVars);
+  });
   webContents = mainWindow.webContents;
 };
 
@@ -95,7 +101,9 @@ ipcMain.on('close-api', (event, arg) => {
 });
 
 ipcMain.handle('get-api-url', () => {
-  return process.env.PRODUCTION_API_URL;
+  return envVars.nodeEnv === 'production'
+    ? envVars.production
+    : envVars.development;
 });
 
 /* Quit when all windows are closed, except on macOS. There, it's common

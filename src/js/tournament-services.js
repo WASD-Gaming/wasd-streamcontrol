@@ -1,12 +1,8 @@
 const { ipcRenderer } = require('electron');
 
-let cachedApiUrl = null;
-
-function initTwitterModule(envVars) {
-  cachedApiUrl = envVars.nodeEnv === 'production' ? envVars.production : envVars.development;
-
+function initTwitterModule() {
   async function fetchApiUrl() {
-    return cachedApiUrl;
+    return await ipcRenderer.invoke('get-api-url');
   }
 
   const twitter = {
