@@ -21,7 +21,7 @@ const createWindow = () => {
   console.log('[ENV] PRODUCTION_API_URL:', process.env.PRODUCTION_API_URL);
   console.log('[ENV] DEVELOPMENT_API_URL:', process.env.DEVELOPMENT_API_URL);
 
-  const debug = false;
+  const debug = true;
   process.env.NODE_ENV = debug ? 'development' : 'production';
 
   const mainWindow = new BrowserWindow({
@@ -42,7 +42,7 @@ const createWindow = () => {
 
   envVars = {
     production: process.env.PRODUCTION_API_URL,
-    development: process.env.DEVELOPMENT_API_URL,
+    development: process.env.PRODUCTION_API_URL,
     nodeEnv: process.env.NODE_ENV,
   };
 
